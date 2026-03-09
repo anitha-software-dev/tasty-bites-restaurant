@@ -7,7 +7,7 @@ const About = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const galleryImages = ["/images/authentic.jpg", "/images/authentic-image.jpg", "/images/bagara rice.jpg"];
+    const galleryImages = ["/images/authentic.jpg", "/images/authentic-image.jpg", "/images/bagara-rice.jpg"];
 
     return (
         <div className="pt-14 min-h-screen">
