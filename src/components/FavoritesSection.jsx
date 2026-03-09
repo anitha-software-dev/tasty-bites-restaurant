@@ -10,7 +10,7 @@ const favorites = [
         name: 'Classic Masala Dosa',
         description: 'Crispy rice and lentil crepe with potato masala.', // Changed desc to description to match modal expectations
         price: '£8.50',
-        image: '/src/assets/images/masal dosa.jpg',
+        image: '/images/masal dosa.jpg',
         rating: 5,
         isVeg: true
     },
@@ -19,7 +19,7 @@ const favorites = [
         name: 'Paneer Butter Dosa',
         description: 'Our signature dosa layered with creamy paneer butter masala for an indulgent experience.',
         price: '£9.95',
-        image: '/src/assets/images/paneer-dosa.png',
+        image: '/images/paneer-dosa.png',
         rating: 5,
         isVeg: true
     },
@@ -28,7 +28,7 @@ const favorites = [
         name: 'Mysore Masala Dosa',
         description: 'Spicy red chutney and potato filling fav.',
         price: '£9.25',
-        image: '/src/assets/images/mysore-dosa.png',
+        image: '/images/mysore-dosa.png',
         rating: 5,
         isVeg: true
     }

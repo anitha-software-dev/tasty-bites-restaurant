@@ -17,8 +17,8 @@ const MOCK_ORDERS = [
         status: 'Delivered',
         paymentStatus: 'Paid',
         items: [
-            { name: 'Classic Masala Dosa', qty: 2, price: 8.50, image: '/src/assets/images/masal dosa.jpg' },
-            { name: 'Hyderabadi Chicken Biriyani', qty: 1, price: 13.50, image: '/src/assets/images/Chicken Briyani.jpg' },
+            { name: 'Classic Masala Dosa', qty: 2, price: 8.50, image: '/images/masal dosa.jpg' },
+            { name: 'Hyderabadi Chicken Biriyani', qty: 1, price: 13.50, image: '/images/Chicken Briyani.jpg' },
         ],
         total: 30.50,
         deliveryFee: 0,
@@ -30,8 +30,8 @@ const MOCK_ORDERS = [
         status: 'Preparing',
         paymentStatus: 'Paid',
         items: [
-            { name: 'Kerala Parotta', qty: 4, price: 3.50, image: '/src/assets/images/onion pakoda.jpg' },
-            { name: 'Paneer Butter Masala', qty: 1, price: 11.95, image: '/src/assets/images/Paneer Butter Masala.jpg' },
+            { name: 'Kerala Parotta', qty: 4, price: 3.50, image: '/images/onion pakoda.jpg' },
+            { name: 'Paneer Butter Masala', qty: 1, price: 11.95, image: '/images/Paneer Butter Masala.jpg' },
         ],
         total: 25.95,
         deliveryFee: 0,
@@ -43,7 +43,7 @@ const MOCK_ORDERS = [
         status: 'Delivered',
         paymentStatus: 'Paid',
         items: [
-            { name: 'Mutton Chukka', qty: 1, price: 15.50, image: '/src/assets/images/Gongura mutton.jpg' },
+            { name: 'Mutton Chukka', qty: 1, price: 15.50, image: '/images/Gongura mutton.jpg' },
         ],
         total: 15.50,
         deliveryFee: 0,

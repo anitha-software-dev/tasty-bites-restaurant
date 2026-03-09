@@ -10,7 +10,7 @@ const dishes = [
         name: 'Classic Masala Dosa',
         description: 'Crispy rice and lentil crepe filled with spiced potato masala, served with sambar and chutneys.',
         price: '£8.50',
-        image: '/src/assets/images/masal dosa.jpg',
+        image: '/images/masal dosa.jpg',
         isVeg: true
     },
     {
@@ -18,7 +18,7 @@ const dishes = [
         name: 'Paneer Butter Dosa',
         description: 'Our signature dosa layered with creamy paneer butter masala for an indulgent experience.',
         price: '£9.95',
-        image: '/src/assets/images/paneer-dosa.png',
+        image: '/images/paneer-dosa.png',
         isVeg: true
     },
     {
@@ -26,7 +26,7 @@ const dishes = [
         name: 'Mysore Masala Dosa',
         description: 'Spiced with a special red garlic chutney, this spicy favorite is a true Bangalore icon.',
         price: '£9.25',
-        image: '/src/assets/images/mysore-dosa.png',
+        image: '/images/mysore-dosa.png',
         isVeg: true
     }
 ];

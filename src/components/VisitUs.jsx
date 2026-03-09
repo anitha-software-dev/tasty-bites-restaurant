@@ -36,7 +36,7 @@ const VisitUs = () => {
                     </div>
 
                     <div className="visit-map fade-in-up" style={{ animationDelay: '0.2s' }}>
-                        <img src="/src/assets/images/about-img.png" alt="Restaurant Interior" className="map-placeholder-img" />
+                        <img src="/images/about-img.png" alt="Restaurant Interior" className="map-placeholder-img" />
                         <div className="map-overlay">
                             <span>View on Maps</span>
                         </div>
