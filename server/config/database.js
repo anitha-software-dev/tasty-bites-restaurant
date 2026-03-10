@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import pg from 'pg';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,6 +11,7 @@ const dbUrl = process.env.DATABASE_URL;
 if (dbUrl) {
     sequelize = new Sequelize(dbUrl, {
         dialect: 'postgres',
+        dialectModule: pg,
         logging: false,
         dialectOptions: {
             ssl: {
@@ -29,6 +31,7 @@ if (dbUrl) {
             host: process.env.DB_HOST || 'localhost',
             port: process.env.DB_PORT || 5432,
             dialect: 'postgres',
+            dialectModule: pg,
             logging: false,
             dialectOptions: process.env.NODE_ENV === 'production' ? {
                 ssl: {
