@@ -20,7 +20,7 @@ const COUNTRIES = [
     { code: '+81', name: 'Japan', flag: '🇯🇵' },
 ];
 
-const PhoneInput = ({ value, onChange, placeholder = "20 7946 0123", required = false, className = "" }) => {
+const PhoneInput = ({ value, onChange, placeholder = "20 7946 0123", required = false, className = "", dropdownDirection = "bottom" }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -90,10 +90,10 @@ const PhoneInput = ({ value, onChange, placeholder = "20 7946 0123", required = 
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
-                            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                            initial={{ opacity: 0, y: dropdownDirection === 'top' ? 10 : -10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                            className="absolute top-full left-0 mt-2 w-[300px] bg-white rounded-2xl shadow-premium border border-gray-100 z-[100] py-2"
+                            exit={{ opacity: 0, y: dropdownDirection === 'top' ? 10 : -10, scale: 0.95 }}
+                            className={`absolute ${dropdownDirection === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'} left-0 w-[300px] bg-white rounded-2xl shadow-premium border border-gray-100 z-[100] py-2`}
                         >
                             <div className="max-h-[350px] overflow-y-auto custom-scrollbar">
                                 {COUNTRIES.map((c, idx) => {

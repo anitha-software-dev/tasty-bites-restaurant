@@ -227,31 +227,31 @@ const CateringPage = () => {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Est. Guests *</label>
-                                            <input required type="number" min="10" name="guestCount" value={formData.guestCount} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50" placeholder="e.g., 50" />
+                                            <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Date *</label>
+                                            <Flatpickr
+                                                name="eventDate"
+                                                required
+                                                value={formData.eventDate}
+                                                onChange={([date]) => {
+                                                    const d = new Date(date);
+                                                    const formattedDate = d.toISOString().split('T')[0];
+                                                    setFormData({ ...formData, eventDate: formattedDate });
+                                                }}
+                                                options={{
+                                                    minDate: 'today',
+                                                    dateFormat: 'Y-m-d',
+                                                    disableMobile: true
+                                                }}
+                                                className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700"
+                                                placeholder="Select Event Date"
+                                                title="Event Date"
+                                            />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Date *</label>
-                                        <Flatpickr
-                                            name="eventDate"
-                                            required
-                                            value={formData.eventDate}
-                                            onChange={([date]) => {
-                                                const d = new Date(date);
-                                                const formattedDate = d.toISOString().split('T')[0];
-                                                setFormData({ ...formData, eventDate: formattedDate });
-                                            }}
-                                            options={{
-                                                minDate: 'today',
-                                                dateFormat: 'Y-m-d',
-                                                disableMobile: true
-                                            }}
-                                            className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700"
-                                            placeholder="Select Event Date"
-                                            title="Event Date"
-                                        />
+                                        <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Est. Guests *</label>
+                                        <input required type="number" min="10" name="guestCount" value={formData.guestCount} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50" placeholder="e.g., 50" />
                                     </div>
 
                                     <div>

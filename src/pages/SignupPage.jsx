@@ -117,6 +117,7 @@ const SignupPage = () => {
                                 onChange={(val) => setPhone(val)}
                                 placeholder="Enter phone number"
                                 className="shadow-sm rounded-xl overflow-hidden border border-gray-200"
+                                dropdownDirection="top"
                             />
                         </div>
 
