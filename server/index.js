@@ -23,6 +23,33 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Database initialization state
+let isDbInitialized = false;
+
+// Middleware to ensure DB is initialized before handling requests
+app.use(async (req, res, next) => {
+    if (isDbInitialized) return next();
+
+    try {
+        await sequelize.sync();
+        console.log(`📦 Database synced (${process.env.NODE_ENV === 'production' ? 'PostgreSQL' : 'SQLite'})`);
+
+        // Auto-seed in production or if requested
+        if (process.env.NODE_ENV === 'production' || process.env.AUTO_SEED === 'true') {
+            const count = await MenuItem.count();
+            if (count === 0) {
+                console.log('⚠️ Production database empty. Running auto-seed...');
+                await seed(false);
+            }
+        }
+        isDbInitialized = true;
+        next();
+    } catch (err) {
+        console.error('❌ Database initialization error:', err);
+        res.status(500).json({ error: 'Internal server error during database startup' });
+    }
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
@@ -36,37 +63,18 @@ app.use('/api/faqs', faqsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', environment: process.env.NODE_ENV || 'development' });
+    res.json({
+        status: 'ok',
+        environment: process.env.NODE_ENV || 'development',
+        dbInitialized: isDbInitialized
+    });
 });
 
-// Start server
-const start = async () => {
-    try {
-        await sequelize.sync();
-        console.log(`📦 Database synced (${process.env.NODE_ENV === 'production' ? 'PostgreSQL' : 'SQLite'})`);
-
-        // Auto-seed in production if database is empty
-        if (process.env.NODE_ENV === 'production' || process.env.AUTO_SEED === 'true') {
-            const count = await MenuItem.count();
-            if (count === 0) {
-                console.log('⚠️ Production database empty. Running auto-seed...');
-                await seed(false);
-            }
-        }
-
-        app.listen(PORT, () => {
-            console.log(`🚀 Tasty Bites API running on http://localhost:${PORT}`);
-            console.log(`🔗 Health check: http://localhost:${PORT}/api/health`);
-        });
-    } catch (err) {
-        console.error('❌ Server startup error:', err);
-        process.exit(1);
-    }
-};
-
-// Start server if run directly
-if (process.env.NODE_ENV !== 'production' || process.env.VITE_VERCEL_ENV !== 'production') {
-    start();
+// Start server (for local development)
+if (process.env.NODE_ENV !== 'production' && !process.env.VITE_VERCEL_ENV) {
+    app.listen(PORT, () => {
+        console.log(`🚀 Tasty Bites API running on http://localhost:${PORT}`);
+    });
 }
 
 export default app;
