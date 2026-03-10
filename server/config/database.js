@@ -16,7 +16,8 @@ if (process.env.NODE_ENV === 'production') {
                 ssl: {
                     require: true,
                     rejectUnauthorized: false
-                }
+                },
+                connectTimeout: 5000 // 5 seconds to prevent Vercel 10s silent kill
             },
             pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
         });
@@ -34,7 +35,8 @@ if (process.env.NODE_ENV === 'production') {
                     ssl: {
                         require: true,
                         rejectUnauthorized: false
-                    }
+                    },
+                    connectTimeout: 5000 // 5 seconds to prevent Vercel 10s silent kill
                 },
                 pool: { max: 10, min: 0, acquire: 30000, idle: 10000 }
             }

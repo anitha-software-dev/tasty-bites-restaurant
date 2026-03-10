@@ -27,6 +27,16 @@ app.use(express.json());
 let isDbInitialized = false;
 let initializationPromise = null;
 
+// Health check (Bypass DB initialization for pure server check)
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        environment: process.env.NODE_ENV || 'development',
+        dbInitialized: isDbInitialized,
+        timestamp: new Date().toISOString()
+    });
+});
+
 // Middleware to ensure DB is initialized before handling requests
 app.use(async (req, res, next) => {
     if (isDbInitialized) return next();
@@ -84,16 +94,6 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/catering', cateringRoutes);
 app.use('/api/testimonials', testimonialsRoutes);
 app.use('/api/faqs', faqsRoutes);
-
-// Health check
-app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'ok',
-        environment: process.env.NODE_ENV || 'development',
-        dbInitialized: isDbInitialized,
-        timestamp: new Date().toISOString()
-    });
-});
 
 // Start server (for local development)
 if (process.env.NODE_ENV !== 'production' && !process.env.VITE_VERCEL_ENV) {
