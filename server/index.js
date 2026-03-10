@@ -79,7 +79,7 @@ app.use(async (req, res, next) => {
     } catch (err) {
         res.status(500).json({
             error: 'Internal server error during database startup',
-            details: process.env.NODE_ENV === 'development' ? err.message : undefined
+            details: err.message || 'Unknown database error' // Temporarily exposed for production debugging
         });
     }
 });
