@@ -189,7 +189,7 @@ const Contact = () => {
                                         <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-accent shrink-0">
                                             <Mail size={22} />
                                         </div>
-                                        <p className="text-white/70 leading-relaxed font-light mt-1">hello@tastybites.com</p>
+                                        <p className="text-white/70 leading-relaxed font-light mt-1">tastybitesrestaurant7@gmail.com</p>
                                     </div>
                                 </div>
                             </div>

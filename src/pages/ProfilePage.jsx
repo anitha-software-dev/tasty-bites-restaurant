@@ -22,7 +22,7 @@ const MOCK_ORDERS = [
         ],
         total: 30.50,
         deliveryFee: 0,
-        contact: { phone: '+44 7384 048311', email: 'admin@tastybites.com' }
+        contact: { phone: '+44 7384 048311', email: 'tastybitesrestaurant7@gmail.com' }
     },
     {
         id: 'ORD-9AB1C4',
@@ -35,7 +35,7 @@ const MOCK_ORDERS = [
         ],
         total: 25.95,
         deliveryFee: 0,
-        contact: { phone: '+44 7384 048311', email: 'admin@tastybites.com' }
+        contact: { phone: '+44 7384 048311', email: 'tastybitesrestaurant7@gmail.com' }
     },
     {
         id: 'ORD-5XY8Z1',
@@ -47,7 +47,7 @@ const MOCK_ORDERS = [
         ],
         total: 15.50,
         deliveryFee: 0,
-        contact: { phone: '+44 7384 048311', email: 'admin@tastybites.com' }
+        contact: { phone: '+44 7384 048311', email: 'tastybitesrestaurant7@gmail.com' }
     },
 ];
 

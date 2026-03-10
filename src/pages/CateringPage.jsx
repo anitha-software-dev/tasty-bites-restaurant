@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Phone, MessageSquare, Calendar, Users, Briefcase, Heart, PartyPopper, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Phone, MessageSquare, Briefcase, Heart, PartyPopper } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import PhoneInput from '../components/PhoneInput';
@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 const CateringPage = () => {
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
+
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -44,7 +44,7 @@ const CateringPage = () => {
                 guestCount: formData.guestCount,
                 message: formData.message
             });
-            setIsSuccess(true);
+            toast.success('Enquiry Received! Our team will get back to you shortly.');
             setFormData({ fullName: '', email: '', phone: '', eventType: 'Corporate Event', eventDate: '', guestCount: '', message: '' });
         } catch (err) {
             toast.error(err.message || 'Failed to send enquiry. Please try again.');
@@ -168,110 +168,88 @@ const CateringPage = () => {
 
                         <h3 className="text-2xl font-playfair text-secondary mb-8 relative z-10">Catering Enquiry Form</h3>
 
-                        <AnimatePresence mode="wait">
-                            {isSuccess ? (
-                                <motion.div
-                                    key="success"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    className="relative z-10 flex flex-col items-center justify-center text-center py-12"
-                                >
-                                    <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-6">
-                                        <CheckCircle2 size={40} />
-                                    </div>
-                                    <h4 className="text-2xl font-playfair text-secondary mb-3">Enquiry Received!</h4>
-                                    <p className="text-gray-600 leading-relaxed max-w-sm">
-                                        Thank you for your catering enquiry! Our team will get back to you shortly to discuss your custom event.
-                                    </p>
-                                </motion.div>
-                            ) : (
-                                <motion.form
-                                    key="form"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    onSubmit={handleSubmit}
-                                    className="space-y-6 relative z-10"
-                                >
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Full Name *</label>
-                                            <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 transition-all" placeholder="John Doe" />
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Phone *</label>
-                                            <PhoneInput
-                                                required
-                                                value={formData.phone}
-                                                onChange={handlePhoneChange}
-                                                className="rounded-2xl overflow-hidden border border-gray-200"
-                                            />
-                                        </div>
-                                    </div>
+                        <motion.form
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            onSubmit={handleSubmit}
+                            className="space-y-6 relative z-10"
+                        >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Full Name *</label>
+                                    <input required type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 transition-all" placeholder="John Doe" />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Phone *</label>
+                                    <PhoneInput
+                                        required
+                                        value={formData.phone}
+                                        onChange={handlePhoneChange}
+                                        className="rounded-2xl overflow-hidden border border-gray-200"
+                                    />
+                                </div>
+                            </div>
 
-                                    <div>
-                                        <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Email Address *</label>
-                                        <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 transition-all" placeholder="john@example.com" />
-                                    </div>
+                            <div>
+                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Email Address *</label>
+                                <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 transition-all" placeholder="john@example.com" />
+                            </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Type *</label>
-                                            <select name="eventType" value={formData.eventType} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700 h-[60px] appearance-none cursor-pointer">
-                                                <option>Corporate Event</option>
-                                                <option>Wedding</option>
-                                                <option>Private Party</option>
-                                                <option>Birthday</option>
-                                                <option>Other</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Date *</label>
-                                            <Flatpickr
-                                                name="eventDate"
-                                                required
-                                                value={formData.eventDate}
-                                                onChange={([date]) => {
-                                                    const d = new Date(date);
-                                                    const formattedDate = d.toISOString().split('T')[0];
-                                                    setFormData({ ...formData, eventDate: formattedDate });
-                                                }}
-                                                options={{
-                                                    minDate: 'today',
-                                                    dateFormat: 'Y-m-d',
-                                                    disableMobile: true
-                                                }}
-                                                className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700"
-                                                placeholder="Select Event Date"
-                                                title="Event Date"
-                                            />
-                                        </div>
-                                    </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Type *</label>
+                                    <select name="eventType" value={formData.eventType} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700 h-[60px] appearance-none cursor-pointer">
+                                        <option>Corporate Event</option>
+                                        <option>Wedding</option>
+                                        <option>Private Party</option>
+                                        <option>Birthday</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Date *</label>
+                                    <Flatpickr
+                                        name="eventDate"
+                                        required
+                                        value={formData.eventDate}
+                                        onChange={([date]) => {
+                                            const d = new Date(date);
+                                            const formattedDate = d.toISOString().split('T')[0];
+                                            setFormData({ ...formData, eventDate: formattedDate });
+                                        }}
+                                        options={{
+                                            minDate: 'today',
+                                            dateFormat: 'Y-m-d',
+                                            disableMobile: true
+                                        }}
+                                        className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700"
+                                        placeholder="Select Event Date"
+                                        title="Event Date"
+                                    />
+                                </div>
+                            </div>
 
-                                    <div>
-                                        <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Est. Guests *</label>
-                                        <input required type="number" min="10" name="guestCount" value={formData.guestCount} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50" placeholder="e.g., 50" />
-                                    </div>
+                            <div>
+                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Est. Guests *</label>
+                                <input required type="number" min="10" name="guestCount" value={formData.guestCount} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50" placeholder="e.g., 50" />
+                            </div>
 
-                                    <div>
-                                        <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Additional Details</label>
-                                        <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-8 py-4 rounded-3xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 resize-none" placeholder="Tell us about your catering needs..."></textarea>
-                                    </div>
+                            <div>
+                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Additional Details</label>
+                                <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-8 py-4 rounded-3xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 resize-none" placeholder="Tell us about your catering needs..."></textarea>
+                            </div>
 
-                                    <button type="submit" disabled={isSubmitting} className={`w-full btn-primary py-4 text-lg rounded-xl flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}>
-                                        {isSubmitting ? (
-                                            <>
-                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin flex-shrink-0 mr-3" />
-                                                <span>Sending Enquiry...</span>
-                                            </>
-                                        ) : (
-                                            'Submit Enquiry'
-                                        )}
-                                    </button>
-                                </motion.form>
-                            )}
-                        </AnimatePresence>
+                            <button type="submit" disabled={isSubmitting} className={`w-full btn-primary py-4 text-lg rounded-xl flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}>
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin flex-shrink-0 mr-3" />
+                                        <span>Sending Enquiry...</span>
+                                    </>
+                                ) : (
+                                    'Submit Enquiry'
+                                )}
+                            </button>
+                        </motion.form>
                     </motion.div>
                 </div>
             </div>
