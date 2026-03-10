@@ -25,28 +25,52 @@ app.use(express.json());
 
 // Database initialization state
 let isDbInitialized = false;
+let initializationPromise = null;
 
 // Middleware to ensure DB is initialized before handling requests
 app.use(async (req, res, next) => {
     if (isDbInitialized) return next();
 
-    try {
-        await sequelize.sync();
-        console.log(`📦 Database synced (${process.env.NODE_ENV === 'production' ? 'PostgreSQL' : 'SQLite'})`);
+    // Prevent multiple simultaneous initializations
+    if (!initializationPromise) {
+        initializationPromise = (async () => {
+            console.log('🔄 Starting database initialization...');
+            try {
+                await sequelize.authenticate();
+                console.log('✅ Database connection established successfully.');
 
-        // Auto-seed in production or if requested
-        if (process.env.NODE_ENV === 'production' || process.env.AUTO_SEED === 'true') {
-            const count = await MenuItem.count();
-            if (count === 0) {
-                console.log('⚠️ Production database empty. Running auto-seed...');
-                await seed(false);
+                await sequelize.sync();
+                const dialect = sequelize.getDialect();
+                console.log(`📦 Database synced (Dialect: ${dialect})`);
+
+                // Auto-seed in production or if requested
+                if (process.env.NODE_ENV === 'production' || process.env.AUTO_SEED === 'true') {
+                    const count = await MenuItem.count();
+                    if (count === 0) {
+                        console.log('⚠️ Production database empty. Running auto-seed...');
+                        await seed(false);
+                    } else {
+                        console.log(`ℹ️ Database contains ${count} menu items. Skipping seed.`);
+                    }
+                }
+                isDbInitialized = true;
+                console.log('✨ Database initialization complete.');
+            } catch (err) {
+                console.error('❌ Database initialization error:', err);
+                initializationPromise = null; // Allow retry on next request
+                throw err;
             }
-        }
-        isDbInitialized = true;
+        })();
+    }
+
+    try {
+        await initializationPromise;
         next();
     } catch (err) {
-        console.error('❌ Database initialization error:', err);
-        res.status(500).json({ error: 'Internal server error during database startup' });
+        res.status(500).json({
+            error: 'Internal server error during database startup',
+            details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
     }
 });
 
@@ -66,7 +90,8 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'ok',
         environment: process.env.NODE_ENV || 'development',
-        dbInitialized: isDbInitialized
+        dbInitialized: isDbInitialized,
+        timestamp: new Date().toISOString()
     });
 });
 
