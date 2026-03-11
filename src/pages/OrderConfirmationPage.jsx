@@ -6,20 +6,40 @@ import { useLocation, Link, Navigate } from 'react-router-dom';
 const OrderConfirmationPage = () => {
     const location = useLocation();
     const [seconds, setSeconds] = React.useState(300);
+    const [status, setStatus] = React.useState('Preparing');
 
     React.useEffect(() => {
         const { orderType } = location.state || {};
-        if (orderType === 'Dine-In') {
+        if (orderType === 'Dine-In' && !['Served', 'Delivered'].includes(status)) {
             const interval = setInterval(() => {
                 setSeconds(prev => {
-                    if (prev <= 0) {
-                        clearInterval(interval);
-                        return 0;
+                    if (prev <= 1) {
+                        return 300; // Loop back to 5 minutes
                     }
                     return prev - 1;
                 });
             }, 1000);
             return () => clearInterval(interval);
+        }
+    }, [location.state, status]);
+
+    // Optional: Real-time status polling (e.g., every 30s)
+    React.useEffect(() => {
+        const { orderId, orderType } = location.state || {};
+        if (orderType === 'Dine-In' && orderId) {
+            const pollStatus = async () => {
+                try {
+                    // Assuming we have an endpoint or method to get single order status
+                    const response = await api.getOrder(orderId);
+                    if (response.status === 'Served' || response.status === 'Delivered' || response.status === 'Ready') {
+                        setStatus(response.status);
+                    }
+                } catch (err) {
+                    console.error('Status poll error:', err);
+                }
+            };
+            const pollInterval = setInterval(pollStatus, 30000);
+            return () => clearInterval(pollInterval);
         }
     }, [location.state]);
 
@@ -29,6 +49,7 @@ const OrderConfirmationPage = () => {
 
     const { orderId, orderType, tableNumber, collectionTime } = location.state;
     const isDineIn = orderType === 'Dine-In';
+    const isReady = ['Served', 'Delivered'].includes(status);
 
     const formatTime = (totalSeconds) => {
         const mins = Math.floor(totalSeconds / 60);

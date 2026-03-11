@@ -90,11 +90,14 @@ router.get('/', authenticate, async (req, res) => {
 });
 
 // GET /api/orders/:orderId
-router.get('/:orderId', authenticate, async (req, res) => {
+router.get('/:orderId', optionalAuth, async (req, res) => {
     try {
-        const order = await Order.findOne({
-            where: { orderId: req.params.orderId, userId: req.userId }
-        });
+        const whereClause = { orderId: req.params.orderId };
+        if (req.userId) {
+            whereClause.userId = req.userId;
+        }
+
+        const order = await Order.findOne({ where: whereClause });
         if (!order) return res.status(404).json({ error: 'Order not found' });
 
         res.json({
