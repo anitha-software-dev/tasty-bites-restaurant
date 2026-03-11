@@ -22,13 +22,13 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                     {/* Brand Info */}
                     <div className="lg:col-span-2">
-                        <Link to="/" className="inline-block mb-8">
+                        <Link to="/" className="inline-block mb-8 mx-auto md:mx-0">
                             <img src="/images/logo.png" alt="Tasty Bites" className="h-12 w-auto object-contain" />
                         </Link>
-                        <p className="text-white/60 text-sm leading-relaxed mb-8 pr-4">
+                        <p className="text-white/60 text-sm leading-relaxed mb-8 pr-4 text-center md:text-left">
                             Global Indian Eats — Where Friends & Family Meets to Taste the Tradition in Style.
                         </p>
-                        <div className="flex space-x-3 text-xs font-bold text-white uppercase tracking-widest">
+                        <div className="flex justify-center md:justify-start space-x-3 text-xs font-bold text-white uppercase tracking-widest">
                             <span>Follow Us:</span>
                             <a href="#" className="text-accent hover:text-white transition-colors">Instagram</a>
                             <a href="#" className="text-accent hover:text-white transition-colors">Facebook</a>
@@ -37,8 +37,8 @@ const Footer = () => {
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="text-white font-playfair text-xl mb-8">Explore</h3>
-                        <ul className="space-y-4">
+                        <h3 className="text-white font-playfair text-xl mb-8 text-center md:text-left">Explore</h3>
+                        <ul className="space-y-4 text-center md:text-left">
                             {[
                                 { name: 'Home', path: '/' },
                                 { name: 'Our Story', path: '/about' },
@@ -60,8 +60,8 @@ const Footer = () => {
 
                     {/* Legal */}
                     <div>
-                        <h3 className="text-white font-playfair text-xl mb-8">Legal</h3>
-                        <ul className="space-y-4">
+                        <h3 className="text-white font-playfair text-xl mb-8 text-center md:text-left">Legal</h3>
+                        <ul className="space-y-4 text-center md:text-left">
                             {[
                                 { name: 'Privacy Policy', path: '/privacy-policy' },
                                 { name: 'Terms & Conditions', path: '/terms-conditions' },

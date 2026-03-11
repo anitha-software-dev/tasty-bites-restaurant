@@ -136,36 +136,35 @@ const CheckoutPage = () => {
                                     const itemTotal = priceVal * item.quantity;
 
                                     return (
-                                        <div className="flex justify-between items-start flex-wrap gap-4 group">
-                                            <div className="flex items-start space-x-4">
-                                                <div className="relative mt-1">
-                                                    <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-2xl" />
+                                        <div key={item.id} className="flex justify-between items-start gap-4 group pb-6 border-b border-gray-100 last:border-0 last:pb-0">
+                                            <div className="flex items-start gap-4 flex-1 min-w-0">
+                                                <div className="relative mt-1 shrink-0">
+                                                    <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded-2xl shadow-sm" />
                                                     <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold w-7 h-7 flex items-center justify-center rounded-full shadow-md border-2 border-white">
                                                         {item.quantity}
                                                     </span>
                                                 </div>
-                                                <div className="flex flex-col">
-                                                    <h4 className="font-bold text-secondary text-lg leading-tight mb-1">{item.name}</h4>
+                                                <div className="flex flex-col min-w-0 flex-1">
+                                                    <h4 className="font-bold text-secondary text-base sm:text-lg leading-tight mb-1 truncate whitespace-break-spaces">{item.name}</h4>
                                                     <p className="text-sm text-gray-400 font-medium mb-3">£{priceVal.toFixed(2)} / unit</p>
 
-                                                    {/* Controls below item name */}
-                                                    <div className="flex items-center space-x-4">
+                                                    <div className="flex flex-wrap items-center gap-3">
                                                         <div className="flex items-center space-x-3 bg-gray-50 rounded-full px-2 py-1 border border-gray-100">
-                                                            <button type="button" onClick={() => updateQuantity(item.id, -1)} className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-secondary hover:text-primary hover:shadow-md transition-all">
+                                                            <button type="button" onClick={() => updateQuantity(item.id, -1)} className="w-[28px] h-[28px] rounded-full bg-white flex items-center justify-center text-secondary hover:text-primary hover:shadow-md transition-all">
                                                                 <Minus size={14} strokeWidth={2.5} />
                                                             </button>
-                                                            <span className="w-4 text-center font-bold text-secondary">{item.quantity}</span>
-                                                            <button type="button" onClick={() => updateQuantity(item.id, 1)} className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-secondary hover:text-primary hover:shadow-md transition-all">
+                                                            <span className="w-4 text-center font-bold text-secondary text-sm">{item.quantity}</span>
+                                                            <button type="button" onClick={() => updateQuantity(item.id, 1)} className="w-[28px] h-[28px] rounded-full bg-white flex items-center justify-center text-secondary hover:text-primary hover:shadow-md transition-all">
                                                                 <Plus size={14} strokeWidth={2.5} />
                                                             </button>
                                                         </div>
-                                                        <button type="button" onClick={() => removeFromCart(item.id)} className="text-gray-400 hover:text-red-500 transition-colors p-2">
+                                                        <button type="button" onClick={() => removeFromCart(item.id)} className="text-gray-400 hover:text-red-500 transition-colors p-2 sm:p-1">
                                                             <Trash2 size={18} />
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="flex items-center space-x-4 mt-2 sm:mt-0 ml-auto">
+                                            <div className="flex items-center mt-2 sm:mt-0 ml-auto shrink-0 pl-2">
                                                 <span className="font-bold text-secondary text-lg text-right">£{itemTotal.toFixed(2)}</span>
                                             </div>
                                         </div>

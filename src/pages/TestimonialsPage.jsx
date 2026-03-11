@@ -189,23 +189,25 @@ const TestimonialsPage = () => {
                             {/* Star Rating */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-3">Star Rating <span className="text-red-500">*</span></label>
-                                <div className="flex items-center space-x-2">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <button
-                                            type="button"
-                                            key={star}
-                                            onClick={() => setFormData({ ...formData, rating: star })}
-                                            onMouseEnter={() => setHoverRating(star)}
-                                            onMouseLeave={() => setHoverRating(0)}
-                                            className="focus:outline-none transition-transform hover:scale-125"
-                                        >
-                                            <Star
-                                                size={36}
-                                                className={`transition-colors ${(hoverRating || formData.rating) >= star ? 'text-accent fill-accent' : 'text-gray-300'}`}
-                                            />
-                                        </button>
-                                    ))}
-                                    <span className="ml-4 text-sm text-gray-500 font-medium">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-2">
+                                    <div className="flex items-center space-x-2">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <button
+                                                type="button"
+                                                key={star}
+                                                onClick={() => setFormData({ ...formData, rating: star })}
+                                                onMouseEnter={() => setHoverRating(star)}
+                                                onMouseLeave={() => setHoverRating(0)}
+                                                className="focus:outline-none transition-transform hover:scale-125"
+                                            >
+                                                <Star
+                                                    size={36}
+                                                    className={`transition-colors ${(hoverRating || formData.rating) >= star ? 'text-accent fill-accent' : 'text-gray-300'}`}
+                                                />
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <span className="sm:ml-4 text-sm text-gray-500 font-medium whitespace-nowrap pt-1 sm:pt-0">
                                         {formData.rating > 0 ? `${formData.rating} / 5` : 'Select a rating'}
                                     </span>
                                 </div>
