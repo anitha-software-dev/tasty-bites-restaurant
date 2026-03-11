@@ -60,9 +60,9 @@ const CateringPage = () => {
     ];
 
     return (
-        <div className="bg-brand-cream min-h-screen pb-24 font-poppins pt-10">
+        <div className="bg-brand-cream min-h-screen pb-24 font-poppins pt-10 overflow-x-hidden max-w-full">
             {/* Hero Section */}
-            <div className="relative h-[300px] md:h-[400px] w-full">
+            <div className="relative h-[300px] md:h-[400px] w-full max-w-full overflow-hidden">
                 <img src="/images/authentic.jpg" alt="Catering Header" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60" />
 
