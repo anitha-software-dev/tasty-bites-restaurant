@@ -1,19 +1,11 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Phone, MessageSquare, Briefcase, Heart, PartyPopper } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import api from '../services/api';
-import PhoneInput from '../components/PhoneInput';
-import Flatpickr from 'react-flatpickr';
-import 'flatpickr/dist/themes/light.css';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Phone, Calendar, User, MessageSquare, Star, Award, ShieldCheck, ChevronRight, Send, Briefcase, Heart, Home, Users, Wallet } from 'lucide-react';
 import { toast } from 'react-toastify';
+import PhoneInput from '../components/PhoneInput';
+import api from '../services/api';
 
 const CateringPage = () => {
-    const navigate = useNavigate();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({});
-
-
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -21,50 +13,34 @@ const CateringPage = () => {
         eventType: 'Corporate Event',
         eventDate: '',
         guestCount: '',
+        budget: '',
         message: ''
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [activePackage, setActivePackage] = useState('signature');
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handlePhoneChange = (value) => {
-        setFormData({ ...formData, phone: value });
-    };
-
-    const validateForm = () => {
-        const newErrors = {};
-        if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Invalid email format';
-        }
-        if (!formData.phone.trim()) {
-            newErrors.phone = 'Phone number is required';
-        } else if (formData.phone.length < 10) {
-            newErrors.phone = 'Please enter a valid phone number';
-        }
-        if (!formData.eventDate.trim()) newErrors.eventDate = 'Please select an event date';
-        if (!formData.guestCount) {
-            newErrors.guestCount = 'Guest count is required';
-        } else if (parseInt(formData.guestCount) < 10) {
-            newErrors.guestCount = 'Minimum 10 guests for catering';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        setFormData(prev => ({ ...prev, phone: value }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) {
-            toast.error('Please fix the errors in the form');
+        
+        if (!formData.fullName || !formData.email || !formData.phone || !formData.guestCount) {
+            toast.error('Please fill in all required fields (Name, Email, Phone, Guests)');
             return;
         }
 
-        setIsSubmitting(true);
+        setIsLoading(true);
         try {
             await api.submitCatering({
                 name: formData.fullName,
@@ -72,225 +48,457 @@ const CateringPage = () => {
                 phone: formData.phone,
                 eventType: formData.eventType,
                 eventDate: formData.eventDate,
-                guestCount: formData.guestCount,
-                message: formData.message
+                guests: formData.guestCount,
+                budget: formData.budget,
+                details: formData.message
             });
-            toast.success('Enquiry Received! Our team will get back to you shortly.');
-            setFormData({ fullName: '', email: '', phone: '', eventType: 'Corporate Event', eventDate: '', guestCount: '', message: '' });
-        } catch (err) {
-            toast.error(err.message || 'Failed to send enquiry. Please try again.');
+            toast.success('Your catering inquiry has been sent! We will contact you shortly.', {
+                position: "top-center",
+                autoClose: 5000,
+            });
+            setFormData({
+                fullName: '',
+                email: '',
+                phone: '',
+                eventType: 'Corporate Event',
+                eventDate: '',
+                guestCount: '',
+                budget: '',
+                message: ''
+            });
+        } catch (error) {
+            toast.error(error.message || 'Failed to submit inquiry. Please try again.');
         } finally {
-            setIsSubmitting(false);
+            setIsLoading(false);
         }
     };
 
-    const featureBlocks = [
-        { icon: <Briefcase size={32} />, title: "Corporate Events", desc: "Impress your clients and team with our authentic, professionally catered South Indian lunches and dinners." },
-        { icon: <Heart size={32} />, title: "Weddings", desc: "Make your special day unforgettable with a bespoke menu tailored to your grand celebration." },
-        { icon: <PartyPopper size={32} />, title: "Private Parties", desc: "From birthdays to family reunions, bring the flavor of Tasty Bites directly to your intimate gatherings." }
+    const packageTiers = [
+        {
+            id: 'essential',
+            name: 'Essential',
+            icon: <Home className="text-secondary" />,
+            description: 'Perfect for intimate home gatherings and small family celebrations.',
+            price: 'From £15/person',
+            features: ['3 Appetizers', '2 Main Curries', 'Basmati Rice', '1 Dessert', 'Disposable Set'],
+            color: 'bg-emerald-50/50'
+        },
+        {
+            id: 'signature',
+            name: 'Signature',
+            icon: <Briefcase className="text-primary" />,
+            description: 'Our most popular choice for corporate events and medium parties.',
+            price: 'From £25/person',
+            features: ['5 Appetizers', 'Live Dosa Counter', '4 Main Curries', 'Biriyani', '2 Desserts', 'Professional Staff'],
+            color: 'bg-primary/5',
+            popular: true
+        },
+        {
+            id: 'grand',
+            name: 'Grand Feast',
+            icon: <Heart className="text-accent" />,
+            description: 'The ultimate luxury experience for weddings and large gala events.',
+            price: 'From £45/person',
+            features: ['Unlimited Starters', 'Premium Live Counters', 'Multi-Course Buffet', 'Dessert Wall', 'Full Event Planning'],
+            color: 'bg-secondary/5'
+        }
     ];
 
     return (
-        <div className="bg-brand-cream min-h-screen pb-24 font-poppins pt-10 overflow-x-hidden max-w-full">
-            {/* Hero Section */}
-            <div className="relative h-[300px] md:h-[400px] w-full max-w-full overflow-hidden">
-                <img src="/images/authentic.jpg" alt="Catering Header" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black/60" />
+        <div className="min-h-screen bg-brand-cream overflow-x-hidden">
+            {/* Immersive Hero Section */}
+            <section className="relative h-screen flex items-center justify-center overflow-hidden">
+                <motion.div 
+                    initial={{ scale: 1.1 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 1.5 }}
+                    className="absolute inset-0 z-0"
+                >
+                    <img 
+                        src="/images/catering-hero.png" 
+                        alt="Luxurious Indian Catering" 
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary/40 to-brand-cream" />
+                </motion.div>
 
-                <div className="absolute inset-0 flex items-center container mx-auto px-6">
-                    <div className="flex-1">
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="text-3xl sm:text-4xl md:text-6xl font-playfair text-white mb-4 leading-tight break-words"
-                        >
-                            Exceptional <span className="text-accent italic">Catering</span>
-                        </motion.h1>
-                        <motion.p
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="text-white/80 text-lg md:text-xl font-light"
-                        >
-                            Authentic South Indian flavors for your memorable events.
-                        </motion.p>
-                    </div>
-                    <div className="hidden md:block">
-                        <Link to="/" className="inline-flex items-center space-x-2 text-white hover:text-accent transition-colors bg-black/30 px-6 py-3 rounded-full backdrop-blur-sm border border-white/20">
-                            <ArrowLeft size={18} />
-                            <span className="font-semibold uppercase tracking-widest text-sm">Back to Home</span>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile Back Button */}
-            <div className="md:hidden container mx-auto px-6 mt-6">
-                <Link to="/" className="inline-flex items-center space-x-2 text-primary hover:text-secondary transition-colors font-semibold uppercase tracking-widest text-sm">
-                    <ArrowLeft size={16} />
-                    <span>Back to Home</span>
-                </Link>
-            </div>
-
-            <div className="container mx-auto px-6 mt-16 lg:mt-24">
-
-                {/* What We Offer Section */}
-                <div className="text-center mb-16">
-                    <span className="text-primary font-semibold tracking-widest uppercase text-sm mb-4 block">Our Services</span>
-                    <h2 className="text-3xl md:text-5xl font-playfair text-secondary">What We <span className="text-primary italic">Offer</span></h2>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-                    {featureBlocks.map((block, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-white p-10 rounded-3xl shadow-sm border border-gray-100 text-center hover:shadow-xl transition-shadow group"
-                        >
-                            <div className="w-16 h-16 bg-brand-cream text-primary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                                {block.icon}
-                            </div>
-                            <h3 className="text-2xl font-playfair text-secondary mb-4">{block.title}</h3>
-                            <p className="text-gray-600 leading-relaxed">{block.desc}</p>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Split Layout: Custom Catering & Form */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-
-                    {/* Custom Catering Text & Buttons */}
+                <div className="container relative z-10 text-center px-6 mt-[-10vh]">
                     <motion.div
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="lg:col-span-5"
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: "easeOut" }}
                     >
-                        <h2 className="text-3xl md:text-5xl font-playfair text-secondary mb-6 leading-tight">Custom Catering <br /><span className="text-primary italic">Just for You!</span></h2>
-                        <div className="w-20 h-1 bg-accent mb-8" />
-
-                        <p className="text-lg text-gray-600 leading-relaxed mb-10">
-                            We'd love to create a personalized catering experience tailored to your special occasion. From intimate gatherings to grand celebrations, let us bring authentic South Indian flavors to your event!
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="inline-flex items-center gap-3 px-6 py-2 bg-white/10 backdrop-blur-xl border border-white/20 text-accent rounded-full text-xs font-bold uppercase tracking-[0.4em] mb-10 mx-auto"
+                        >
+                            <Star size={14} className="animate-pulse" /> Crafted Celebrations
+                        </motion.div>
+                        
+                        <h1 className="text-5xl md:text-7xl font-playfair text-white mb-8 leading-[1.1] tracking-tight">
+                            Memories Reimagined <br />
+                            <span className="text-accent italic font-light drop-shadow-2xl">Through Flavor</span>
+                        </h1>
+                        
+                        <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto font-light leading-relaxed mb-12 px-4">
+                            Bringing the authentic soul of South Indian spice to your grandest stages and intimate corners.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <a href="tel:+447000000000" className="btn-primary flex items-center justify-center py-4 px-8 text-lg w-full sm:w-auto">
-                                <Phone size={20} className="mr-3" />
-                                Call Us
-                            </a>
-                            <a href="https://wa.me/447000000000" target="_blank" rel="noopener noreferrer" className="bg-green-500 hover:bg-green-600 text-white font-semibold flex items-center justify-center py-4 px-8 rounded-full transition-colors text-lg w-full sm:w-auto shadow-md">
-                                <MessageSquare size={20} className="mr-3" />
-                                WhatsApp Us
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+                            <motion.a 
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                href="#inquiry-form" 
+                                className="btn-primary !px-12 !py-5 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-base"
+                            >
+                                Plan Your Heritage Menu
+                            </motion.a>
+                            <a href="#packages" className="text-white font-bold flex items-center gap-3 hover:text-accent transition-all group py-4">
+                                <span className="uppercase tracking-[0.2em] text-sm">View Curated Tiers</span> 
+                                <ChevronRight size={20} className="group-hover:translate-x-2 transition-transform" />
                             </a>
                         </div>
                     </motion.div>
-
-                    {/* Enquiry Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="lg:col-span-7 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-gray-100 relative"
-                    >
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-
-                        <h3 className="text-2xl font-playfair text-secondary mb-8 relative z-10">Catering Enquiry Form</h3>
-
-                        <motion.form
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            onSubmit={handleSubmit}
-                            className="space-y-6 relative z-10"
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Full Name *</label>
-                                    <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className={`w-full px-8 py-4 rounded-2xl border ${errors.fullName ? 'border-red-500' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 transition-all`} placeholder="John Doe" />
-                                    {errors.fullName && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider ml-1 mt-1">{errors.fullName}</p>}
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Phone *</label>
-                                    <div className={errors.phone ? 'ring-2 ring-red-500/50 rounded-2xl' : ''}>
-                                        <PhoneInput
-                                            value={formData.phone}
-                                            onChange={handlePhoneChange}
-                                            className="rounded-2xl overflow-hidden border border-gray-200"
-                                        />
-                                    </div>
-                                    {errors.phone && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider ml-1 mt-1">{errors.phone}</p>}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Email Address *</label>
-                                <input type="email" name="email" value={formData.email} onChange={handleChange} className={`w-full px-8 py-4 rounded-2xl border ${errors.email ? 'border-red-500' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 transition-all`} placeholder="john@example.com" />
-                                {errors.email && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider ml-1 mt-1">{errors.email}</p>}
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Type *</label>
-                                    <select name="eventType" value={formData.eventType} onChange={handleChange} className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700 h-[60px] appearance-none cursor-pointer">
-                                        <option>Corporate Event</option>
-                                        <option>Wedding</option>
-                                        <option>Private Party</option>
-                                        <option>Birthday</option>
-                                        <option>Other</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Event Date *</label>
-                                    <div className={errors.eventDate ? 'ring-2 ring-red-500/50 rounded-2xl overflow-hidden' : ''}>
-                                        <Flatpickr
-                                            name="eventDate"
-                                            value={formData.eventDate}
-                                            onChange={([date]) => {
-                                                const d = new Date(date);
-                                                const formattedDate = d.toISOString().split('T')[0];
-                                                setFormData({ ...formData, eventDate: formattedDate });
-                                            }}
-                                            options={{
-                                                minDate: 'today',
-                                                dateFormat: 'Y-m-d',
-                                                disableMobile: true
-                                            }}
-                                            className="w-full px-8 py-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 text-gray-700"
-                                            placeholder="Select Event Date"
-                                            title="Event Date"
-                                        />
-                                    </div>
-                                    {errors.eventDate && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider ml-1 mt-1">{errors.eventDate}</p>}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Est. Guests *</label>
-                                <input type="number" min="10" name="guestCount" value={formData.guestCount} onChange={handleChange} className={`w-full px-8 py-4 rounded-2xl border ${errors.guestCount ? 'border-red-500' : 'border-gray-200'} focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50`} placeholder="e.g., 50" />
-                                {errors.guestCount && <p className="text-red-500 text-[10px] font-bold uppercase tracking-wider ml-1 mt-1">{errors.guestCount}</p>}
-                            </div>
-
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary ml-1 mb-2">Additional Details</label>
-                                <textarea name="message" value={formData.message} onChange={handleChange} rows="4" className="w-full px-8 py-4 rounded-3xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-gray-50 resize-none" placeholder="Tell us about your catering needs..."></textarea>
-                            </div>
-
-                            <button type="submit" disabled={isSubmitting} className={`w-full btn-primary py-4 text-lg rounded-xl flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}>
-                                {isSubmitting ? (
-                                    <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin flex-shrink-0 mr-3" />
-                                        <span>Sending Enquiry...</span>
-                                    </>
-                                ) : (
-                                    'Submit Enquiry'
-                                )}
-                            </button>
-                        </motion.form>
-                    </motion.div>
                 </div>
-            </div>
+
+                {/* Floating Micro-Features */}
+                <div className="absolute bottom-16 w-full hidden lg:flex justify-center gap-24 text-white/70">
+                    {[
+                        { icon: <Award size={20} />, text: "Michelin Standard Chefs" },
+                        { icon: <ShieldCheck size={20} />, text: "Artisanal Spice Blends" },
+                        { icon: <Users size={20} />, text: "Full Scale Coordination" }
+                    ].map((f, i) => (
+                        <motion.div 
+                            key={i}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1 + (i * 0.2) }}
+                            className="flex items-center gap-4 group"
+                        >
+                            <div className="p-3 bg-white/5 rounded-2xl group-hover:bg-accent/20 transition-colors">
+                                {f.icon}
+                            </div>
+                            <span className="text-[11px] font-black uppercase tracking-[0.25em]">{f.text}</span>
+                        </motion.div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Premium Detail Section */}
+            <section className="py-24 relative">
+                <div className="container mx-auto px-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+                        <motion.div 
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="relative"
+                        >
+                            <div className="aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.1)] relative group">
+                                <img 
+                                    src="/images/authentic-spread.png" 
+                                    alt="Catering Hospitality" 
+                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                                />
+                                <div className="absolute inset-0 bg-secondary/10" />
+                            </div>
+                            <div className="absolute -bottom-12 -right-12 p-12 bg-accent text-white rounded-[3rem] shadow-2xl hidden md:block">
+                                <div className="text-5xl font-playfair mb-2 italic">15+</div>
+                                <div className="text-[10px] font-black uppercase tracking-widest opacity-80">Years of Master Catering</div>
+                            </div>
+                        </motion.div>
+                        
+                        <motion.div 
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="space-y-10"
+                        >
+                            <div>
+                                <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6">Our Philosophy</span>
+                                <h2 className="text-4xl md:text-6xl font-playfair text-secondary leading-[1.1]">
+                                    Traditional Heart, <br />
+                                    <span className="text-primary italic font-light">Infinite Modern Detail</span>
+                                </h2>
+                            </div>
+                            
+                            <p className="text-base text-brand-text-light leading-relaxed font-medium">
+                                Every grain of spice is a choice. Every plate is a narrative. We transform ordinary venues into extraordinary canvases of aroma and color, ensuring your story is told through the lens of pure, unadulterated heritage.
+                            </p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
+                                {[
+                                    { icon: <ShieldCheck className="text-primary" />, title: "Precision Execution", desc: "No detail is too small for our perfectionists." },
+                                    { icon: <Users className="text-primary" />, title: "Concierge Planning", desc: "Dedicated managers for every single client." }
+                                ].map((item, i) => (
+                                    <div key={i} className="space-y-4">
+                                        <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
+                                            {item.icon}
+                                        </div>
+                                        <h4 className="text-xl font-playfair text-secondary">{item.title}</h4>
+                                        <p className="text-sm text-brand-text-light font-medium leading-relaxed">{item.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Interactive Package Tiers */}
+            <section id="packages" className="py-24 bg-white relative">
+                <div className="container mx-auto px-6 text-center mb-16">
+                    <span className="bg-primary/10 text-primary px-5 py-2 rounded-full font-black uppercase tracking-[0.2em] text-[10px] mb-6 inline-block italic">
+                        The Tasty Bites Collections
+                    </span>
+                    <h2 className="text-4xl md:text-6xl font-playfair text-secondary">A Match for Every <span className="text-primary">Curated Vibe</span></h2>
+                </div>
+
+                <div className="container mx-auto px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                        {packageTiers.map((tier) => (
+                            <motion.div
+                                key={tier.id}
+                                onMouseEnter={() => setActivePackage(tier.id)}
+                                whileHover={{ scale: 1.02 }}
+                                className={`relative p-12 rounded-[3.5rem] border transition-all duration-500 cursor-pointer flex flex-col ${
+                                    activePackage === tier.id 
+                                    ? 'bg-secondary text-white shadow-2xl border-transparent' 
+                                    : 'bg-brand-cream/40 text-secondary border-secondary/5 h-[95%] mt-auto'
+                                }`}
+                            >
+                                {tier.popular && (
+                                    <span className={`absolute -top-5 left-1/2 -translate-x-1/2 px-8 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl transition-colors duration-500 ${
+                                        activePackage === tier.id ? 'bg-accent text-white' : 'bg-primary text-white'
+                                    }`}>
+                                        Signature Collection
+                                    </span>
+                                )}
+                                
+                                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-10 shadow-sm transition-colors duration-500 ${
+                                    activePackage === tier.id ? 'bg-white/10 text-white' : 'bg-white text-secondary'
+                                }`}>
+                                    {tier.icon}
+                                </div>
+                                <h3 className="text-3xl font-playfair mb-6">{tier.name}</h3>
+                                <p className={`text-sm mb-10 font-medium leading-relaxed transition-colors duration-500 ${
+                                    activePackage === tier.id ? 'text-white/70' : 'text-brand-text-light'
+                                }`}>
+                                    {tier.description}
+                                </p>
+                                <div className="text-3xl font-black mb-12">{tier.price}</div>
+                                
+                                <div className="space-y-6 mb-16 flex-1">
+                                    {tier.features.map((feature, i) => (
+                                        <div key={i} className="flex items-center gap-4 text-sm font-bold uppercase tracking-tight">
+                                            <div className={`w-1.5 h-1.5 rounded-full ${activePackage === tier.id ? 'bg-accent' : 'bg-primary'}`} />
+                                            {feature}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <motion.a 
+                                    href="#inquiry-form" 
+                                    whileHover={{ gap: '1rem' }}
+                                    className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all ${
+                                        activePackage === tier.id 
+                                        ? 'bg-white text-secondary' 
+                                        : 'bg-secondary text-white'
+                                    }`}
+                                >
+                                    Select This Collection <ChevronRight size={16} />
+                                </motion.a>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Modern Logic Inquiry Form */}
+            <section id="inquiry-form" className="py-24 bg-secondary relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[200px] -translate-y-1/2 translate-x-1/4" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/4" />
+                
+                <div className="container mx-auto px-6 relative z-10">
+                    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-24 items-center">
+                        <div className="lg:w-2/5 space-y-12">
+                            <div>
+                                <span className="text-accent font-black uppercase tracking-[0.4em] text-[10px] block mb-6 text-center lg:text-left">Start the Dialogue</span>
+                                <h2 className="text-4xl md:text-6xl font-playfair text-white leading-[1.1] text-center lg:text-left">
+                                    Craft Your <br />
+                                    <span className="text-accent italic font-light underline decoration-accent/30 decoration-4 underline-offset-8">Custom Legacy</span>
+                                </h2>
+                            </div>
+                            
+                            <p className="text-base text-white/60 font-medium leading-relaxed text-center lg:text-left">
+                                Our bespoke planning process begins with a single conversation. Describe your vision, and we’ll architect the flavors to match.
+                            </p>
+
+                            <div className="space-y-10 pt-10">
+                                {[
+                                    { icon: <Phone size={24} />, label: "Direct Events Lead", value: "+44 1792 951309" },
+                                    { icon: <Mail size={24} />, label: "Private Suite Email", value: "catering@tastybites.co.uk" }
+                                ].map((item, i) => (
+                                    <div key={i} className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 sm:gap-8 group cursor-pointer">
+                                        <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-white transition-all duration-500">
+                                            {item.icon}
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">{item.label}</p>
+                                            <p className="text-xl font-bold text-white tracking-tight">{item.value}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="lg:w-3/5 w-full bg-white rounded-3xl p-8 md:p-12 shadow-[0_40px_80px_rgba(0,0,0,0.3)] border border-white/10">
+                            <form onSubmit={handleSubmit} className="space-y-10">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Full Identity *</label>
+                                        <div className="relative group">
+                                            <User className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                            <input 
+                                                name="fullName"
+                                                type="text" 
+                                                required
+                                                value={formData.fullName}
+                                                onChange={handleChange}
+                                                placeholder="Arthur Pendragon" 
+                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Digital Mail *</label>
+                                        <div className="relative group">
+                                            <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                            <input 
+                                                name="email"
+                                                type="email" 
+                                                required
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                placeholder="legend@royal.com" 
+                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Secure Phone *</label>
+                                        <div className="shadow-sm rounded-2xl overflow-hidden bg-brand-cream/30">
+                                            <PhoneInput 
+                                                value={formData.phone}
+                                                onChange={handlePhoneChange}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Vision Category</label>
+                                        <div className="relative group">
+                                            <Award className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                            <select 
+                                                name="eventType"
+                                                value={formData.eventType}
+                                                onChange={handleChange}
+                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary appearance-none cursor-pointer shadow-sm text-sm"
+                                            >
+                                                <option>Corporate Gala</option>
+                                                <option>Grand Wedding</option>
+                                                <option>Private Soiree</option>
+                                                <option>Milestone Jubilee</option>
+                                                <option>Elite Retreat</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Planned Date</label>
+                                        <div className="relative group">
+                                            <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                            <input 
+                                                name="eventDate"
+                                                type="date" 
+                                                value={formData.eventDate}
+                                                onChange={handleChange}
+                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary shadow-sm text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Elite Guests *</label>
+                                        <div className="relative group">
+                                            <Users className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                            <input 
+                                                name="guestCount"
+                                                type="number" 
+                                                required
+                                                value={formData.guestCount}
+                                                onChange={handleChange}
+                                                placeholder="e.g. 100" 
+                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Aspirant Budget</label>
+                                        <div className="relative group">
+                                            <Wallet className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                            <input 
+                                                name="budget"
+                                                type="text" 
+                                                value={formData.budget}
+                                                onChange={handleChange}
+                                                placeholder="e.g. £5000" 
+                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Narrative & Vision</label>
+                                    <div className="relative group">
+                                        <MessageSquare className="absolute left-6 top-8 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
+                                        <textarea 
+                                            name="message"
+                                            value={formData.message}
+                                            onChange={handleChange}
+                                            rows="5" 
+                                            placeholder="Detail your dream culinary landscape..." 
+                                            className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-3xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 resize-none shadow-sm text-sm"
+                                        ></textarea>
+                                    </div>
+                                </div>
+
+                                <motion.button 
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className={`w-full py-5 rounded-2xl bg-secondary text-white font-black uppercase tracking-[0.4em] text-[11px] shadow-2xl hover:bg-primary transition-all flex items-center justify-center gap-6 ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
+                                >
+                                    {isLoading ? (
+                                        <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
+                                    ) : (
+                                        <>
+                                            Architect My Experience <Send size={18} className="animate-bounce" />
+                                        </>
+                                    )}
+                                </motion.button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };

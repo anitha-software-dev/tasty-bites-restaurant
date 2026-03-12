@@ -26,7 +26,7 @@ const StatCounter = ({ value, label, icon: Icon }) => {
     }, [isInView, value]);
 
     return (
-        <div ref={ref} className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 border border-brand-cream shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group">
+        <div ref={ref} className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 border border-brand-cream shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
                 <Icon size={32} className="text-primary" />
             </div>
