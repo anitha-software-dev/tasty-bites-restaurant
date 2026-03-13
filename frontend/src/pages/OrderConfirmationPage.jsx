@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ShoppingBag, ArrowRight, Utensils, Clock, MapPin, ChefHat } from 'lucide-react';
+import { CheckCircle2, ShoppingBag, ArrowRight, Utensils, Clock, MapPin, ChefHat, Heart } from 'lucide-react';
 import { useLocation, Link, Navigate } from 'react-router-dom';
 
 const OrderConfirmationPage = () => {
@@ -153,9 +153,21 @@ const OrderConfirmationPage = () => {
                     </div>
                 </motion.div>
 
-                <p className="text-center mt-10 text-brand-text-light/60 text-sm font-medium italic">
-                    Thank you for choosing Tasty Bites. We hope you enjoy your meal!
-                </p>
+                <div className="mt-12 flex flex-col items-center">
+                    <div className="h-px w-24 bg-gradient-to-r from-transparent via-brand-cream/60 to-transparent mb-8" />
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1 }}
+                        className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-brand-cream rounded-2xl shadow-sm italic text-brand-text-light"
+                    >
+                        <Heart size={14} className="text-primary fill-primary/20" />
+                        <p className="text-sm font-medium tracking-tight">
+                            Thank you for choosing Tasty Bites. We hope you enjoy your meal!
+                        </p>
+                        <Heart size={14} className="text-primary fill-primary/20" />
+                    </motion.div>
+                </div>
             </div>
         </div>
     );

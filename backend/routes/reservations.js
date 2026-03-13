@@ -57,6 +57,23 @@ router.post('/', optionalAuth, async (req, res) => {
     }
 });
 
+// ADMIN: GET /api/reservations/admin/all (List all reservations)
+router.get('/admin/all', authenticate, async (req, res) => {
+    try {
+        const { User } = await import('../models/index.js');
+        const user = await User.findByPk(req.userId);
+        if (user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
+
+        const reservations = await Reservation.findAll({
+            order: [['date', 'DESC'], ['time', 'DESC']]
+        });
+        res.json(reservations);
+    } catch (err) {
+        console.error('Admin get all reservations error:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // GET /api/reservations
 router.get('/', authenticate, async (req, res) => {
     try {

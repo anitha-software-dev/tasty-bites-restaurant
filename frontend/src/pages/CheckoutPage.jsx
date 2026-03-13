@@ -196,7 +196,7 @@ const CheckoutPage = () => {
                                     <div key={item.id} className="flex gap-4">
                                         <div className="relative shrink-0">
                                             <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-xl shadow-sm" />
-                                            <span className="absolute -top-2 -right-2 bg-primary text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border border-white">
+                                            <span className="absolute -top-3 -right-3 bg-primary text-white text-[11px] font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white shadow-md z-10">
                                                 {item.quantity}
                                             </span>
                                         </div>

@@ -1,5 +1,5 @@
 import express from 'express';
-import { Order } from '../models/index.js';
+import { Order, User } from '../models/index.js';
 import { authenticate, optionalAuth } from '../middleware/auth.js';
 import { sendOrderConfirmation } from '../services/email.js';
 
@@ -89,6 +89,53 @@ router.get('/', authenticate, async (req, res) => {
         res.json(formatted);
     } catch (err) {
         console.error('Get orders error:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// ADMIN: GET /api/orders/all (List all orders)
+router.get('/admin/all', authenticate, async (req, res) => {
+    try {
+        const user = await User.findByPk(req.userId);
+        if (user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
+
+        const orders = await Order.findAll({
+            order: [['createdAt', 'DESC']]
+        });
+
+        const formatted = orders.map(o => ({
+            ...o.toJSON(),
+            items: JSON.parse(o.items),
+            date: o.createdAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + o.createdAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+            contact: { phone: o.customerPhone, email: o.customerEmail }
+        }));
+
+        res.json(formatted);
+    } catch (err) {
+        console.error('Admin get all orders error:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// ADMIN: GET /api/orders/stats/summary (Dashboard stats)
+router.get('/admin/stats/summary', authenticate, async (req, res) => {
+    try {
+        const user = await User.findByPk(req.userId);
+        if (user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
+
+        const totalRevenue = await Order.sum('total') || 0;
+        const totalOrders = await Order.count();
+        const activeOrders = await Order.count({ where: { status: ['Placed', 'Confirmed', 'Preparing', 'Ready', 'Out for Delivery'] } });
+        
+        // Simple mock growth - in reality compare with previous period
+        res.json({
+            revenue: { value: `£${totalRevenue.toLocaleString()}`, growth: 12.5 },
+            orders: { value: totalOrders.toString(), growth: 8.2 },
+            active: { value: activeOrders.toString(), growth: -2.4 },
+            avgTime: { value: '18m', growth: 5.2 }
+        });
+    } catch (err) {
+        console.error('Get admin stats error:', err);
         res.status(500).json({ error: 'Server error' });
     }
 });

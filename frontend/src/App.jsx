@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -29,12 +29,14 @@ import './index.css';
 
 const AppContent = () => {
     const { isOrderTypeModalOpen, setIsOrderTypeModalOpen } = useCart();
+    const location = useLocation();
+    const isAdmin = location.pathname.startsWith('/admin');
 
     return (
-        <Router>
+        <>
             <div className="min-h-screen bg-brand-cream font-poppins selection:bg-primary/30 selection:text-primary">
-                <Navbar />
-                <CartPopover />
+                {!isAdmin && <Navbar />}
+                {!isAdmin && <CartPopover />}
 
                 <main>
                     <Routes>
@@ -58,14 +60,16 @@ const AppContent = () => {
                     </Routes>
                 </main>
 
-                <Footer />
+                {!isAdmin && <Footer />}
             </div>
 
-            <OrderTypeModal
-                isOpen={isOrderTypeModalOpen}
-                onClose={() => setIsOrderTypeModalOpen(false)}
-            />
-        </Router>
+            {!isAdmin && (
+                <OrderTypeModal
+                    isOpen={isOrderTypeModalOpen}
+                    onClose={() => setIsOrderTypeModalOpen(false)}
+                />
+            )}
+        </>
     );
 };
 
@@ -73,20 +77,22 @@ function App() {
     return (
         <AuthProvider>
             <CartProvider>
-                <AppContent />
-                <ToastContainer
-                    position="top-right"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                    toastStyle={{ backgroundColor: '#C04B2A' }}
-                />
+                <Router>
+                    <AppContent />
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                        toastStyle={{ backgroundColor: '#C04B2A' }}
+                    />
+                </Router>
             </CartProvider>
         </AuthProvider>
     );
