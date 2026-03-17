@@ -37,75 +37,142 @@ app.get('/', (req, res) => {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Tasty Bites API | Status</title>
+            <title>Tasty Bites | API Professional Dashboard</title>
             <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
             <style>
+                :root {
+                    --accent: #d9774a;
+                    --bg: #0d1a18;
+                    --glass: rgba(255, 255, 255, 0.03);
+                }
                 body {
                     margin: 0;
+                    padding: 20px;
                     font-family: 'Poppins', sans-serif;
-                    background: linear-gradient(135deg, #1a2f2b 0%, #0d1a18 100%);
+                    background: linear-gradient(135deg, #1a2f2b 0%, var(--bg) 100%);
                     color: #f0e6d2;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     min-height: 100vh;
+                }
+                .dashboard {
+                    background: var(--glass);
+                    backdrop-filter: blur(15px);
+                    border-radius: 32px;
+                    border: 1px solid rgba(217, 119, 74, 0.15);
+                    padding: 50px;
+                    width: 100%;
+                    max-width: 600px;
+                    box-shadow: 0 40px 100px rgba(0,0,0,0.5);
                     text-align: center;
                 }
-                .container {
-                    padding: 40px;
-                    background: rgba(255, 255, 255, 0.05);
-                    backdrop-filter: blur(10px);
-                    border-radius: 24px;
-                    border: 1px solid rgba(217, 119, 74, 0.2);
-                    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-                    max-width: 500px;
-                    width: 90%;
-                }
-                h1 {
+                .logo {
                     font-family: 'Playfair Display', serif;
-                    font-size: 3rem;
-                    margin: 0;
-                    color: #d9774a;
+                    font-size: 3.5rem;
+                    color: var(--accent);
+                    margin-bottom: 5px;
                     font-style: italic;
+                    letter-spacing: -1px;
                 }
-                p {
-                    font-size: 1.1rem;
-                    opacity: 0.8;
-                    margin: 20px 0;
+                .subtitle {
+                    font-size: 0.85rem;
+                    text-transform: uppercase;
+                    letter-spacing: 4px;
+                    opacity: 0.6;
+                    margin-bottom: 40px;
                 }
-                .status-badge {
-                    display: inline-block;
-                    padding: 8px 16px;
+                .status-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+                    margin-bottom: 40px;
+                }
+                .pulse {
+                    width: 10px;
+                    height: 10px;
                     background: #1e8e3e;
-                    color: white;
-                    border-radius: 20px;
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                    letter-spacing: 1px;
+                    border-radius: 50%;
+                    box-shadow: 0 0 0 rgba(30, 142, 62, 0.4);
+                    animation: pulse 2s infinite;
                 }
-                .links {
+                @keyframes pulse {
+                    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(30, 142, 62, 0.7); }
+                    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(30, 142, 62, 0); }
+                    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(30, 142, 62, 0); }
+                }
+                .status-label {
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    color: #4cd964;
+                }
+                .endpoints {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 15px;
                     margin-top: 30px;
                 }
-                a {
-                    color: #a4b4b0;
+                .card {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 16px;
+                    padding: 20px;
                     text-decoration: none;
-                    font-size: 0.9rem;
-                    margin: 0 10px;
-                    transition: color 0.3s;
+                    color: inherit;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    border: 1px solid transparent;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 8px;
                 }
-                a:hover {
-                    color: #d9774a;
+                .card:hover {
+                    background: rgba(217, 119, 74, 0.1);
+                    border-color: var(--accent);
+                    transform: translateY(-5px);
+                }
+                .card i { font-size: 1.2rem; display: block; }
+                .card span { font-size: 0.8rem; font-weight: 600; }
+                .card small { font-size: 0.7rem; opacity: 0.5; }
+                
+                .footer {
+                    margin-top: 40px;
+                    font-size: 0.75rem;
+                    opacity: 0.4;
                 }
             </style>
         </head>
         <body>
-            <div class="container">
-                <h1>Tasty Bites</h1>
-                <p>Premium Restaurant Management API</p>
-                <div class="status-badge">SYSTEMS OPERATIONAL</div>
-                <div class="links">
-                    <a href="/api/health">Health Check</a>
-                    <a href="/api/health?smtp=true">Verify Email</a>
+            <div class="dashboard">
+                <div class="logo">Tasty Bites</div>
+                <div class="subtitle">API INFRASTRUCTURE</div>
+                
+                <div class="status-container">
+                    <div class="pulse"></div>
+                    <div class="status-label">FULLY OPERATIONAL</div>
+                </div>
+
+                <div class="endpoints">
+                    <a href="/api/health" class="card">
+                        <span>🛰️ CORE HEALTH</span>
+                        <small>System diagnostics</small>
+                    </a>
+                    <a href="/api/health?smtp=true" class="card">
+                        <span>📧 SMTP SENSOR</span>
+                        <small>Email verify link</small>
+                    </a>
+                    <a href="https://tasty-bites-restaurant-ten.vercel.app/" target="_blank" class="card">
+                        <span>🌐 CLIENT UI</span>
+                        <small>Public Website</small>
+                    </a>
+                    <a href="https://tasty-bites-restaurant-ten.vercel.app/admin" target="_blank" class="card">
+                        <span>🛡️ ADMIN PANEL</span>
+                        <small>Management Suite</small>
+                    </a>
+                </div>
+
+                <div class="footer">
+                    PRODUCTION ENVIRONMENT • SSL SECURE • V2.1.0
                 </div>
             </div>
         </body>
