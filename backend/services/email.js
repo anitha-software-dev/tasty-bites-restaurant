@@ -4,15 +4,16 @@ dotenv.config();
 
 // Standard SMTP transporter configuration
 const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '465'),
-    secure: process.env.SMTP_SECURE !== 'false', // Default true for 465
+    service: 'gmail', // Let nodemailer handle host/port/secure for Gmail
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
     },
-    // Force IPv4 to avoid ENETUNREACH issues on cloud providers like Render
+    // Force IPv4 and bypass strict TLS to avoid Render network delays/blocks
     family: 4,
+    tls: {
+        rejectUnauthorized: false
+    },
     connectionTimeout: 20000,
     greetingTimeout: 20000, 
     socketTimeout: 30000,
