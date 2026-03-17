@@ -26,6 +26,7 @@ import OrderTypeModal from './components/OrderTypeModal';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
+import AdminApp from './admin/AdminApp';
 
 const AppContent = () => {
     const { isOrderTypeModalOpen, setIsOrderTypeModalOpen } = useCart();
@@ -57,6 +58,7 @@ const AppContent = () => {
                         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                         <Route path="/terms-conditions" element={<TermsConditions />} />
                         <Route path="/return-cancellation" element={<ReturnCancellation />} />
+                        <Route path="/admin/*" element={<AdminApp />} />
                     </Routes>
                 </main>
 

@@ -99,9 +99,9 @@
 }
 
 .flatpickr-input[readonly] {
-  @apply !bg-gray-50 cursor-pointer;
+  @apply cursor-pointer;
 }
 
 .flatpickr-input[readonly]:focus {
-  @apply !bg-white;
+  @apply outline-none;
 }

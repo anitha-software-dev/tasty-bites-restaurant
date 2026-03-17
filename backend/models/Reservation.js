@@ -13,6 +13,10 @@ const Reservation = sequelize.define('Reservation', {
     specialRequests: { type: DataTypes.TEXT, defaultValue: '' },
     status: { type: DataTypes.ENUM('Pending', 'Upcoming', 'Confirmed', 'Completed', 'Cancelled'), defaultValue: 'Pending' },
     bookingRef: { type: DataTypes.STRING, unique: true }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'reservations'
+});
 
 export default Reservation;

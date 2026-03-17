@@ -11,6 +11,10 @@ const Address = sequelize.define('Address', {
     city: { type: DataTypes.STRING, allowNull: false },
     state: { type: DataTypes.STRING, defaultValue: '' },
     zip: { type: DataTypes.STRING, allowNull: false }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'addresses'
+});
 
 export default Address;

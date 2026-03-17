@@ -7,6 +7,10 @@ const User = sequelize.define('User', {
     password: { type: DataTypes.STRING, allowNull: false },
     phone: { type: DataTypes.STRING, defaultValue: '' },
     role: { type: DataTypes.ENUM('admin', 'user'), defaultValue: 'admin' }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'users'
+});
 
 export default User;

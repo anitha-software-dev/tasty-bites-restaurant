@@ -16,6 +16,8 @@ frontend/dist/
 .env.test.local
 .env.production.local
 backend/.env
+frontend/.env
+admin/.env
 
 # Databases
 *.sqlite

@@ -16,6 +16,10 @@ const Order = sequelize.define('Order', {
     tableNumber: { type: DataTypes.STRING, allowNull: true },
     collectionTime: { type: DataTypes.STRING, defaultValue: '' },
     instructions: { type: DataTypes.TEXT, defaultValue: '' }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'orders'
+});
 
 export default Order;

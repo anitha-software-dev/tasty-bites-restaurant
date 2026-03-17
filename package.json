@@ -5,14 +5,12 @@
   "type": "module",
   "workspaces": [
     "backend",
-    "frontend",
-    "admin"
+    "frontend"
   ],
   "scripts": {
     "dev:frontend": "cd frontend && npm run dev",
-    "dev:admin": "cd admin && npm run dev",
     "dev:backend": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:admin\"",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "install:all": "npm install",
     "seed": "npm run seed --workspace=backend"
   },

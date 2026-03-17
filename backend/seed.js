@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { sequelize, User, MenuItem, Testimonial, FAQ } from './models/index.js';
+import { sequelize, User, MenuItem, Testimonial, FAQ, Category } from './models/index.js';
 import { fileURLToPath } from 'url';
 
 export const seed = async (exitOnComplete = false) => {
@@ -18,18 +18,31 @@ export const seed = async (exitOnComplete = false) => {
         });
         console.log('✅ Admin user created (admin@tastybites.com / admin123)');
 
+        // Seed Categories
+        const categories = [
+            { name: 'NON-VEG' },
+            { name: 'VEG' },
+            { name: 'BIRIYANI' },
+            { name: 'SIGNATURES' },
+            { name: 'CURRIES' },
+            { name: 'SEA FOOD' },
+            { name: 'RICE AND BREADS' }
+        ];
+        await Category.bulkCreate(categories);
+        console.log(`✅ ${categories.length} categories seeded`);
+
         // Seed menu items
         const menuItems = [
-            { name: 'Classic Masala Dosa', category: 'veg', description: 'Crispy rice and lentil crepe with potato masala.', price: 8.50, image: '/images/masal-dosa.jpg', popular: true, vegetarian: true, dairyFree: false, glutenFree: true, type: 'veg' },
-            { name: 'Chicken Tikka Dosa', category: 'non-veg', description: 'Spicy chicken tikka stuffed in a crispy dosa.', price: 10.95, image: '/images/chicken-65.jpg', popular: true, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' },
-            { name: 'Mysore Masala Dosa', category: 'signatures', description: 'Spicy red chutney with potato filling.', price: 9.25, image: '/images/mysore-dosa.png', popular: true, vegetarian: true, dairyFree: false, glutenFree: true, type: 'veg' },
-            { name: 'Chettinad Fish Curry', category: 'sea food', description: 'Traditional spicy fish curry from Chettinad.', price: 14.50, image: '/images/prawns-&-egg-curry--bagara-rice--1-drink.jpg', popular: false, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' },
-            { name: 'Paneer Butter Masala', category: 'curries', description: 'Cottage cheese in rich tomato gravy.', price: 11.95, image: '/images/paneer-butter-masala.jpg', popular: true, vegetarian: true, dairyFree: false, glutenFree: true, type: 'veg' },
-            { name: 'Hyderabadi Chicken Biriyani', category: 'Biriyani', description: 'Aromatic basmati rice cooked with spiced chicken.', price: 13.50, image: '/images/chicken-briyani.jpg', popular: true, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' },
-            { name: 'Lemon Rice', category: 'rice and breads', description: 'Tangy lemon-flavored basmati rice.', price: 5.50, image: '/images/ghee-rice.jpg', popular: false, vegetarian: true, dairyFree: true, glutenFree: true, type: 'veg' },
-            { name: 'Kerala Parotta', category: 'Parotta and Idiyappam', description: 'Flaky, layered flatbread from Kerala.', price: 3.50, image: '/images/onion-pakoda.jpg', popular: true, vegetarian: true, dairyFree: false, glutenFree: false, type: 'veg' },
-            { name: 'String Hoppers (Idiyappam)', category: 'Parotta and Idiyappam', description: 'Steamed rice flour noodles.', price: 4.50, image: '/images/medhu-vada.jpg', popular: false, vegetarian: true, dairyFree: true, glutenFree: true, type: 'veg' },
-            { name: 'Mutton Chukka', category: 'non-veg', description: 'Dry roasted spicy mutton chunks.', price: 15.50, image: '/images/gongura-mutton.jpg', popular: true, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' }
+            { name: 'Classic Masala Dosa', category: 'VEG', description: 'Crispy rice and lentil crepe with potato masala.', price: 8.50, image: '/images/masal-dosa.jpg', popular: true, vegetarian: true, dairyFree: false, glutenFree: true, type: 'veg' },
+            { name: 'Chicken Tikka Dosa', category: 'NON-VEG', description: 'Spicy chicken tikka stuffed in a crispy dosa.', price: 10.95, image: '/images/chicken-65.jpg', popular: true, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' },
+            { name: 'Mysore Masala Dosa', category: 'SIGNATURES', description: 'Spicy red chutney with potato filling.', price: 9.25, image: '/images/mysore-dosa.png', popular: true, vegetarian: true, dairyFree: false, glutenFree: true, type: 'veg' },
+            { name: 'Chettinad Fish Curry', category: 'SEA FOOD', description: 'Traditional spicy fish curry from Chettinad.', price: 14.50, image: '/images/prawns-&-egg-curry--bagara-rice--1-drink.jpg', popular: false, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' },
+            { name: 'Paneer Butter Masala', category: 'CURRIES', description: 'Cottage cheese in rich tomato gravy.', price: 11.95, image: '/images/paneer-butter-masala.jpg', popular: true, vegetarian: true, dairyFree: false, glutenFree: true, type: 'veg' },
+            { name: 'Hyderabadi Chicken Biriyani', category: 'BIRIYANI', description: 'Aromatic basmati rice cooked with spiced chicken.', price: 13.50, image: '/images/chicken-briyani.jpg', popular: true, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' },
+            { name: 'Lemon Rice', category: 'RICE AND BREADS', description: 'Tangy lemon-flavored basmati rice.', price: 5.50, image: '/images/ghee-rice.jpg', popular: false, vegetarian: true, dairyFree: true, glutenFree: true, type: 'veg' },
+            { name: 'Kerala Parotta', category: 'RICE AND BREADS', description: 'Flaky, layered flatbread from Kerala.', price: 3.50, image: '/images/onion-pakoda.jpg', popular: true, vegetarian: true, dairyFree: false, glutenFree: false, type: 'veg' },
+            { name: 'String Hoppers (Idiyappam)', category: 'RICE AND BREADS', description: 'Steamed rice flour noodles.', price: 4.50, image: '/images/medhu-vada.jpg', popular: false, vegetarian: true, dairyFree: true, glutenFree: true, type: 'veg' },
+            { name: 'Mutton Chukka', category: 'NON-VEG', description: 'Dry roasted spicy mutton chunks.', price: 15.50, image: '/images/gongura-mutton.jpg', popular: true, vegetarian: false, dairyFree: true, glutenFree: true, type: 'nonveg' }
         ];
 
         await MenuItem.bulkCreate(menuItems);

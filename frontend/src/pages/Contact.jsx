@@ -95,7 +95,7 @@ const Contact = () => {
             {/* Background Layer */}
             <div className="fixed inset-0 z-0">
                 <img 
-                    src="/images/hero-bg.png" 
+                    src="/images/contact-bg.png" 
                     alt="Background" 
                     className="w-full h-full object-cover scale-105"
                 />
@@ -118,8 +118,8 @@ const Contact = () => {
                                 <span className="text-sm font-bold uppercase tracking-widest">Connect With Us</span>
                             </motion.div>
                             
-                            <motion.h1 variants={itemVariants} className="text-5xl md:text-8xl font-playfair text-white mb-6 leading-tight">
-                                Get In <span className="text-primary italic text-6xl md:text-9xl ml-2">Touch</span>
+                            <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-playfair text-white mb-6 leading-tight">
+                                Get In <span className="text-primary italic text-5xl md:text-7xl ml-2">Touch</span>
                             </motion.h1>
                             
                             <motion.p variants={itemVariants} className="text-white/70 text-lg leading-relaxed max-w-2xl mx-auto">

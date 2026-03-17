@@ -9,6 +9,10 @@ const Testimonial = sequelize.define('Testimonial', {
     date: { type: DataTypes.STRING, allowNull: false }, // Store as formatted string like 'October 2025'
     approved: { type: DataTypes.BOOLEAN, defaultValue: true }, // Legacy field
     status: { type: DataTypes.ENUM('Pending', 'Approved', 'Featured', 'Rejected'), defaultValue: 'Pending' }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'testimonials'
+});
 
 export default Testimonial;

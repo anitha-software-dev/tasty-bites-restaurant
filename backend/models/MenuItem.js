@@ -6,12 +6,16 @@ const MenuItem = sequelize.define('MenuItem', {
     category: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT, defaultValue: '' },
     price: { type: DataTypes.FLOAT, allowNull: false },
-    image: { type: DataTypes.STRING, defaultValue: '' },
+    image: { type: DataTypes.TEXT, defaultValue: '' },
     popular: { type: DataTypes.BOOLEAN, defaultValue: false },
     vegetarian: { type: DataTypes.BOOLEAN, defaultValue: false },
     dairyFree: { type: DataTypes.BOOLEAN, defaultValue: false },
     glutenFree: { type: DataTypes.BOOLEAN, defaultValue: false },
     type: { type: DataTypes.ENUM('veg', 'nonveg'), defaultValue: 'veg' }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'menu_items'
+});
 
 export default MenuItem;

@@ -13,6 +13,7 @@ import contactRoutes from './routes/contact.js';
 import cateringRoutes from './routes/catering.js';
 import testimonialsRoutes from './routes/testimonials.js';
 import faqsRoutes from './routes/faqs.js';
+import categoryRoutes from './routes/categories.js';
 import { verifyConnection } from './services/email.js';
 
 dotenv.config();
@@ -104,11 +105,12 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/catering', cateringRoutes);
 app.use('/api/testimonials', testimonialsRoutes);
 app.use('/api/faqs', faqsRoutes);
+app.use('/api/categories', categoryRoutes);
 
-// Start server (for local development)
-if (process.env.NODE_ENV !== 'production' && !process.env.VITE_VERCEL_ENV) {
-    app.listen(PORT, () => {
-        console.log(`🚀 Tasty Bites API running on http://localhost:${PORT}`);
+// Start server
+if (!process.env.VITE_VERCEL_ENV) {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`🚀 Tasty Bites API running on port ${PORT}`);
     });
 }
 

@@ -11,6 +11,10 @@ const CateringEnquiry = sequelize.define('CateringEnquiry', {
     budget: { type: DataTypes.STRING, defaultValue: '' },
     details: { type: DataTypes.TEXT, defaultValue: '' },
     status: { type: DataTypes.STRING, defaultValue: 'New' }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'catering_enquiries'
+});
 
 export default CateringEnquiry;

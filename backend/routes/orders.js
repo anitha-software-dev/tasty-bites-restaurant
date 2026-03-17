@@ -2,6 +2,8 @@ import express from 'express';
 import { Order, User } from '../models/index.js';
 import { authenticate, optionalAuth } from '../middleware/auth.js';
 import { sendOrderConfirmation } from '../services/email.js';
+import path from 'path';
+import fs from 'fs';
 
 const router = express.Router();
 
@@ -177,6 +179,34 @@ router.patch('/:orderId/status', authenticate, async (req, res) => {
         res.json({ success: true, status: order.status });
     } catch (err) {
         console.error('Update order status error:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// ADMIN: PUT /api/orders/:orderId (Full order update)
+router.put('/:orderId', authenticate, async (req, res) => {
+    try {
+        const user = await User.findByPk(req.userId);
+        if (user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
+
+        const order = await Order.findOne({ where: { id: req.params.orderId } });
+        if (!order) return res.status(404).json({ error: 'Order not found' });
+
+        // Allowed fields for update
+        const { customerName, customerPhone, orderType, tableNumber, instructions, status } = req.body;
+        
+        await order.update({
+            customerName,
+            customerPhone,
+            orderType,
+            tableNumber,
+            instructions,
+            status
+        });
+
+        res.json({ success: true, order });
+    } catch (err) {
+        console.error('Update order error:', err);
         res.status(500).json({ error: 'Server error' });
     }
 });

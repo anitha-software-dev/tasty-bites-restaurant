@@ -5,6 +5,10 @@ const FAQ = sequelize.define('FAQ', {
     category: { type: DataTypes.STRING, allowNull: false },
     question: { type: DataTypes.STRING, allowNull: false },
     answer: { type: DataTypes.TEXT, allowNull: false }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'faqs'
+});
 
 export default FAQ;

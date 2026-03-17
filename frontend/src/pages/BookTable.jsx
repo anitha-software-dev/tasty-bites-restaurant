@@ -167,7 +167,7 @@ const BookTable = () => {
             {/* Background Layer */}
             <div className="fixed inset-0 z-0">
                 <img 
-                    src="/images/hero-bg.png" 
+                    src="/images/booking-bg.png" 
                     alt="Background" 
                     className="w-full h-full object-cover scale-105"
                 />
@@ -266,13 +266,13 @@ const BookTable = () => {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-3 relative z-[50]">
+                                    <div className="space-y-3 relative z-[60]">
                                         <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Phone Number</label>
                                         <div className={`p-0.5 rounded-2xl transition-all ${errors.phone ? 'bg-red-500/20 border-red-500/50' : 'bg-transparent'}`}>
                                             <PhoneInput
                                                 value={formData.phone}
                                                 onChange={handlePhoneChange}
-                                                dropdownDirection="top"
+                                                dropdownDirection="bottom"
                                                 className="rounded-2xl overflow-hidden bg-white/20 border-2 border-white/30 focus-within:ring-4 focus-within:ring-primary/10 focus-within:border-primary/60 backdrop-blur-md shadow-lg"
                                                 inputClassName="!py-4 text-white placeholder:text-white/60 font-medium"
                                             />
@@ -298,8 +298,8 @@ const BookTable = () => {
                                                         dateFormat: 'Y-m-d',
                                                         disableMobile: true
                                                     }}
-                                                    className={`w-full pl-16 pr-6 py-4 !bg-white/20 border-2 ${errors.date ? 'border-red-500/50' : 'border-white/30 focus:border-primary/60'} rounded-2xl text-white placeholder:text-white/60 focus:ring-4 focus:ring-primary/10 transition-all outline-none cursor-pointer backdrop-blur-md shadow-lg font-medium`}
-                                                    placeholder="Pick a date"
+                                                    className={`w-full pl-16 pr-6 py-4 !bg-white/20 border-2 ${errors.date ? 'border-red-500/50' : 'border-white/30 focus:border-primary/60'} rounded-2xl text-white placeholder:text-white/80 focus:ring-4 focus:ring-primary/10 transition-all outline-none cursor-pointer backdrop-blur-md shadow-lg font-medium`}
+                                                    placeholder="Select Date"
                                                 />
                                             </div>
                                             {errors.date && <p className="text-red-400 text-[10px] font-bold uppercase tracking-wider ml-1">{errors.date}</p>}

@@ -6,15 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
+    strictPort: true,
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true
-      },
-      '/admin': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        rewrite: (path) => path.startsWith('/admin') ? path : `/admin${path}`
       }
     }
   }

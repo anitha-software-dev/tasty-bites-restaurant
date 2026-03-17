@@ -34,6 +34,7 @@ export default {
             fontFamily: {
                 'playfair': ['"Playfair Display"', 'serif'],
                 'poppins': ['"Poppins"', 'sans-serif'],
+                'outfit': ['"Outfit"', 'sans-serif'],
             },
             boxShadow: {
                 'premium': '0 10px 40px rgba(0, 0, 0, 0.08)',

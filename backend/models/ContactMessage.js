@@ -7,6 +7,10 @@ const ContactMessage = sequelize.define('ContactMessage', {
     phone: { type: DataTypes.STRING, defaultValue: '' },
     subject: { type: DataTypes.STRING, defaultValue: 'General Inquiry' },
     message: { type: DataTypes.TEXT, allowNull: false }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    freezeTableName: true,
+    tableName: 'contact_messages'
+});
 
 export default ContactMessage;
