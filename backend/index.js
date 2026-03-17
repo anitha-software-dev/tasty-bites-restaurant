@@ -31,12 +31,92 @@ let initializationPromise = null;
 
 // Root landing page
 app.get('/', (req, res) => {
-    res.send('<h1>Tasty Bites Backend is Running</h1><p>API endpoints are available at /api</p>');
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Tasty Bites API | Status</title>
+            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+            <style>
+                body {
+                    margin: 0;
+                    font-family: 'Poppins', sans-serif;
+                    background: linear-gradient(135deg, #1a2f2b 0%, #0d1a18 100%);
+                    color: #f0e6d2;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    text-align: center;
+                }
+                .container {
+                    padding: 40px;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    border-radius: 24px;
+                    border: 1px solid rgba(217, 119, 74, 0.2);
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+                    max-width: 500px;
+                    width: 90%;
+                }
+                h1 {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 3rem;
+                    margin: 0;
+                    color: #d9774a;
+                    font-style: italic;
+                }
+                p {
+                    font-size: 1.1rem;
+                    opacity: 0.8;
+                    margin: 20px 0;
+                }
+                .status-badge {
+                    display: inline-block;
+                    padding: 8px 16px;
+                    background: #1e8e3e;
+                    color: white;
+                    border-radius: 20px;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                }
+                .links {
+                    margin-top: 30px;
+                }
+                a {
+                    color: #a4b4b0;
+                    text-decoration: none;
+                    font-size: 0.9rem;
+                    margin: 0 10px;
+                    transition: color 0.3s;
+                }
+                a:hover {
+                    color: #d9774a;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Tasty Bites</h1>
+                <p>Premium Restaurant Management API</p>
+                <div class="status-badge">SYSTEMS OPERATIONAL</div>
+                <div class="links">
+                    <a href="/api/health">Health Check</a>
+                    <a href="/api/health?smtp=true">Verify Email</a>
+                </div>
+            </div>
+        </body>
+        </html>
+    `);
 });
 
 // Health check (Bypass DB initialization for pure server check)
 app.get('/api/health', async (req, res) => {
-    const smtpCheck = req.query.smtp === 'true';
+    // Robust check for smtp parameter (handles encoded '=' or boolean values)
+    const smtpCheck = req.query.smtp === 'true' || Object.keys(req.query).some(k => k.includes('smtp') && (k.includes('true') || req.query[k] === 'true'));
     let smtpStatus = 'not checked';
     
     if (smtpCheck) {
