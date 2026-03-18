@@ -8,10 +8,10 @@ import {
     Loader2, 
     X, 
     Save,
-    Grid,
     MoreVertical,
     AlertCircle,
     ImageIcon,
+    Layers,
     ChevronDown
 } from 'lucide-react';
 import { adminMenuApi, adminCategoriesApi } from '../services/adminApi';
@@ -238,7 +238,7 @@ const AdminCategoriesPage = () => {
                     >
                         <div className="flex items-start justify-between mb-4">
                             <div className="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 group-hover:bg-slate-900 group-hover:text-white transition-all">
-                                <Grid size={24} />
+                                <Layers size={21} />
                             </div>
                             <div className="flex items-center gap-2">
                                 <button 
@@ -269,7 +269,7 @@ const AdminCategoriesPage = () => {
                 )) : (
                     <div className="col-span-full py-40 flex flex-col items-center">
                         <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mb-6 text-slate-200">
-                            <Grid size={40} />
+                            <Layers size={40} />
                         </div>
                         <h3 className="text-xl font-bold text-slate-900">No Categories</h3>
                         <p className="text-sm text-slate-500 mt-2 text-center">Organize your menu by creating your first category.</p>

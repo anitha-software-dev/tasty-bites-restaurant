@@ -528,13 +528,13 @@ const AdminOrdersPage = () => {
             <div className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
                 <div className="flex flex-col xl:flex-row gap-6">
                     <div className="relative flex-1 group">
-                        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-admin-primary transition-colors" size={20} />
+                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={20} />
                         <input 
                             type="text" 
-                            placeholder="Enter Order ID or Customer Name..."
+                            placeholder="Enter order # or customer details..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-transparent rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-slate-200 outline-none transition-all shadow-sm"
+                            className="w-full pl-16 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-slate-200 outline-none transition-all shadow-sm placeholder:text-slate-400 placeholder:font-bold"
                         />
                     </div>
                     
