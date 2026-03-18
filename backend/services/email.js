@@ -77,19 +77,26 @@ const sendEmail = async (options) => {
                 cc,
                 replyTo
             };
-            await sgMail.send(msg);
+            const [response] = await sgMail.send(msg);
             console.log(`🚀 Email delivered via SendGrid API to ${to}`);
-            return true;
+            return { success: true, method: 'sendgrid', messageId: response.headers['x-message-id'] };
         } catch (error) {
-            console.error('❌ SendGrid API Error:', error.response ? error.response.body : error.message);
-            // Fallthrough to SMTP
+            const errorBody = error.response ? error.response.body : null;
+            const errorMessage = errorBody ? JSON.stringify(errorBody) : error.message;
+            console.error('❌ SendGrid API Error:', errorMessage);
+            
+            // If on Render, don't even try SMTP because it will 100% timeout and hang the request
+            if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
+                return { success: false, error: `SendGrid API Error: ${errorMessage}. (SMTP Fallback skipped on Render due to port blocks)` };
+            }
+            // Fallthrough to SMTP only on local
         }
     }
 
     // 2. Fallback to SMTP (Local Dev / Paid Render)
     try {
         const t = await getTransporter();
-        await t.sendMail({
+        const info = await t.sendMail({
             from: `"Tasty Bites" <${FROM_EMAIL}>`,
             to,
             cc,
@@ -98,10 +105,10 @@ const sendEmail = async (options) => {
             html,
         });
         console.log(`📧 Email delivered via SMTP to ${to}`);
-        return true;
+        return { success: true, method: 'smtp', messageId: info.messageId };
     } catch (error) {
         console.error("❌ Final Email Fallback Error:", error.message);
-        return false;
+        return { success: false, error: error.message };
     }
 };
 
@@ -150,11 +157,12 @@ export const verifyConnection = async () => {
 };
 
 export const sendTestEmail = async (targetEmail) => {
-    return await sendEmail({ 
+    const result = await sendEmail({ 
         to: targetEmail, 
         subject: "Tasty Bites - Delivery Test", 
-        html: `<h2>Success!</h2><p>Integrated Delivery System is Operational.</p>` 
+        html: `<h2>Success!</h2><p>Integrated Delivery System is Operational.</p><p>Method: ${SENDGRID_API_KEY ? 'SendGrid HTTP API' : 'SMTP'}</p>` 
     });
+    return result;
 };
 
 export default getTransporter;

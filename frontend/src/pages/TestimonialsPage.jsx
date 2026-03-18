@@ -60,45 +60,64 @@ const TestimonialsPage = () => {
     };
 
     return (
-        <div className="pt-14 min-h-screen bg-brand-cream/30">
+        <div className="pt-14 min-h-screen bg-slate-950">
             {/* Hero Section */}
-            <section className="bg-secondary py-24 relative overflow-hidden">
-                <div className="absolute inset-0 bg-primary/10" />
+            <section className="py-32 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-slate-950 to-slate-950" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
+                
                 <div className="container mx-auto px-6 text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="w-20 h-20 bg-accent rounded-full flex items-center justify-center text-secondary mx-auto mb-10 shadow-lg"
+                        className="w-24 h-24 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center text-accent mx-auto mb-10 shadow-2xl"
                     >
-                        <MessageCircle size={36} />
+                        <MessageCircle size={40} className="animate-pulse" />
                     </motion.div>
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-white font-playfair text-5xl md:text-7xl mb-6"
+                        className="text-white font-playfair text-6xl md:text-8xl mb-8 leading-tight"
                     >
-                        Guest <span className="text-accent italic">Experiences</span>
+                        Guest <span className="text-primary italic">Experiences</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="text-white/60 text-lg max-w-xl mx-auto font-light tracking-wide uppercase"
+                        className="text-white/60 text-sm md:text-base max-w-2xl mx-auto font-black uppercase tracking-[0.5em] leading-relaxed"
                     >
-                        Real stories from our beloved community
+                        Real stories from our beloved community & global food enthusiasts
                     </motion.p>
                 </div>
             </section>
 
             {/* Stats */}
-            <section className="bg-white py-12 border-b border-gray-100">
-                <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 text-center md:text-left">
-                    <div>
-                        <span className="text-4xl font-bold text-secondary">4.9 / 5.0</span>
-                        <p className="text-brand-text-light text-xs font-bold uppercase tracking-widest mt-1">Average Google Rating</p>
-                    </div>
-                    <div className="flex items-center space-x-1 text-accent">
-                        {[...Array(5)].map((_, i) => <Star key={i} size={24} fill="currentColor" />)}
+            <section className="py-16 relative">
+                <div className="container mx-auto px-6">
+                    <div className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[3rem] p-12 flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left shadow-2xl">
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-center md:justify-start gap-4">
+                                <span className="text-6xl font-black text-white tracking-tighter tabular-nums">4.9</span>
+                                <div className="text-left">
+                                    <div className="flex text-primary mb-1">
+                                        {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
+                                    </div>
+                                    <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">Global Satisfaction Index</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h-px w-24 bg-white/10 hidden md:block" />
+                        <div className="grid grid-cols-2 gap-12 text-white">
+                            <div>
+                                <div className="text-3xl font-black tracking-tight">500+</div>
+                                <div className="text-[10px] font-black uppercase tracking-widest text-white/40">Verified Reviews</div>
+                            </div>
+                            <div>
+                                <div className="text-3xl font-black tracking-tight">98%</div>
+                                <div className="text-[10px] font-black uppercase tracking-widest text-white/40">Loyalty Rate</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -123,18 +142,23 @@ const TestimonialsPage = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: (idx % 3) * 0.1 }}
-                                    className="bg-white p-10 rounded-[2rem] shadow-premium hover:shadow-2xl transition-all duration-500 border border-gray-50 flex flex-col h-full"
+                                    className="bg-white/5 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/10 hover:border-primary/30 transition-all duration-700 group flex flex-col h-full relative"
                                 >
-                                    <Quote className="text-primary/10 w-12 h-12 mb-6 flex-shrink-0" />
-                                    <div className="flex items-center space-x-1 text-accent mb-6 flex-shrink-0">
+                                    <Quote className="text-primary/10 w-16 h-16 absolute top-8 right-8 rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+                                    <div className="flex items-center space-x-1 text-primary mb-8">
                                         {[...Array(review.rating)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
                                     </div>
-                                    <p className="text-brand-text-dark text-lg italic leading-relaxed mb-8 flex-grow">
+                                    <p className="text-white/80 text-xl font-medium leading-relaxed italic mb-10 flex-grow relative z-10">
                                         "{review.text}"
                                     </p>
-                                    <div className="flex justify-between items-center pt-8 border-t border-gray-100 flex-shrink-0 mt-auto">
-                                        <span className="font-playfair text-xl text-secondary">{review.name}</span>
-                                        <span className="text-[10px] font-bold uppercase tracking-widest text-brand-text-light/50">{review.date}</span>
+                                    <div className="flex items-center gap-6 pt-8 border-t border-white/5">
+                                        <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary font-black uppercase italic tracking-widest text-xs">
+                                            {review.name.charAt(0)}
+                                        </div>
+                                        <div>
+                                            <div className="font-playfair text-xl text-white tracking-wide">{review.name}</div>
+                                            <div className="text-[10px] font-black uppercase tracking-widest text-white/30">{review.date}</div>
+                                        </div>
                                     </div>
                                 </motion.div>
                             ))}
@@ -144,92 +168,90 @@ const TestimonialsPage = () => {
             </section>
 
             {/* Review Form */}
-            <section id="review-form" className="py-20 bg-white">
-                <div className="container mx-auto px-6 max-w-2xl">
-                    <div className="text-center mb-12">
-                        <span className="text-primary font-semibold tracking-widest uppercase text-sm mb-4 block">Share Your Experience</span>
-                        <h2 className="text-3xl md:text-5xl font-playfair text-secondary">Leave a <span className="text-primary italic">Review</span></h2>
+            <section id="review-form" className="py-24 relative overflow-hidden">
+                <div className="container mx-auto px-6 max-w-4xl">
+                    <div className="text-center mb-16">
+                        <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block italic">Voices of Heritage</span>
+                        <h2 className="text-4xl md:text-6xl font-playfair text-white">Project Your <span className="text-primary italic">Narrative</span></h2>
                     </div>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="bg-brand-cream/30 p-8 md:p-12 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden"
+                        className="bg-white/5 backdrop-blur-3xl p-10 md:p-16 rounded-[3.5rem] border border-white/10 shadow-2xl relative overflow-hidden"
                     >
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
                         <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
-                            {/* Customer Name */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Your Name <span className="text-red-500">*</span></label>
-                                <input
-                                    type="text"
-                                    required
-                                    value={formData.name}
-                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white"
-                                    placeholder="John Doe"
-                                />
+                             {/* Grid Inputs */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 ml-4 mb-3 block">Full Identity *</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        className="w-full px-8 py-5 rounded-2xl bg-white/5 border-2 border-white/10 focus:border-primary focus:bg-white/10 transition-all font-bold text-white placeholder:text-white/20 outline-none"
+                                        placeholder="Enter your name"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 ml-4 mb-3 block">Review Category</label>
+                                    <select
+                                        value={formData.type}
+                                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                                        className="w-full px-8 py-5 rounded-2xl bg-white/5 border-2 border-white/10 focus:border-primary focus:bg-white/10 transition-all font-bold text-white appearance-none cursor-pointer outline-none"
+                                    >
+                                        {reviewTypes.map(t => <option key={t} value={t} className="bg-slate-900">{t}</option>)}
+                                    </select>
+                                </div>
                             </div>
 
-                            {/* Review Type */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Review Type</label>
-                                <select
-                                    value={formData.type}
-                                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white text-gray-700 appearance-none cursor-pointer"
-                                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '1.5em 1.5em' }}
-                                >
-                                    {reviewTypes.map(t => <option key={t} value={t}>{t}</option>)}
-                                </select>
-                            </div>
-
-                            {/* Star Rating */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-3">Star Rating <span className="text-red-500">*</span></label>
-                                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-2">
-                                    <div className="flex items-center space-x-2">
-                                        {[1, 2, 3, 4, 5].map((star) => (
-                                            <button
-                                                type="button"
-                                                key={star}
-                                                onClick={() => setFormData({ ...formData, rating: star })}
-                                                onMouseEnter={() => setHoverRating(star)}
-                                                onMouseLeave={() => setHoverRating(0)}
-                                                className="focus:outline-none transition-transform hover:scale-125"
-                                            >
-                                                <Star
-                                                    size={36}
-                                                    className={`transition-colors ${(hoverRating || formData.rating) >= star ? 'text-accent fill-accent' : 'text-gray-300'}`}
-                                                />
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <span className="sm:ml-4 text-sm text-gray-500 font-medium whitespace-nowrap pt-1 sm:pt-0">
-                                        {formData.rating > 0 ? `${formData.rating} / 5` : 'Select a rating'}
-                                    </span>
+                            {/* Premium Star Selector */}
+                            <div className="py-6 border-y border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 mb-2 block">Heritage Rating *</label>
+                                    <p className="text-xs text-white/30">Select the intensity of your journey</p>
+                                </div>
+                                <div className="flex items-center space-x-3">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <button
+                                            type="button"
+                                            key={star}
+                                            onClick={() => setFormData({ ...formData, rating: star })}
+                                            onMouseEnter={() => setHoverRating(star)}
+                                            onMouseLeave={() => setHoverRating(0)}
+                                            className="focus:outline-none group/star"
+                                        >
+                                            <Star
+                                                size={32}
+                                                className={`transition-all duration-300 transform group-hover/star:scale-125 ${(hoverRating || formData.rating) >= star ? 'text-primary fill-primary shadow-[0_0_20px_rgba(192,75,42,0.5)]' : 'text-white/10'}`}
+                                            />
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
 
                             {/* Review Text */}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Your Review <span className="text-red-500">*</span></label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/40 ml-4 mb-3 block">Your Perspective *</label>
                                 <textarea
                                     required
                                     rows="5"
                                     value={formData.text}
                                     onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                                    className="w-full px-5 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white resize-none"
-                                    placeholder="Tell us about your experience at Tasty Bites..."
+                                    className="w-full px-8 py-5 rounded-3xl bg-white/5 border-2 border-white/10 focus:border-primary focus:bg-white/10 transition-all font-bold text-white placeholder:text-white/20 resize-none outline-none"
+                                    placeholder="Detail your dream culinary landscape..."
                                 />
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`w-full btn-primary py-4 text-lg rounded-xl flex items-center justify-center ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}
+                                className={`w-full py-6 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.5em] text-xs shadow-2xl hover:bg-white hover:text-primary transition-all flex items-center justify-center gap-6 ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}
                             >
                                 {isSubmitting ? (
                                     <>
@@ -244,25 +266,25 @@ const TestimonialsPage = () => {
             </section>
 
             {/* Ready to Try CTA Section */}
-            <section className="py-24 bg-secondary relative overflow-hidden">
-                <div className="absolute inset-0 bg-primary/5" />
+            <section className="py-24 relative overflow-hidden border-t border-white/5">
+                <div className="absolute inset-0 bg-slate-900" />
                 <div className="container mx-auto px-6 text-center relative z-10">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-6xl font-playfair text-white mb-6"
+                        className="text-4xl md:text-6xl font-playfair text-white mb-8"
                     >
-                        Ready to <span className="text-accent italic">Try?</span>
+                        Ready to <span className="text-primary italic">Ascend?</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light"
+                        className="text-white/50 text-base md:text-lg max-w-2xl mx-auto mb-12 font-medium tracking-[0.2em] uppercase"
                     >
-                        Join our happy customers and experience authentic flavors
+                        Join our elite community and experience the pinnacle of artisanal dining
                     </motion.p>
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -272,10 +294,9 @@ const TestimonialsPage = () => {
                     >
                         <Link
                             to="/menu"
-                            className="inline-flex items-center space-x-3 bg-primary text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-accent hover:text-secondary transition-all shadow-xl group"
+                            className="btn-primary !px-12 !py-6 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-xs"
                         >
-                            <span>Order Now</span>
-                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                            EXPLORE THE HERITAGE MENU
                         </Link>
                     </motion.div>
                 </div>
