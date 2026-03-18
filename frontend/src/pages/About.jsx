@@ -117,7 +117,8 @@ const About = () => {
                         alt="Our Story" 
                         className="w-full h-full object-cover scale-110"
                     />
-                    <div className="absolute inset-0 bg-secondary/80 mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/80" />
                 </motion.div>
 
                 <div className="container mx-auto relative z-10 px-6 text-center">
@@ -262,7 +263,7 @@ const About = () => {
             </section>
             
             {/* CTA Section */}
-            <section className="py-24 bg-secondary text-white text-center relative overflow-hidden">
+            <section className="py-24 bg-slate-900 text-white text-center relative overflow-hidden border-t border-white/5">
                 <div className="absolute inset-0 opacity-10">
                     <img src="/images/hero-bg.png" alt="Pattern" className="w-full h-full object-cover" />
                 </div>

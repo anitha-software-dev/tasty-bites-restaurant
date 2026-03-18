@@ -98,7 +98,7 @@ const BookTable = () => {
     };
 
     return (
-        <div className="relative min-h-screen overflow-hidden">
+        <div className="min-h-screen bg-slate-900 relative py-20 overflow-hidden border-t border-white/5">
             {/* Success Modal */}
             <AnimatePresence>
                 {isConfirmed && (
@@ -167,12 +167,12 @@ const BookTable = () => {
             {/* Background Layer */}
             <div className="fixed inset-0 z-0">
                 <img 
-                    src="/images/booking-bg.png" 
+                    src="/images/booking_bg_modern.png" 
                     alt="Background" 
                     className="w-full h-full object-cover scale-105"
                 />
-                <div className="absolute inset-0 bg-secondary/90 backdrop-blur-[2px]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-secondary/60 via-transparent to-secondary" />
+                <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/80" />
             </div>
 
             <div className="relative z-10 pt-32 pb-24 min-h-screen flex items-center justify-center">
@@ -226,7 +226,7 @@ const BookTable = () => {
                             variants={formVariants}
                             className="lg:col-span-7"
                         >
-                            <div className="bg-white/[0.08] backdrop-blur-[25px] rounded-[3rem] p-8 md:p-12 border border-white/20 shadow-[0_25px_50px_rgba(0,0,0,0.4)] relative overflow-hidden group">
+                            <div className="bg-slate-900/40 backdrop-blur-[40px] rounded-[3.5rem] p-8 md:p-14 border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative overflow-hidden group">
                                 {/* Decorative Gradients and Blobs */}
                                 <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/30 rounded-full blur-[80px] transition-transform group-hover:scale-125 duration-1000" />
                                 <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-accent/20 rounded-full blur-[80px] transition-transform group-hover:scale-125 duration-1000" />

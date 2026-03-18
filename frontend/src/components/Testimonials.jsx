@@ -29,7 +29,7 @@ const reviews = [
 
 const Testimonials = () => {
     return (
-        <section className="section-padding bg-secondary relative overflow-hidden">
+        <section className="section-padding bg-slate-950 relative overflow-hidden">
             {/* Background patterns */}
             <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
                 <div className="absolute top-10 left-10 w-96 h-96 border border-white/20 rounded-full" />

@@ -91,16 +91,16 @@ const Contact = () => {
     };
 
     return (
-        <div className="relative min-h-screen overflow-hidden">
+        <div className="min-h-screen bg-slate-900 relative py-20 overflow-hidden border-t border-white/5">
             {/* Background Layer */}
             <div className="fixed inset-0 z-0">
                 <img 
-                    src="/images/contact-bg.png" 
+                    src="/images/contact_bg_modern.png" 
                     alt="Background" 
                     className="w-full h-full object-cover scale-105"
                 />
-                <div className="absolute inset-0 bg-secondary/90 backdrop-blur-[2px]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-secondary/60 via-transparent to-secondary" />
+                <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/80" />
             </div>
 
             <div className="relative z-10 pt-32 pb-24 min-h-screen flex items-center justify-center">
@@ -134,7 +134,7 @@ const Contact = () => {
                                 { icon: Phone, label: "Call Us", value: "+44 1792 951309" },
                                 { icon: Mail, label: "Email Us", value: "tastybitesrestaurant7@gmail.com" }
                             ].map((info, idx) => (
-                                <div key={idx} className="bg-white/[0.05] backdrop-blur-xl rounded-3xl p-8 border border-white/10 group hover:border-primary/40 transition-all duration-500 shadow-xl flex items-start space-x-5">
+                                <div key={idx} className="bg-slate-900/40 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-white/10 group hover:border-primary/40 transition-all duration-500 shadow-2xl flex items-start space-x-5">
                                     <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
                                         <info.icon size={24} />
                                     </div>
@@ -146,7 +146,7 @@ const Contact = () => {
                             ))}
 
                             {/* Hours Card */}
-                            <div className="bg-white/[0.05] backdrop-blur-xl rounded-3xl p-8 border border-white/10 group hover:border-primary/40 transition-all duration-500 shadow-xl overflow-hidden relative">
+                            <div className="bg-slate-900/40 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-white/10 group hover:border-primary/40 transition-all duration-500 shadow-2xl overflow-hidden relative">
                                 <div className="absolute -right-8 -bottom-8 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000" />
                                 <h3 className="text-xl font-playfair text-white mb-6">Service <span className="text-primary italic">Hours</span></h3>
                                 <div className="space-y-4">
@@ -166,7 +166,7 @@ const Contact = () => {
 
                         {/* Form Section */}
                         <motion.div variants={itemVariants} className="lg:col-span-8">
-                            <div className="bg-white/[0.08] backdrop-blur-[30px] rounded-[3rem] p-8 md:p-14 border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.4)] relative overflow-hidden group">
+                            <div className="bg-slate-900/40 backdrop-blur-[40px] rounded-[3.5rem] p-8 md:p-14 border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative overflow-hidden group">
                                 {/* Interactive Blobs */}
                                 <div className="absolute -top-24 -right-24 w-80 h-80 bg-primary/20 rounded-full blur-[100px] transition-transform group-hover:scale-125 duration-1000" />
                                 <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-accent/10 rounded-full blur-[100px] transition-transform group-hover:scale-125 duration-1000" />

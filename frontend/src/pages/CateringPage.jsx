@@ -117,11 +117,12 @@ const CateringPage = () => {
                     className="absolute inset-0 z-0"
                 >
                     <img 
-                        src="/images/catering-hero.png" 
+                        src="/images/catering_bg_modern.png" 
                         alt="Luxurious Indian Catering" 
                         className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-secondary/80 via-secondary/40 to-brand-cream" />
+                    <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-transparent to-slate-950/80" />
                 </motion.div>
 
                 <div className="container relative z-10 text-center px-6 mt-[-10vh]">
@@ -239,8 +240,8 @@ const CateringPage = () => {
                                         <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
                                             {item.icon}
                                         </div>
-                                        <h4 className="text-xl font-playfair text-secondary">{item.title}</h4>
-                                        <p className="text-sm text-brand-text-light font-medium leading-relaxed">{item.desc}</p>
+                                        <h4 className="text-xl font-playfair text-slate-900">{item.title}</h4>
+                                        <p className="text-sm text-slate-600 font-medium leading-relaxed">{item.desc}</p>
                                     </div>
                                 ))}
                             </div>
@@ -267,8 +268,8 @@ const CateringPage = () => {
                                 whileHover={{ scale: 1.02 }}
                                 className={`relative p-12 rounded-[3.5rem] border transition-all duration-500 cursor-pointer flex flex-col ${
                                     activePackage === tier.id 
-                                    ? 'bg-secondary text-white shadow-2xl border-transparent' 
-                                    : 'bg-brand-cream/40 text-secondary border-secondary/5 h-[95%] mt-auto'
+                                    ? 'bg-slate-900 text-white shadow-2xl border-white/10' 
+                                    : 'bg-brand-cream/40 text-slate-900 border-slate-900/5 h-[95%] mt-auto'
                                 }`}
                             >
                                 {tier.popular && (
@@ -306,9 +307,9 @@ const CateringPage = () => {
                                     whileHover={{ gap: '1rem' }}
                                     className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all ${
                                         activePackage === tier.id 
-                                        ? 'bg-white text-secondary' 
-                                        : 'bg-secondary text-white'
-                                    }`}
+                                    ? 'bg-white text-slate-900' 
+                                    : 'bg-slate-900 text-white'
+                                }`}
                                 >
                                     Select This Collection <ChevronRight size={16} />
                                 </motion.a>
@@ -319,7 +320,7 @@ const CateringPage = () => {
             </section>
 
             {/* Modern Logic Inquiry Form */}
-            <section id="inquiry-form" className="py-24 bg-secondary relative overflow-hidden">
+            <section id="inquiry-form" className="py-24 bg-slate-900 relative overflow-hidden border-t border-white/5">
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[200px] -translate-y-1/2 translate-x-1/4" />
                 <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/4" />
                 
@@ -356,11 +357,11 @@ const CateringPage = () => {
                             </div>
                         </div>
 
-                        <div className="lg:w-3/5 w-full bg-white rounded-3xl p-8 md:p-12 shadow-[0_40px_80px_rgba(0,0,0,0.3)] border border-white/10">
+                        <div className="lg:w-3/5 w-full bg-slate-900/40 backdrop-blur-[40px] rounded-[3.5rem] p-8 md:p-14 border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
                             <form onSubmit={handleSubmit} className="space-y-10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Full Identity *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Full Identity *</label>
                                         <div className="relative group">
                                             <User className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -370,12 +371,12 @@ const CateringPage = () => {
                                                 value={formData.fullName}
                                                 onChange={handleChange}
                                                 placeholder="Arthur Pendragon" 
-                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                                className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-2xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white placeholder:text-white/20 shadow-sm text-sm"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Digital Mail *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Digital Mail *</label>
                                         <div className="relative group">
                                             <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -385,7 +386,7 @@ const CateringPage = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 placeholder="legend@royal.com" 
-                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                                className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-2xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white placeholder:text-white/20 shadow-sm text-sm"
                                             />
                                         </div>
                                     </div>
@@ -393,13 +394,13 @@ const CateringPage = () => {
 
                                 <div className="grid grid-cols-1 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Secure Phone *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Secure Phone *</label>
                                         <div className="shadow-sm rounded-2xl">
                                             <PhoneInput 
                                                 value={formData.phone}
                                                 onChange={handlePhoneChange}
-                                                className="bg-brand-cream/30 border-none rounded-2xl focus-within:ring-0 focus-within:bg-white"
-                                                inputClassName="font-bold text-secondary placeholder:text-secondary/10 text-sm"
+                                                className="bg-white/20 border-2 border-white/10 rounded-2xl focus-within:ring-0 focus-within:bg-white/30"
+                                                inputClassName="font-bold text-white placeholder:text-white/20 text-sm"
                                                 isDark={true}
                                             />
                                         </div>
@@ -408,14 +409,14 @@ const CateringPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Vision Category</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Vision Category</label>
                                         <div className="relative group">
                                             <Award className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <select 
                                                 name="eventType"
                                                 value={formData.eventType}
                                                 onChange={handleChange}
-                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary appearance-none cursor-pointer shadow-sm text-sm"
+                                                className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-2xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white appearance-none cursor-pointer shadow-sm text-sm"
                                             >
                                                 <option>Corporate Gala</option>
                                                 <option>Grand Wedding</option>
@@ -426,7 +427,7 @@ const CateringPage = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Planned Date</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Planned Date</label>
                                         <div className="relative group catering-datepicker">
                                             <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary z-10" size={18} />
                                             <Flatpickr
@@ -440,7 +441,7 @@ const CateringPage = () => {
                                                     disableMobile: true
                                                 }}
                                                 placeholder="Select Date"
-                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary shadow-sm text-sm"
+                                                className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-2xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white shadow-sm text-sm"
                                             />
                                         </div>
                                     </div>
@@ -448,7 +449,7 @@ const CateringPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Elite Guests *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Elite Guests *</label>
                                         <div className="relative group">
                                             <Users className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -458,12 +459,12 @@ const CateringPage = () => {
                                                 value={formData.guestCount}
                                                 onChange={handleChange}
                                                 placeholder="e.g. 100" 
-                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                                className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-2xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white placeholder:text-white/20 shadow-sm text-sm"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Aspirant Budget</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Aspirant Budget</label>
                                         <div className="relative group">
                                             <Wallet className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -472,14 +473,14 @@ const CateringPage = () => {
                                                 value={formData.budget}
                                                 onChange={handleChange}
                                                 placeholder="e.g. £5000" 
-                                                className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-2xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 shadow-sm text-sm"
+                                                className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-2xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white placeholder:text-white/20 shadow-sm text-sm"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-secondary/30 ml-3 text-center sm:text-left block">Narrative & Vision</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 ml-3 text-center sm:text-left block">Narrative & Vision</label>
                                     <div className="relative group">
                                         <MessageSquare className="absolute left-6 top-8 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                         <textarea 
@@ -488,7 +489,7 @@ const CateringPage = () => {
                                             onChange={handleChange}
                                             rows="5" 
                                             placeholder="Detail your dream culinary landscape..." 
-                                            className="w-full pl-16 pr-8 py-5 bg-brand-cream/30 border-none rounded-3xl focus:ring-0 focus:bg-white transition-all font-bold text-secondary placeholder:text-secondary/10 resize-none shadow-sm text-sm"
+                                            className="w-full pl-16 pr-8 py-5 bg-white/20 border-2 border-white/10 rounded-3xl focus:ring-0 focus:bg-white/30 transition-all font-bold text-white placeholder:text-white/20 resize-none shadow-sm text-sm"
                                         ></textarea>
                                     </div>
                                 </div>
