@@ -11,7 +11,7 @@ export const seed = async (exitOnComplete = false) => {
         const hashedPassword = await bcrypt.hash('admin123', 10);
         await User.create({
             name: 'Tasty Bites Admin',
-            email: 'admin@tastybites.com',
+            email: 'tastybitesrestaurant7@gmail.com',
             password: hashedPassword,
             phone: '+44 7384 048311',
             role: 'admin'
