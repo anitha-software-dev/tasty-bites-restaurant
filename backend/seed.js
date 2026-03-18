@@ -16,7 +16,7 @@ export const seed = async (exitOnComplete = false) => {
             phone: '+44 7384 048311',
             role: 'admin'
         });
-        console.log('✅ Admin user created (admin@tastybites.com / admin123)');
+        console.log('✅ Admin user created (tastybitesrestaurant7@gmail.com / admin123)');
 
         // Seed Categories
         const categories = [

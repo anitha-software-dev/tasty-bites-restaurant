@@ -7,6 +7,11 @@ import contactRoutes from './routes/contact.js';
 import cateringRoutes from './routes/catering.js';
 import orderRoutes from './routes/orders.js';
 import categoryRoutes from './routes/categories.js';
+import authRoutes from './routes/auth.js';
+import addressRoutes from './routes/addresses.js';
+import faqRoutes from './routes/faqs.js';
+import menuRoutes from './routes/menu.js';
+import testimonialRoutes from './routes/testimonials.js';
 import { verifyConnection, sendTestEmail } from './services/email.js';
 import dns from 'node:dns';
 
@@ -228,10 +233,15 @@ app.get('/api/health/test-email', async (req, res) => {
     }
 });
 
-app.use('/api/bookings', reservationRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/reservations', reservationRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/catering', cateringRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/menu', menuRoutes);
+app.use('/api/addresses', addressRoutes);
+app.use('/api/testimonials', testimonialRoutes);
+app.use('/api/faqs', faqRoutes);
 app.use('/api/categories', categoryRoutes);
 
 db.sync({ alter: true }).then(() => {
