@@ -6,17 +6,17 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // Use STARTTLS on 587
+    secure: false, 
     auth: {
         user: (process.env.SMTP_USER || '').trim(),
         pass: (process.env.SMTP_PASS || '').trim(),
     },
     requireTLS: true,
-    pool: true,
+    pool: false, // Turn off pooling to isolate connection attempts
     logger: true,
     debug: true,
-    family: 4,
-    name: 'render.com', // Identify explicitly for better delivery
+    family: 4, // Explicitly force IPv4 in transporter too
+    name: 'render.com',
     tls: {
         rejectUnauthorized: false,
         minVersion: 'TLSv1.2'
