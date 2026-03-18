@@ -1,41 +1,72 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import dns from 'node:dns/promises';
+
 dotenv.config();
 
-// Standard SMTP transporter configuration
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for 587
-    auth: {
-        user: (process.env.SMTP_USER || '').trim(),
-        pass: (process.env.SMTP_PASS || '').trim(),
-    },
-    requireTLS: true,
-    pool: false,
-    logger: true,
-    debug: true,
-    family: 4,
-    name: 'render.com',
-    tls: {
-        rejectUnauthorized: false,
-        minVersion: 'TLSv1.2'
-    },
-    connectionTimeout: 40000,
-    greetingTimeout: 40000, 
-    socketTimeout: 60000,
-});
+/**
+ * Force IPv4 Resolution for Gmail
+ * This bypasses Render's ENETUNREACH IPv6 errors by providing a literal IPv4 string.
+ */
+async function getIpv4Host(hostname) {
+    try {
+        const { address } = await dns.lookup(hostname, { family: 4 });
+        console.log(`📡 Resolved ${hostname} to IPv4: ${address}`);
+        return address;
+    } catch (error) {
+        console.error(`⚠️ DNS Lookup failed for ${hostname}:`, error.message);
+        return hostname; 
+    }
+}
 
-// The email address that should receive notifications (Admin/Restaurant)
+// Global transporter instance
+let transporterInstance;
+
+const createTransporter = async () => {
+    const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const resolvedHost = await getIpv4Host(host);
+    const port = parseInt(process.env.SMTP_PORT || '587');
+    const isSecure = process.env.SMTP_SECURE === 'true' || port === 465;
+
+    console.log(`🛠️ Creating transporter: ${resolvedHost}:${port} (Secure: ${isSecure})`);
+
+    return nodemailer.createTransport({
+        host: resolvedHost,
+        port: port,
+        secure: isSecure,
+        auth: {
+            user: (process.env.SMTP_USER || '').trim(),
+            pass: (process.env.SMTP_PASS || '').trim(),
+        },
+        requireTLS: true,
+        pool: false,
+        logger: true,
+        debug: true,
+        family: 4,
+        name: 'render.com',
+        tls: {
+            rejectUnauthorized: false,
+            minVersion: 'TLSv1.2',
+            servername: host
+        },
+        connectionTimeout: 45000,
+        greetingTimeout: 45000, 
+        socketTimeout: 60000,
+    });
+};
+
+const getTransporter = async () => {
+    if (!transporterInstance) {
+        transporterInstance = await createTransporter();
+    }
+    return transporterInstance;
+};
+
 const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'anitha05staging@gmail.com';
 
-/**
- * Send Booking Confirmation Email
- * Goes to: The Customer
- * CC: The Restaurant
- */
 export const sendBookingConfirmation = async (bookingData) => {
     try {
+        const t = await getTransporter();
         const { fullName, email, phone, date, time, guests, occasion, specialRequests, referenceNumber } = bookingData;
 
         const html = `
@@ -76,10 +107,10 @@ export const sendBookingConfirmation = async (bookingData) => {
             </div>
         `;
 
-        await transporter.sendMail({
+        await t.sendMail({
             from: `"Tasty Bites Reservations" <${process.env.SMTP_USER}>`,
-            to: email, // The customer
-            cc: RESTAURANT_EMAIL, // Copy the restaurant
+            to: email,
+            cc: RESTAURANT_EMAIL,
             subject: `Reservation Confirmed - Tasty Bites (#${referenceNumber})`,
             html,
         });
@@ -90,12 +121,9 @@ export const sendBookingConfirmation = async (bookingData) => {
     }
 };
 
-/**
- * Send Contact Form Notification
- * Goes to: The Restaurant
- */
 export const sendContactNotification = async (contactData) => {
     try {
+        const t = await getTransporter();
         const { name, email, phone, subject, message } = contactData;
 
         const html = `
@@ -125,7 +153,7 @@ export const sendContactNotification = async (contactData) => {
             </div>
         `;
 
-        await transporter.sendMail({
+        await t.sendMail({
             from: `"Tasty Bites System" <${process.env.SMTP_USER}>`,
             to: RESTAURANT_EMAIL,
             replyTo: email,
@@ -139,12 +167,9 @@ export const sendContactNotification = async (contactData) => {
     }
 };
 
-/**
- * Send Catering Enquiry Notification
- * Goes to: The Restaurant
- */
 export const sendCateringNotification = async (cateringData) => {
     try {
+        const t = await getTransporter();
         const { name, email, phone, eventType, eventDate, guests, details } = cateringData;
 
         const html = `
@@ -177,7 +202,7 @@ export const sendCateringNotification = async (cateringData) => {
             </div>
         `;
 
-        await transporter.sendMail({
+        await t.sendMail({
             from: `"Tasty Bites System" <${process.env.SMTP_USER}>`,
             to: RESTAURANT_EMAIL,
             replyTo: email,
@@ -191,13 +216,9 @@ export const sendCateringNotification = async (cateringData) => {
     }
 };
 
-/**
- * Send Order Confirmation
- * Goes to: The Customer
- * CC: The Restaurant
- */
 export const sendOrderConfirmation = async (orderData) => {
     try {
+        const t = await getTransporter();
         const { orderId, customerName, customerEmail, totalAmount, status, items } = orderData;
 
         let itemsHtml = '';
@@ -217,7 +238,6 @@ export const sendOrderConfirmation = async (orderData) => {
 
         const html = `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f8f9fa; padding: 40px 20px; border-radius: 12px;">
-                
                 <div style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.04);">
                     <div style="background-color: #1a2f2b; padding: 35px 30px; text-align: center; color: #ffffff;">
                         <h1 style="margin: 0; font-family: 'Times New Roman', serif; font-style: italic; font-size: 36px; color: #f0e6d2;">Tasty Bites</h1>
@@ -237,40 +257,22 @@ export const sendOrderConfirmation = async (orderData) => {
                                 <span style="background-color: #e6f4ea; color: #1e8e3e; padding: 4px 10px; border-radius: 12px; font-size: 13px; font-weight: 600;">${status.toUpperCase()}</span>
                             </div>
                         </div>
-                        
-                        <h3 style="font-size: 15px; color: #1a2f2b; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 10px; margin-top: 0;">Receipt Summary</h3>
-                        
-                        <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
-                            ${itemsHtml}
-                            <tr>
-                                <td style="padding: 20px 0 5px 0; font-weight: 600; color: #555; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Total Paid</td>
-                                <td style="padding: 20px 0 5px 0; font-weight: 800; text-align: right; font-size: 20px; color: #d9774a;">£${Number(totalAmount).toFixed(2)}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div style="background-color: #fafafa; padding: 20px 30px; border-top: 1px solid #eee; text-align: center;">
-                        <p style="margin: 0; color: #777; font-size: 13px; line-height: 1.5;">
-                            We bring the magic of our hometown dishes to the heart of the UK.<br/>
-                            Need help? Call <a href="tel:+441234567890" style="color: #d9774a; text-decoration: none;">+44 123 456 7890</a>
-                        </p>
                     </div>
                 </div>
             </div>
         `;
 
         if (!customerEmail) {
-            console.log(`[Order #${orderId}] No customer email provided, only notifying restaurant.`);
-            await transporter.sendMail({
+            await t.sendMail({
                 from: `"Tasty Bites Orders" <${process.env.SMTP_USER}>`,
                 to: RESTAURANT_EMAIL,
                 subject: `New Dine-In/Order Notification #${orderId}`,
-                html: `<h3>New Order Received</h3><p>Order ID: #${orderId}</p><p>Total: £${Number(totalAmount).toFixed(2)}</p><p>Please check the admin panel for details.</p>`,
+                html: `<h3>New Order Received</h3><p>Order ID: #${orderId}</p><p>Total: £${Number(totalAmount).toFixed(2)}</p>`,
             });
             return true;
         }
 
-        await transporter.sendMail({
+        await t.sendMail({
             from: `"Tasty Bites Orders" <${process.env.SMTP_USER}>`,
             to: customerEmail,
             cc: RESTAURANT_EMAIL,
@@ -284,12 +286,10 @@ export const sendOrderConfirmation = async (orderData) => {
     }
 };
 
-/**
- * Verify SMTP Connection
- */
 export const verifyConnection = async () => {
     try {
-        await transporter.verify();
+        const t = await getTransporter();
+        await t.verify();
         console.log("✅ SMTP connection verified successfully.");
         return { success: true };
     } catch (error) {
@@ -298,12 +298,10 @@ export const verifyConnection = async () => {
     }
 };
 
-/**
- * Send a Test Email
- */
 export const sendTestEmail = async (targetEmail) => {
     try {
-        const info = await transporter.sendMail({
+        const t = await getTransporter();
+        const info = await t.sendMail({
             from: `"Tasty Bites Test" <${process.env.SMTP_USER}>`,
             to: targetEmail,
             subject: "Tasty Bites - SMTP Functional Test",
@@ -311,19 +309,13 @@ export const sendTestEmail = async (targetEmail) => {
                 <div style="font-family: sans-serif; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
                     <h2 style="color: #1a2f2b;">Success!</h2>
                     <p>This is a test email from your <strong>Tasty Bites</strong> backend.</p>
-                    <p>If you received this, your SMTP configuration is 100% functional in this environment.</p>
-                    <hr/>
-                    <small>Sent at: ${new Date().toLocaleString()}</small>
                 </div>
             `
         });
-        console.log("✅ Test email sent:", info.messageId);
         return { success: true, messageId: info.messageId };
     } catch (error) {
-        console.error("❌ Test email failed:", error);
         return { success: false, error: error.message };
     }
 };
 
-// Export transporter for health check verification if needed
-export default transporter;
+export default getTransporter;
