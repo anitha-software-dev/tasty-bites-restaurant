@@ -340,15 +340,15 @@ const BookTable = () => {
                                         whileTap={{ scale: 0.99 }}
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className={`w-full py-6 rounded-2xl text-base font-bold uppercase tracking-[0.2em] shadow-xl flex items-center justify-center gap-3 transition-all ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
+                                        className={`w-full py-5 sm:py-6 rounded-2xl text-[13px] sm:text-base font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
                                     >
                                         {isSubmitting ? (
                                             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         ) : (
-                                            <>
+                                            <div className="flex items-center justify-center gap-2 whitespace-nowrap">
                                                 <span>Confirm My Reservation</span>
-                                                <CheckCircle2 size={20} className="shrink-0" />
-                                            </>
+                                                <CheckCircle2 size={18} className="shrink-0 sm:w-5 sm:h-5" />
+                                            </div>
                                         )}
                                     </motion.button>
                                 </form>
