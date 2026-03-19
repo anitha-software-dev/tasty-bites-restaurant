@@ -94,7 +94,7 @@ const MenuPage = () => {
         return (
             <motion.div
                 whileHover={{ y: -10 }}
-                className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-brand-cream/50 flex flex-col h-full group"
+                className="bg-white rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 flex flex-col h-full group"
             >
                 <div className="relative h-48 cursor-pointer overflow-hidden" onClick={onClick}>
                     <img src={dish.image} alt={dish.name} className="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
@@ -104,47 +104,47 @@ const MenuPage = () => {
                         ) : (
                             <span className="bg-red-500 text-white p-1.5 rounded-md shadow-md" title="Non-Vegetarian"><Drumstick size={16} /></span>
                         )}
-                        {dish.popular && <span className="bg-accent text-secondary text-xs font-bold px-2 py-1 rounded-md shadow-md flex items-center">Popular</span>}
+                        {dish.popular && <span className="bg-primary text-white text-[10px] uppercase font-black px-2 py-1 rounded-md shadow-md flex items-center tracking-widest">Popular</span>}
                     </div>
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
                     <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-xl font-bold text-secondary cursor-pointer hover:text-primary transition-colors leading-tight" onClick={onClick}>
+                        <h3 className="text-xl font-bold text-slate-900 cursor-pointer hover:text-primary transition-colors leading-tight" onClick={onClick}>
                             {dish.name}
                         </h3>
                         <span className="text-lg font-bold text-primary ml-2">{dish.price}</span>
                     </div>
 
-                    <p className="text-sm text-gray-500 mb-4 flex-1 line-clamp-2">{dish.description}</p>
+                    <p className="text-sm text-slate-500 mb-4 flex-1 line-clamp-2 font-medium">{dish.description}</p>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-6">
-                        {dish.glutenFree && <span className="text-xs font-semibold px-2 py-1 bg-gray-100 text-gray-600 rounded-lg">Gluten-free</span>}
-                        {dish.dairyFree && <span className="text-xs font-semibold px-2 py-1 bg-gray-100 text-gray-600 rounded-lg">Dairy-free</span>}
+                        {dish.glutenFree && <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded-lg">Gluten-free</span>}
+                        {dish.dairyFree && <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded-lg">Dairy-free</span>}
                     </div>
 
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                         {qty === 0 ? (
                             <button
                                 onClick={(e) => { e.stopPropagation(); addToCart(dish); }}
-                                className="w-full bg-secondary text-white py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center justify-center"
+                                className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center justify-center"
                             >
                                 <Plus size={18} className="mr-2" />
                                 Add to Cart
                             </button>
                         ) : (
-                            <div className="w-full flex items-center justify-between bg-brand-cream py-2 px-2 rounded-xl border border-primary/20">
+                            <div className="w-full flex items-center justify-between bg-slate-50 py-2 px-2 rounded-xl border border-primary/20">
                                 <button
                                     onClick={(e) => { e.stopPropagation(); updateQuantity(dish.id, -1); }}
-                                    className="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow-sm text-secondary hover:text-primary transition-colors"
+                                    className="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow-sm text-slate-900 hover:text-primary transition-colors"
                                 >
                                     <Minus size={18} />
                                 </button>
-                                <span className="text-lg font-bold text-secondary">{qty}</span>
+                                <span className="text-lg font-bold text-slate-900">{qty}</span>
                                 <button
                                     onClick={(e) => { e.stopPropagation(); updateQuantity(dish.id, 1); }}
-                                    className="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow-sm text-secondary hover:text-primary transition-colors"
+                                    className="w-10 h-10 flex items-center justify-center bg-white rounded-lg shadow-sm text-slate-900 hover:text-primary transition-colors"
                                 >
                                     <Plus size={18} />
                                 </button>
@@ -157,7 +157,7 @@ const MenuPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-brand-cream pt-10 pb-24">
+        <div className="min-h-screen bg-white pt-10 pb-24">
             {/* Hero Header */}
             <div className="relative h-[300px] md:h-[450px] w-full overflow-hidden">
                 <motion.div 
@@ -165,12 +165,12 @@ const MenuPage = () => {
                     className="absolute inset-0 z-0"
                 >
                     <img src="/images/menu-hero.png" alt="Menu Header" className="w-full h-full object-cover scale-110" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-brand-cream/10" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-white/10" />
                 </motion.div>
 
                 <motion.div 
                     style={{ opacity: opacityHero }}
-                    className="absolute inset-0 flex items-center z-10"
+                    className="absolute inset-0 flex items-start pt-32 z-10"
                 >
                     <div className="container mx-auto px-6">
                         <div className="max-w-3xl">
@@ -183,7 +183,7 @@ const MenuPage = () => {
                                 <ShoppingBag size={14} /> The Culinary Collection
                             </motion.div>
                             <h1 className="text-5xl md:text-8xl font-playfair text-white mb-6 leading-tight">
-                                Order <span className="text-accent italic">Online</span>
+                                Order <span className="text-primary italic">Online</span>
                             </h1>
                             <p className="text-white/80 text-lg md:text-2xl font-light leading-relaxed max-w-xl">
                                 Explore our masterfully crafted South Indian menu, staged for your personal sanctuary or shared celebrations.
@@ -206,21 +206,21 @@ const MenuPage = () => {
                     {/* Left Sidebar: Search, Categories & Filters */}
                     <aside className="w-full lg:w-1/4 space-y-10">
                         {/* Search Input */}
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <h3 className="text-xl font-playfair font-bold text-secondary mb-6 border-b border-gray-100 pb-4 flex items-center">
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="text-xl font-playfair font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center">
                                 <Search size={20} className="mr-2 text-primary" /> Search
                             </h3>
                             <div className="relative">
-                                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                                 <input
                                     type="text"
                                     placeholder="Search dishes..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-700 placeholder-gray-400 text-sm"
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-700 placeholder-slate-400 text-sm font-medium"
                                 />
                                 {searchQuery && (
-                                    <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
                                         <X size={14} />
                                     </button>
                                 )}
@@ -228,14 +228,14 @@ const MenuPage = () => {
                         </div>
 
                         {/* Categories List */}
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <h3 className="text-xl font-playfair font-bold text-secondary mb-6 border-b border-gray-100 pb-4">Categories</h3>
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="text-xl font-playfair font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Categories</h3>
                             <ul className="space-y-2">
                                 {categories.map(cat => (
                                     <li key={cat}>
                                         <button
                                             onClick={() => setActiveCategory(cat)}
-                                            className={`w-full text-left px-4 py-3 rounded-xl transition-all font-medium capitalize text-sm ${activeCategory === cat ? 'bg-primary text-white shadow-md' : 'text-gray-600 hover:bg-brand-cream hover:text-primary'}`}
+                                            className={`w-full text-left px-4 py-3 rounded-xl transition-all font-medium capitalize text-sm ${activeCategory === cat ? 'bg-primary text-white shadow-md' : 'text-slate-600 hover:bg-slate-50 hover:text-primary'}`}
                                         >
                                             {cat}
                                         </button>
@@ -245,16 +245,16 @@ const MenuPage = () => {
                         </div>
 
                         {/* Sort Filter */}
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <h3 className="text-xl font-playfair font-bold text-secondary mb-6 border-b border-gray-100 pb-4 flex items-center">
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="text-xl font-playfair font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center">
                                 <Filter size={20} className="mr-2 text-primary" /> Sort By
                             </h3>
                             <div className="relative">
                                 <select
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
-                                    className="w-full px-4 py-3 bg-gray-50 border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-gray-700 cursor-pointer appearance-none text-sm"
-                                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.25em 1.25em' }}
+                                    className="w-full px-4 py-3 bg-slate-50 border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-700 cursor-pointer appearance-none text-sm font-medium"
+                                    style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.25em 1.25em' }}
                                 >
                                     <option value="popular">Most Popular</option>
                                     <option value="name">Name (A-Z)</option>
@@ -265,30 +265,30 @@ const MenuPage = () => {
                         </div>
 
                         {/* Dietary Filters */}
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <h3 className="text-xl font-playfair font-bold text-secondary mb-6 border-b border-gray-100 pb-4 flex items-center">
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="text-xl font-playfair font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4 flex items-center">
                                 <Filter size={20} className="mr-2 text-primary" /> Dietary
                             </h3>
                             <div className="space-y-4">
                                 <label className="flex items-center space-x-3 cursor-pointer group">
-                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.vegetarian ? 'bg-primary border-primary text-white' : 'border-gray-300 group-hover:border-primary text-transparent'}`}>
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.vegetarian ? 'bg-primary border-primary text-white' : 'border-slate-300 group-hover:border-primary text-transparent'}`}>
                                         <Check size={14} />
                                     </div>
-                                    <span className="text-gray-700 font-medium text-sm">Vegetarian</span>
+                                    <span className="text-slate-700 font-medium text-sm">Vegetarian</span>
                                     <input type="checkbox" className="hidden" checked={filters.vegetarian} onChange={() => toggleFilter('vegetarian')} />
                                 </label>
                                 <label className="flex items-center space-x-3 cursor-pointer group">
-                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.dairyFree ? 'bg-primary border-primary text-white' : 'border-gray-300 group-hover:border-primary text-transparent'}`}>
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.dairyFree ? 'bg-primary border-primary text-white' : 'border-slate-300 group-hover:border-primary text-transparent'}`}>
                                         <Check size={14} />
                                     </div>
-                                    <span className="text-gray-700 font-medium text-sm">Dairy-Free</span>
+                                    <span className="text-slate-700 font-medium text-sm">Dairy-Free</span>
                                     <input type="checkbox" className="hidden" checked={filters.dairyFree} onChange={() => toggleFilter('dairyFree')} />
                                 </label>
                                 <label className="flex items-center space-x-3 cursor-pointer group">
-                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.glutenFree ? 'bg-primary border-primary text-white' : 'border-gray-300 group-hover:border-primary text-transparent'}`}>
+                                    <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.glutenFree ? 'bg-primary border-primary text-white' : 'border-slate-300 group-hover:border-primary text-transparent'}`}>
                                         <Check size={14} />
                                     </div>
-                                    <span className="text-gray-700 font-medium text-sm">Gluten-Free</span>
+                                    <span className="text-slate-700 font-medium text-sm">Gluten-Free</span>
                                     <input type="checkbox" className="hidden" checked={filters.glutenFree} onChange={() => toggleFilter('glutenFree')} />
                                 </label>
                             </div>
@@ -300,7 +300,7 @@ const MenuPage = () => {
 
                         {/* Results Count & Mobile View Cart */}
                         <div className="flex justify-between items-center mb-6 px-2">
-                            <p className="text-gray-500 font-medium">Showing <span className="text-secondary font-bold">{filteredDishes.length}</span> dishes</p>
+                            <p className="text-slate-500 font-medium">Showing <span className="text-slate-900 font-bold">{filteredDishes.length}</span> dishes</p>
 
                             <button
                                 onClick={() => setIsCartOpen(true)}
@@ -340,13 +340,13 @@ const MenuPage = () => {
                                 </AnimatePresence>
                             </motion.div>
                         ) : (
-                            <div className="bg-white rounded-3xl p-16 text-center border border-gray-100 flex flex-col items-center">
-                                <Search size={48} className="text-gray-300 mb-4" />
-                                <h3 className="text-2xl font-playfair text-secondary mb-2">No dishes found</h3>
-                                <p className="text-brand-text-light mb-6">Try adjusting your category, filters, or search terms.</p>
+                            <div className="bg-white rounded-3xl p-16 text-center border border-slate-100 flex flex-col items-center">
+                                <Search size={48} className="text-slate-300 mb-4" />
+                                <h3 className="text-2xl font-playfair text-slate-900 mb-2">No dishes found</h3>
+                                <p className="text-slate-500 mb-6">Try adjusting your category, filters, or search terms.</p>
                                 <button
                                     onClick={() => { setSearchQuery(''); setActiveCategory('All'); setFilters({ vegetarian: false, dairyFree: false, glutenFree: false }) }}
-                                    className="btn-outline"
+                                    className="btn-outline px-8 py-3 rounded-xl"
                                 >
                                     Clear All Filters
                                 </button>
@@ -375,13 +375,13 @@ const MenuPage = () => {
                         >
                             <button
                                 onClick={() => setSelectedItem(null)}
-                                className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-gray-600 hover:text-red-500 hover:bg-white transition-all shadow-md"
+                                className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-slate-600 hover:text-red-500 hover:bg-white transition-all shadow-md"
                             >
                                 <X size={20} />
                             </button>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                                <div className="h-64 md:h-full relative bg-gray-100">
+                                <div className="h-64 md:h-full relative bg-slate-100">
                                     <img src={selectedItem.image} alt={selectedItem.name} className="w-full h-full object-cover" />
                                     <div className="absolute top-4 left-4 flex space-x-2">
                                         {selectedItem.type === 'veg' ? (
@@ -394,23 +394,23 @@ const MenuPage = () => {
                                 <div className="p-8 flex flex-col h-full bg-white">
                                     <div className="flex-1">
                                         <span className="text-xs font-bold uppercase tracking-widest text-primary mb-2 block">{selectedItem.category}</span>
-                                        <h2 className="text-3xl font-playfair text-secondary mb-2">{selectedItem.name}</h2>
+                                        <h2 className="text-3xl font-playfair font-bold text-slate-900 mb-2">{selectedItem.name}</h2>
                                         <div className="flex flex-wrap gap-2 mb-4">
-                                            {selectedItem.glutenFree && <span className="text-xs font-semibold px-2 py-1 bg-gray-100 text-gray-600 rounded-lg">Gluten-free</span>}
-                                            {selectedItem.dairyFree && <span className="text-xs font-semibold px-2 py-1 bg-gray-100 text-gray-600 rounded-lg">Dairy-free</span>}
+                                            {selectedItem.glutenFree && <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded-lg">Gluten-free</span>}
+                                            {selectedItem.dairyFree && <span className="text-xs font-semibold px-2 py-1 bg-slate-100 text-slate-600 rounded-lg">Dairy-free</span>}
                                         </div>
-                                        <p className="text-gray-600 leading-relaxed mb-6">{selectedItem.description}</p>
+                                        <p className="text-slate-600 leading-relaxed mb-6 font-medium">{selectedItem.description}</p>
                                         <p className="text-3xl font-bold text-primary">{selectedItem.price}</p>
                                     </div>
 
-                                    <div className="mt-8 pt-6 border-t border-gray-100">
+                                    <div className="mt-8 pt-6 border-t border-slate-100">
                                         {cartItems.find(i => i.id === selectedItem.id) ? (
-                                            <div className="w-full flex items-center justify-between bg-brand-cream p-3 rounded-xl border border-primary/20">
-                                                <button onClick={() => updateQuantity(selectedItem.id, -1)} className="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm text-secondary hover:text-primary transition-colors">
+                                            <div className="w-full flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-primary/20">
+                                                <button onClick={() => updateQuantity(selectedItem.id, -1)} className="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm text-slate-900 hover:text-primary transition-colors">
                                                     <Minus size={20} />
                                                 </button>
-                                                <span className="text-xl font-bold text-secondary">{cartItems.find(i => i.id === selectedItem.id).quantity} in Cart</span>
-                                                <button onClick={() => updateQuantity(selectedItem.id, 1)} className="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm text-secondary hover:text-primary transition-colors">
+                                                <span className="text-xl font-bold text-slate-900">{cartItems.find(i => i.id === selectedItem.id).quantity} in Cart</span>
+                                                <button onClick={() => updateQuantity(selectedItem.id, 1)} className="w-12 h-12 flex items-center justify-center bg-white rounded-lg shadow-sm text-slate-900 hover:text-primary transition-colors">
                                                     <Plus size={20} />
                                                 </button>
                                             </div>
