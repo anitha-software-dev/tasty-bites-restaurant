@@ -184,9 +184,9 @@ const DineInMenuPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FDFCF7] pt-20 pb-24">
+        <div className="min-h-screen bg-[#FDFCF7] pb-24">
             {/* Hero Header - Premium Style */}
-            <div className="relative h-[400px] md:h-[500px] w-full mt-8 overflow-hidden">
+            <div className="relative h-[400px] md:h-[500px] w-full overflow-hidden">
                 <img
                     src="/images/authentic-spread.png"
                     alt="Authentic Spread"
@@ -195,7 +195,7 @@ const DineInMenuPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/90 via-emerald-950/60 to-transparent" />
 
-                <div className="absolute inset-0 flex items-center container mx-auto px-8 z-10">
+                <div className="absolute inset-0 flex items-start pt-32 container mx-auto px-8 z-10">
                     <div className="max-w-2xl">
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
