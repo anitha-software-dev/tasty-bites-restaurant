@@ -98,7 +98,7 @@ const BookTable = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-900 relative py-20 overflow-hidden border-t border-white/5">
+        <div className="min-h-screen bg-slate-50 relative py-20 overflow-hidden border-t border-slate-100">
             {/* Success Modal */}
             <AnimatePresence>
                 {isConfirmed && (
@@ -133,14 +133,14 @@ const BookTable = () => {
                                 <CheckCircle2 size={40} strokeWidth={2.5} />
                             </motion.div>
 
-                            <h2 className="text-3xl md:text-4xl font-playfair text-secondary mb-3">
+                            <h2 className="text-3xl md:text-4xl font-playfair text-slate-900 mb-3">
                                 Booking <span className="text-primary italic">Confirmed!</span>
                             </h2>
                             <p className="text-gray-500 mb-8">
-                                Your table for <span className="font-semibold text-secondary">{formData.guests}</span> has been successfully reserved.
+                                Your table for <span className="font-semibold text-slate-900">{formData.guests}</span> has been successfully reserved.
                             </p>
 
-                            <div className="bg-brand-cream/50 rounded-2xl p-6 mb-8 border border-primary/10 backdrop-blur-sm">
+                            <div className="bg-slate-50 rounded-2xl p-6 mb-8 border border-primary/10 backdrop-blur-sm">
                                 <p className="text-xs text-gray-400 uppercase tracking-[0.2em] font-bold mb-2 text-center">Reference Number</p>
                                 <p className="text-3xl font-mono font-bold text-primary tracking-widest text-center">{bookingRef}</p>
                             </div>
@@ -148,7 +148,7 @@ const BookTable = () => {
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <button
                                     onClick={() => { setIsConfirmed(false); setFormData({ fullName: '', email: '', phone: '', date: '', guests: '2', occasion: 'None', specialRequests: '' }); }}
-                                    className="flex-1 py-4 rounded-xl border-2 border-gray-100 text-secondary hover:border-primary hover:text-primary transition-all font-bold text-sm uppercase tracking-widest"
+                                    className="flex-1 py-4 rounded-xl border-2 border-gray-100 text-slate-900 hover:border-primary hover:text-primary transition-all font-bold text-sm uppercase tracking-widest"
                                 >
                                     New Booking
                                 </button>
@@ -184,7 +184,7 @@ const BookTable = () => {
                         className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
                     >
                         {/* Title Section */}
-                        <div className="lg:col-span-5 text-white">
+                        <div className="lg:col-span-5 text-slate-900">
                             <motion.div variants={formVariants} className="mb-6 inline-flex items-center space-x-2 text-primary bg-primary/10 px-4 py-2 rounded-full border border-primary/20 backdrop-blur-md">
                                 <GlassWater size={18} />
                                 <span className="text-sm font-bold uppercase tracking-widest">Fine Dining Experience</span>
@@ -195,27 +195,27 @@ const BookTable = () => {
                                 <span className="text-primary italic">Your Table</span>
                             </motion.h1>
                             
-                            <motion.p variants={formVariants} className="text-white/70 text-lg leading-relaxed mb-8 max-w-md">
+                            <motion.p variants={formVariants} className="text-slate-500 text-lg leading-relaxed mb-8 max-w-md font-medium">
                                 Experience authentic South Indian flavors in an ambiance of elegance and warmth. Book now to ensure your spot at Tasty Bites.
                             </motion.p>
 
                             <motion.div variants={formVariants} className="space-y-6">
                                 <div className="flex items-center space-x-4 group">
-                                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/30 transition-all">
+                                    <div className="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/30 transition-all">
                                         <AlertCircle className="text-primary" size={20} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-white">Quick Reservation</h4>
-                                        <p className="text-white/50 text-sm">Takes less than 2 minutes to book.</p>
+                                        <h4 className="font-bold text-slate-900">Quick Reservation</h4>
+                                        <p className="text-slate-400 text-sm">Takes less than 2 minutes to book.</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center space-x-4 group">
-                                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/30 transition-all">
+                                    <div className="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center group-hover:bg-primary/20 group-hover:border-primary/30 transition-all">
                                         <CheckCircle2 className="text-primary" size={20} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-white">Instant Confirmation</h4>
-                                        <p className="text-white/50 text-sm">Receive immediate booking reference.</p>
+                                        <h4 className="font-bold text-slate-900">Instant Confirmation</h4>
+                                        <p className="text-slate-400 text-sm">Receive immediate booking reference.</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -226,7 +226,7 @@ const BookTable = () => {
                             variants={formVariants}
                             className="lg:col-span-7"
                         >
-                            <div className="bg-slate-900/40 backdrop-blur-[40px] rounded-[3.5rem] p-8 md:p-14 border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)] relative overflow-hidden group">
+                            <div className="bg-white rounded-[3.5rem] p-8 md:p-14 border border-slate-100 shadow-premium relative overflow-hidden group">
                                 {/* Decorative Gradients and Blobs */}
                                 <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/30 rounded-full blur-[80px] transition-transform group-hover:scale-125 duration-1000" />
                                 <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-accent/20 rounded-full blur-[80px] transition-transform group-hover:scale-125 duration-1000" />
@@ -234,7 +234,7 @@ const BookTable = () => {
                                 <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
                                     <div className="space-y-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Full Name</label>
+                                            <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 ml-1">Full Name</label>
                                             <div className="relative group/input">
                                                 <Users className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/80 group-focus-within/input:text-primary transition-colors" size={18} />
                                                 <input
@@ -242,7 +242,7 @@ const BookTable = () => {
                                                     name="fullName"
                                                     value={formData.fullName}
                                                     onChange={handleChange}
-                                                    className={`w-full pl-16 pr-6 py-4 bg-white/20 border-2 ${errors.fullName ? 'border-red-500/50' : 'border-white/30 focus:border-primary/60'} rounded-2xl text-white placeholder:text-white/60 focus:ring-4 focus:ring-primary/10 transition-all outline-none backdrop-blur-md shadow-lg font-medium`}
+                                                    className={`w-full pl-16 pr-6 py-4 bg-slate-50 border-2 ${errors.fullName ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium shadow-sm`}
                                                     placeholder="Enter your name"
                                                 />
                                             </div>
@@ -258,7 +258,7 @@ const BookTable = () => {
                                                     name="email"
                                                     value={formData.email}
                                                     onChange={handleChange}
-                                                    className={`w-full pl-16 pr-6 py-4 bg-white/20 border-2 ${errors.email ? 'border-red-500/50' : 'border-white/30 focus:border-primary/60'} rounded-2xl text-white placeholder:text-white/60 focus:ring-4 focus:ring-primary/10 transition-all outline-none backdrop-blur-md shadow-lg font-medium`}
+                                                    className={`w-full pl-16 pr-6 py-4 bg-slate-50 border-2 ${errors.email ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium shadow-sm`}
                                                     placeholder="your@email.com"
                                                 />
                                             </div>
@@ -266,17 +266,16 @@ const BookTable = () => {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-3 relative z-[60]">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Phone Number</label>
-                                        <div className={`p-0.5 rounded-2xl transition-all ${errors.phone ? 'bg-red-500/20 border-red-500/50' : 'bg-transparent'}`}>
-                                            <PhoneInput
-                                                value={formData.phone}
-                                                onChange={handlePhoneChange}
-                                                dropdownDirection="bottom"
-                                                className="rounded-2xl overflow-hidden bg-white/20 border-2 border-white/30 focus-within:ring-4 focus-within:ring-primary/10 focus-within:border-primary/60 backdrop-blur-md shadow-lg"
-                                                inputClassName="!py-4 text-white placeholder:text-white/60 font-medium"
-                                            />
-                                        </div>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 ml-1">Phone Number</label>
+                                        <PhoneInput
+                                            value={formData.phone}
+                                            onChange={handlePhoneChange}
+                                            dropdownDirection="bottom"
+                                            className="rounded-2xl bg-slate-50 border-2 border-slate-100 focus-within:border-primary/60 shadow-sm"
+                                            inputClassName="text-slate-900 placeholder:text-slate-200 font-medium"
+                                            isDark={true}
+                                        />
                                         {errors.phone && <p className="text-red-400 text-[10px] font-bold uppercase tracking-wider ml-1">{errors.phone}</p>}
                                     </div>
 
@@ -298,7 +297,7 @@ const BookTable = () => {
                                                         dateFormat: 'Y-m-d',
                                                         disableMobile: true
                                                     }}
-                                                    className={`w-full pl-16 pr-6 py-4 !bg-white/20 border-2 ${errors.date ? 'border-red-500/50' : 'border-white/30 focus:border-primary/60'} rounded-2xl text-white placeholder:text-white/80 focus:ring-4 focus:ring-primary/10 transition-all outline-none cursor-pointer backdrop-blur-md shadow-lg font-medium`}
+                                                    className={`w-full pl-16 pr-6 py-4 !bg-slate-50 border-2 ${errors.date ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 focus:ring-4 focus:ring-primary/10 transition-all outline-none cursor-pointer font-medium shadow-sm`}
                                                     placeholder="Select Date"
                                                 />
                                             </div>
@@ -313,11 +312,11 @@ const BookTable = () => {
                                                     name="guests"
                                                     value={formData.guests}
                                                     onChange={handleChange}
-                                                    className="w-full pl-16 pr-12 py-4 bg-white/20 border-2 border-white/30 rounded-2xl text-white appearance-none cursor-pointer focus:ring-4 focus:ring-primary/10 focus:border-primary/60 transition-all outline-none backdrop-blur-md shadow-lg font-medium"
+                                                    className="w-full pl-16 pr-12 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 appearance-none cursor-pointer focus:ring-4 focus:ring-primary/10 focus:border-primary/60 transition-all outline-none shadow-sm font-medium"
                                                     style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C04B2A'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.25rem center', backgroundSize: '1.2em 1.2em' }}
                                                 >
                                                     {[1,2,3,4,5,6,7,8,9,'10+'].map(num => (
-                                                        <option key={num} value={num} className="bg-secondary text-white">{num} {num === '10+' ? 'People' : num === 1 ? 'Person' : 'People'}</option>
+                                                        <option key={num} value={num} className="bg-white text-slate-900">{num} {num === '10+' ? 'People' : num === 1 ? 'Person' : 'People'}</option>
                                                     ))}
                                                 </select>
                                             </div>
@@ -331,25 +330,24 @@ const BookTable = () => {
                                             value={formData.specialRequests}
                                             onChange={handleChange}
                                             rows="3"
-                                            className="w-full px-8 py-4 bg-white/20 border-2 border-white/30 rounded-[2rem] text-white placeholder:text-white/60 focus:ring-4 focus:ring-primary/10 focus:border-primary/60 transition-all outline-none resize-none backdrop-blur-md shadow-lg font-medium"
+                                            className="w-full px-8 py-4 bg-slate-50 border-2 border-slate-100 rounded-[2rem] text-slate-900 placeholder:text-slate-200 focus:ring-4 focus:ring-primary/10 focus:border-primary/60 transition-all outline-none resize-none shadow-sm font-medium"
                                             placeholder="Tell us about special occasions, allergies, or seating preferences..."
                                         ></textarea>
                                     </div>
 
                                     <motion.button
-                                        whileHover={{ scale: 1.02, y: -2 }}
-                                        whileTap={{ scale: 0.98 }}
+                                        whileHover={{ scale: 1.01, y: -1 }}
+                                        whileTap={{ scale: 0.99 }}
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className={`w-full relative overflow-hidden group/btn py-6 rounded-2xl text-base font-bold uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(192,75,42,0.3)] flex items-center justify-center space-x-3 transition-all ${isSubmitting ? 'opacity-70 cursor-wait' : 'bg-primary text-white hover:shadow-[0_25px_50px_rgba(192,75,42,0.4)]'}`}
+                                        className={`w-full py-6 rounded-2xl text-base font-bold uppercase tracking-[0.2em] shadow-xl flex items-center justify-center gap-3 transition-all ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]" />
                                         {isSubmitting ? (
                                             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         ) : (
                                             <>
                                                 <span>Confirm My Reservation</span>
-                                                <CheckCircle2 size={20} className="group-hover:scale-110 transition-transform" />
+                                                <CheckCircle2 size={20} className="shrink-0" />
                                             </>
                                         )}
                                     </motion.button>
