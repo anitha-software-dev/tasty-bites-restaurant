@@ -62,11 +62,11 @@ const ContactSection = () => {
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="bg-brand-cream border border-primary/10 p-8 sm:p-10 lg:p-16 rounded-[2.5rem] flex flex-col justify-between"
+                        className="bg-slate-50 border border-slate-100 p-8 sm:p-10 lg:p-16 rounded-[2.5rem] flex flex-col justify-between"
                     >
                         <div>
                             <span className="text-primary font-semibold tracking-widest uppercase text-sm block mb-4">Visit Us</span>
-                            <h2 className="text-secondary font-playfair text-4xl md:text-5xl leading-tight mb-8">
+                            <h2 className="text-slate-900 font-playfair text-4xl md:text-5xl leading-tight mb-8">
                                 Let's Start a <br /><span className="text-primary italic">Delicious Conversation</span>
                             </h2>
 
@@ -76,8 +76,8 @@ const ContactSection = () => {
                                         <MapPin size={22} />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-bold text-secondary mb-1">Our Location</h3>
-                                        <p className="text-brand-text-light">123 High Street, Kensington, London W8 5SF</p>
+                                        <h3 className="text-xl font-bold text-slate-900 mb-1">Our Location</h3>
+                                        <p className="text-slate-500">123 High Street, Kensington, London W8 5SF</p>
                                     </div>
                                 </div>
 
@@ -86,8 +86,8 @@ const ContactSection = () => {
                                         <Phone size={22} />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-bold text-secondary mb-1">Phone Number</h3>
-                                        <p className="text-brand-text-light">+44 1792 951309</p>
+                                        <h3 className="text-xl font-bold text-slate-900 mb-1">Phone Number</h3>
+                                        <p className="text-slate-500">+44 1792 951309</p>
                                     </div>
                                 </div>
 
@@ -96,15 +96,15 @@ const ContactSection = () => {
                                         <Mail size={22} />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl font-bold text-secondary mb-1">Email Address</h3>
-                                        <p className="text-brand-text-light break-all">tastybitesrestaurant7@gmail.com</p>
+                                        <h3 className="text-xl font-bold text-slate-900 mb-1">Email Address</h3>
+                                        <p className="text-slate-500 break-all">tastybitesrestaurant7@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="mt-16 pt-10 border-t border-primary/10">
-                            <p className="text-brand-text-dark font-semibold mb-2">Social Hub</p>
+                            <p className="text-slate-800 font-bold mb-2 uppercase tracking-widest text-[10px]">Social Hub</p>
                             <div className="flex flex-wrap gap-3">
                                 {['Facebook', 'Instagram', 'WhatsApp'].map(social => (
                                     <span key={social} className="px-4 py-2 bg-white rounded-full text-xs font-bold text-primary cursor-pointer hover:bg-primary hover:text-white transition-all">
@@ -125,7 +125,7 @@ const ContactSection = () => {
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary mb-2 ml-1">Full Name</label>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-slate-900 mb-2 ml-1">Full Name</label>
                                     <input
                                         required
                                         name="name"
@@ -133,11 +133,11 @@ const ContactSection = () => {
                                         value={formData.name}
                                         onChange={handleChange}
                                         placeholder="John Doe"
-                                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 transition-all outline-none placeholder:text-[11px] sm:placeholder:text-sm text-sm"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-widest text-secondary mb-2 ml-1">Email</label>
+                                    <label className="block text-xs font-bold uppercase tracking-widest text-slate-900 mb-2 ml-1">Email</label>
                                     <input
                                         required
                                         name="email"
@@ -145,12 +145,12 @@ const ContactSection = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         placeholder="john@example.com"
-                                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                                        className="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 transition-all outline-none placeholder:text-[11px] sm:placeholder:text-sm text-sm"
                                     />
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary mb-2 ml-1">Phone Number</label>
+                                <label className="block text-xs font-bold uppercase tracking-widest text-slate-900 mb-2 ml-1">Phone Number</label>
                                 <PhoneInput
                                     value={formData.phone}
                                     onChange={handlePhoneChange}
@@ -159,7 +159,7 @@ const ContactSection = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest text-secondary mb-2 ml-1">Message</label>
+                                <label className="block text-xs font-bold uppercase tracking-widest text-slate-900 mb-2 ml-1">Message</label>
                                 <textarea
                                     required
                                     name="message"
@@ -167,22 +167,22 @@ const ContactSection = () => {
                                     value={formData.message}
                                     onChange={handleChange}
                                     placeholder="How can we help you?"
-                                    className="w-full px-6 py-4 bg-gray-50 border-none rounded-3xl focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none"
+                                    className="w-full px-6 py-4 bg-gray-50 border-none rounded-3xl focus:ring-2 focus:ring-primary/20 transition-all outline-none resize-none placeholder:text-[11px] sm:placeholder:text-sm text-sm"
                                 ></textarea>
                             </div>
 
                             <button 
                                 type="submit" 
                                 disabled={isLoading}
-                                className={`btn-primary w-full flex items-center justify-center space-x-3 group ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                className={`btn-primary w-full flex items-center justify-center space-x-3 group whitespace-nowrap text-[13px] sm:text-base ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
                                 {isLoading ? (
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                 ) : (
-                                    <>
+                                    <div className="flex items-center justify-center space-x-2">
                                         <span>Send Message</span>
-                                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                    </>
+                                        <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform shrink-0" />
+                                    </div>
                                 )}
                             </button>
                         </form>

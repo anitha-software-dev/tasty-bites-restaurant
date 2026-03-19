@@ -67,7 +67,7 @@ const Hero = () => {
                         className="text-white font-playfair text-4xl md:text-5xl lg:text-6xl leading-[1.1] mb-6"
                     >
                         {slides[current].title} <br />
-                        <span className="text-accent">{slides[current].subtitle}</span>
+                        <span className="text-primary italic">{slides[current].subtitle}</span>
                     </motion.h1>
 
                     <motion.p
@@ -87,16 +87,17 @@ const Hero = () => {
                         transition={{ duration: 0.8, delay: 0.7 }}
                         className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 w-full"
                     >
-                        <Link to="/menu" className="btn-primary flex items-center group w-full sm:w-auto justify-center">
+                        <Link to="/menu" className="btn-primary flex items-center group w-full sm:w-auto justify-center whitespace-nowrap text-xs sm:text-base px-6 sm:px-8">
                             Explore Menu
                             <motion.span
                                 animate={{ x: [0, 5, 0] }}
                                 transition={{ repeat: Infinity, duration: 1.5 }}
+                                className="shrink-0"
                             >
                                 <ArrowRight size={18} className="ml-2" />
                             </motion.span>
                         </Link>
-                        <Link to="/about" className="px-8 py-3 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-semibold uppercase tracking-wider text-sm hover:bg-white hover:text-secondary transition-all w-full sm:w-auto text-center">
+                        <Link to="/about" className="px-6 sm:px-8 py-3 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-white hover:text-slate-900 transition-all w-full sm:w-auto text-center whitespace-nowrap">
                             Our Story
                         </Link>
                     </motion.div>
@@ -109,7 +110,7 @@ const Hero = () => {
                     <button
                         key={idx}
                         onClick={() => setCurrent(idx)}
-                        className={`h-1 transition-all duration-500 rounded-full ${idx === current ? 'w-12 bg-accent' : 'w-4 bg-white/40 hover:bg-white/60'
+                        className={`h-1 transition-all duration-500 rounded-full ${idx === current ? 'w-12 bg-primary' : 'w-4 bg-white/40 hover:bg-white/60'
                             }`}
                     />
                 ))}

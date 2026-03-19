@@ -64,12 +64,12 @@ const OrderConfirmationPage = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-brand-cream pt-32 pb-24 flex items-center justify-center">
+        <div className="min-h-screen bg-slate-50 pt-32 pb-24 flex items-center justify-center">
             <div className="container mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-10 lg:p-14 text-center shadow-2xl relative overflow-hidden border border-brand-cream"
+                    className="max-w-3xl mx-auto bg-white rounded-[2.5rem] p-10 lg:p-14 text-center shadow-2xl relative overflow-hidden border border-slate-100"
                 >
                     {/* Background decoration */}
                     <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -84,10 +84,10 @@ const OrderConfirmationPage = () => {
                         <CheckCircle2 size={40} />
                     </motion.div>
 
-                    <h1 className="text-4xl md:text-5xl font-playfair font-bold text-secondary mb-2">
+                    <h1 className="text-4xl md:text-5xl font-playfair font-bold text-slate-900 mb-2">
                         {isDineIn ? "Kitchen is Notified!" : "Order Confirmed!"}
                     </h1>
-                    <p className="text-brand-text-light text-lg mb-10 max-w-lg mx-auto leading-relaxed">
+                    <p className="text-slate-500 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
                         {isDineIn
                             ? "We've sent your order to our chefs. Sit back and relax, your meal is being prepared with love."
                             : `Awesome! We'll have your food ready for collection at Tasty Bites by ${collectionTime || 'scheduled time'}.`}
@@ -116,13 +116,13 @@ const OrderConfirmationPage = () => {
 
                     {/* Details Cards */}
                     <div className={`grid grid-cols-1 ${isDineIn ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-4 mb-10`}>
-                        <div className="bg-brand-cream/40 rounded-3xl p-6 border border-brand-cream/50 flex flex-col items-center">
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">Order ID</span>
-                            <span className="text-2xl font-mono font-black text-secondary">#{orderId}</span>
+                        <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col items-center">
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-2">Order ID</span>
+                            <span className="text-2xl font-mono font-black text-slate-900">#{orderId}</span>
                         </div>
 
-                        <div className="bg-brand-cream/40 rounded-3xl p-6 border border-brand-cream/50 flex flex-col items-center">
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">
+                        <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col items-center">
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-2">
                                 {isDineIn ? "Your Table" : "Pickup Time"}
                             </span>
                             <div className="flex items-center space-x-2 text-primary font-bold">
@@ -132,8 +132,8 @@ const OrderConfirmationPage = () => {
                         </div>
 
                         {isDineIn && (
-                            <div className="bg-brand-cream/40 rounded-3xl p-6 border border-brand-cream/50 flex flex-col items-center">
-                                <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">Service Timer</span>
+                            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col items-center">
+                                <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-2">Service Timer</span>
                                 <div className="flex items-center space-x-2 text-primary font-bold">
                                     <Clock size={18} />
                                     <span className="text-2xl font-mono">{formatTime(seconds)}</span>
@@ -143,12 +143,12 @@ const OrderConfirmationPage = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Link to="/" className="w-full sm:w-auto px-10 py-4 bg-white border-2 border-brand-cream text-secondary rounded-full font-bold uppercase tracking-widest text-xs hover:bg-brand-cream transition-all text-center">
+                        <Link to="/" className="w-full sm:w-auto px-10 py-4 bg-white border-2 border-brand-cream text-secondary rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-brand-cream transition-all text-center whitespace-nowrap">
                             Back to Home
                         </Link>
-                        <Link to={isDineIn ? "/dine-in-menu" : "/menu"} className="w-full sm:w-auto px-10 py-4 bg-primary text-white rounded-full font-bold uppercase tracking-widest text-xs shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all text-center flex justify-center items-center group">
+                        <Link to={isDineIn ? "/dine-in-menu" : "/menu"} className="w-full sm:w-auto px-10 py-4 bg-primary text-white rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all text-center flex justify-center items-center group whitespace-nowrap">
                             Order More
-                            <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform shrink-0" />
                         </Link>
                     </div>
                 </motion.div>
@@ -159,7 +159,7 @@ const OrderConfirmationPage = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1 }}
-                        className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-brand-cream rounded-2xl shadow-sm italic text-brand-text-light"
+                        className="inline-flex items-center gap-3 px-6 py-3 bg-white border border-slate-100 rounded-2xl shadow-sm italic text-slate-500"
                     >
                         <Heart size={14} className="text-primary fill-primary/20" />
                         <p className="text-sm font-medium tracking-tight">

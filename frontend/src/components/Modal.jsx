@@ -28,12 +28,12 @@ const Modal = ({ item, onClose }) => {
                     </div>
                     <div className="modal-info">
                         <span className="modal-category text-primary font-bold">Best Seller</span>
-                        <h2 className="text-3xl font-playfair text-secondary my-3">{item.name}</h2>
+                        <h2 className="text-3xl font-playfair font-bold text-slate-900 my-3">{item.name}</h2>
                         <p className="modal-price text-2xl font-bold text-primary mb-4">{item.price}</p>
-                        <p className="modal-description text-gray-600 mb-6">{item.description}</p>
+                        <p className="modal-description text-slate-500 mb-6 font-medium">{item.description}</p>
 
-                        <div className="modal-options mt-6 border-t border-gray-100 pt-6">
-                            <h3 className="text-lg font-bold text-secondary mb-3">Customizations</h3>
+                        <div className="modal-options mt-6 border-t border-slate-100 pt-6">
+                            <h3 className="text-lg font-bold text-slate-900 mb-3">Customizations</h3>
                             <label className="flex items-center space-x-3 text-gray-700 cursor-pointer p-2 hover:bg-gray-50 rounded-lg">
                                 <input type="checkbox" className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary" />
                                 <span>Extra Chutney</span>
@@ -44,7 +44,7 @@ const Modal = ({ item, onClose }) => {
                             </label>
                         </div>
 
-                        <div className="modal-footer mt-8 pt-6 border-t border-gray-100 flex justify-between items-center sm:flex-row flex-col space-y-4 sm:space-y-0">
+                        <div className="modal-footer mt-8 pt-6 border-t border-slate-100 flex justify-between items-center sm:flex-row flex-col space-y-4 sm:space-y-0">
                             <div className="flex items-center border border-gray-300 rounded-full px-4 py-2 bg-gray-50">
                                 <button onClick={handleDecrement} className="text-2xl px-3 font-bold text-gray-600 hover:text-primary transition-colors leading-none">-</button>
                                 <span className="mx-4 font-bold text-lg text-gray-800 min-w-[20px] text-center">{quantity}</span>

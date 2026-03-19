@@ -12,6 +12,7 @@ import addressRoutes from './routes/addresses.js';
 import faqRoutes from './routes/faqs.js';
 import menuRoutes from './routes/menu.js';
 import testimonialRoutes from './routes/testimonials.js';
+import restaurantRoutes from './routes/restaurant.js';
 import { verifyConnection, sendTestEmail } from './services/email.js';
 import dns from 'node:dns';
 
@@ -20,6 +21,12 @@ if (dns.setDefaultResultOrder) {
     dns.setDefaultResultOrder('ipv4first');
 }
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config();
 
 const app = express();
@@ -27,6 +34,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Main Dashboard Landing Page
 app.get('/', (req, res) => {
@@ -243,6 +251,7 @@ app.use('/api/addresses', addressRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/faqs', faqRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/restaurant', restaurantRoutes);
 
 db.sync({ alter: true }).then(() => {
     console.log('✅ Database synced successfully');

@@ -44,7 +44,7 @@ const FavoritesSection = () => {
     const [selectedItem, setSelectedItem] = useState(null);
 
     return (
-        <section className="section-padding bg-brand-cream/50">
+        <section className="section-padding bg-slate-50">
             <div className="container mx-auto">
                 <div className="text-center mb-16">
                     <motion.span
@@ -57,9 +57,9 @@ const FavoritesSection = () => {
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="text-secondary font-playfair text-4xl md:text-5xl lg:text-6xl"
+                        className="text-slate-900 font-playfair text-4xl md:text-5xl lg:text-6xl"
                     >
-                        Customer <span className="text-primary font-playfair">Favorites</span>
+                        Customer <span className="text-primary italic font-serif">Favorites</span>
                     </motion.h2>
                 </div>
 
@@ -87,24 +87,24 @@ const FavoritesSection = () => {
                                 </div>
                                 <button
                                     onClick={() => setSelectedItem(dish)}
-                                    className="absolute bottom-6 right-6 w-14 h-14 bg-white rounded-full flex items-center justify-center text-secondary shadow-lg transform translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 hover:bg-primary hover:text-white"
+                                    className="absolute bottom-6 right-6 w-14 h-14 bg-white rounded-full flex items-center justify-center text-slate-900 shadow-lg transform translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400 hover:bg-primary hover:text-white"
                                 >
                                     <ShoppingBag size={22} />
                                 </button>
                             </div>
                             <div className="p-8">
                                 <div className="flex justify-between items-start mb-4">
-                                    <h3 className="text-2xl font-playfair text-secondary group-hover:text-primary transition-colors">{dish.name}</h3>
+                                    <h3 className="text-2xl font-playfair font-bold text-slate-900 group-hover:text-primary transition-colors">{dish.name}</h3>
                                     <span className="text-primary font-bold text-xl">{dish.price}</span>
                                 </div>
-                                <p className="text-brand-text-light text-sm leading-relaxed mb-6">
+                                <p className="text-slate-500 text-sm leading-relaxed mb-6 font-medium">
                                     {dish.description}
                                 </p>
                                 <div className="flex items-center text-accent">
                                     {[...Array(dish.rating)].map((_, i) => (
                                         <Star key={i} size={14} fill="currentColor" className="mr-1" />
                                     ))}
-                                    <span className="text-brand-text-light text-xs ml-2">(48 Reviews)</span>
+                                    <span className="text-slate-400 text-xs ml-2">(48 Reviews)</span>
                                 </div>
                             </div>
                         </motion.div>
@@ -116,9 +116,9 @@ const FavoritesSection = () => {
                     whileInView={{ opacity: 1 }}
                     className="text-center mt-20"
                 >
-                    <Link to="/menu" className="btn-primary group">
+                    <Link to="/menu" className="btn-primary group whitespace-nowrap text-xs sm:text-base">
                         View Full Menu
-                        <ArrowRight size={18} className="inline ml-2 group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight size={18} className="inline ml-2 group-hover:translate-x-1 transition-transform shrink-0" />
                     </Link>
                 </motion.div>
             </div>

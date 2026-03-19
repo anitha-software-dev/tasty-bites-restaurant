@@ -12,16 +12,16 @@ export default {
                     dark: '#A03D22',
                 },
                 secondary: {
-                    DEFAULT: '#3B2F2F', // Dark Wood
+                    DEFAULT: '#0f172a', // Slate-900
                 },
                 accent: {
-                    DEFAULT: '#E5C76B', // Brass
-                    light: '#F4E4AD',
+                    DEFAULT: '#64748b', // Slate-500
+                    light: '#94a3b8',   // Slate-400
                 },
                 brand: {
-                    cream: '#FDF5E6',
-                    'text-dark': '#222222',
-                    'text-light': '#666666',
+                    cream: '#f8fafc',      // Slate-50
+                    'text-dark': '#0f172a', // Slate-900
+                    'text-light': '#64748b', // Slate-500
                 },
                 // Admin Theme Colors (SaaS Light)
                 'admin-primary': '#10b981', // Emerald

@@ -2,10 +2,10 @@ import React from 'react';
 
 const ReturnCancellation = () => {
     return (
-        <div className="pt-32 pb-20 bg-brand-cream/50 min-h-screen">
+        <div className="pt-32 pb-20 bg-slate-50 min-h-screen">
             <div className="container mx-auto px-6 max-w-4xl">
-                <h1 className="font-playfair text-4xl md:text-5xl text-primary font-bold mb-8 text-center">Return & Cancellation Policy</h1>
-                <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm space-y-8 text-secondary/80 leading-relaxed">
+                <h1 className="font-playfair text-3xl md:text-4xl text-slate-900 font-bold mb-8 text-center uppercase tracking-widest">Return & Cancellation Policy</h1>
+                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8 text-slate-600 leading-relaxed">
                     <section>
                         <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">1. Order Cancellations</h2>
                         <p>You may cancel your order at any time before the restaurant starts preparing it. To cancel an order, please contact us immediately by phone. If you cancel after we have started preparing the food, we cannot offer a refund.</p>

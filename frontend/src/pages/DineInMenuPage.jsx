@@ -154,11 +154,11 @@ const DineInMenuPage = () => {
                         {qty === 0 ? (
                             <button
                                 onClick={(e) => { e.stopPropagation(); addToCart(dish); }}
-                                className="w-full bg-emerald-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-800 transition-all shadow-lg hover:shadow-emerald-900/20 active:scale-95 flex items-center justify-center relative overflow-hidden group/btn"
+                                className="w-full bg-emerald-900 text-white py-4 rounded-2xl font-bold hover:bg-emerald-800 transition-all shadow-lg hover:shadow-emerald-900/20 active:scale-95 flex items-center justify-center relative overflow-hidden group/btn whitespace-nowrap text-xs sm:text-base"
                             >
                                 <span className="absolute inset-0 bg-amber-400/10 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500" />
-                                <Plus size={18} className="mr-2" />
-                                Add to Order
+                                <Plus size={18} className="mr-2 shrink-0" />
+                                Add to Cart
                             </button>
                         ) : (
                             <div className="w-full flex items-center justify-between bg-emerald-50/50 py-2 px-2 rounded-2xl border border-emerald-100">
@@ -195,7 +195,7 @@ const DineInMenuPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/90 via-emerald-950/60 to-transparent" />
 
-                <div className="absolute inset-0 flex items-center justify-center container mx-auto px-6 z-10 text-center">
+                <div className="absolute inset-0 flex items-start sm:items-center justify-center container mx-auto px-6 z-10 text-center pt-40 sm:pt-0">
                     <div className="max-w-2xl mx-auto flex flex-col items-center">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -209,7 +209,7 @@ const DineInMenuPage = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="text-4xl sm:text-6xl md:text-8xl font-playfair text-white mb-4 sm:mb-6 leading-tight"
+                            className="text-3xl sm:text-5xl md:text-8xl font-playfair text-white mb-4 sm:mb-6 leading-tight"
                         >
                             Dine-In <span className="text-amber-400 italic">Experience</span>
                         </motion.h1>
@@ -218,23 +218,11 @@ const DineInMenuPage = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="text-emerald-50/80 text-sm sm:text-lg md:text-xl font-medium max-w-lg leading-relaxed mb-8 sm:mb-10 px-4"
+                            className="text-emerald-50 text-sm sm:text-lg md:text-xl font-semibold max-w-lg leading-relaxed mb-8 sm:mb-10 px-4 drop-shadow-md"
                         >
                             Immerse yourself in the vibrant flavors of South India, served in our refined restaurant setting.
                         </motion.p>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 }}
-                        >
-                            <Link to="/" className="inline-flex items-center space-x-3 text-white hover:text-amber-400 transition-all font-bold group">
-                                <div className="p-3 rounded-full border border-white/20 group-hover:border-amber-400 transition-colors backdrop-blur-md">
-                                    <ArrowLeft size={20} />
-                                </div>
-                                <span className="uppercase tracking-widest text-sm">Return Home</span>
-                            </Link>
-                        </motion.div>
                     </div>
                 </div>
 
@@ -258,7 +246,7 @@ const DineInMenuPage = () => {
                                     placeholder="e.g. Dosa, Biriyani..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-5 pr-5 py-4 bg-emerald-50/30 border-2 border-emerald-50 rounded-2xl focus:outline-none focus:border-emerald-500/30 text-emerald-950 placeholder-emerald-950/30 font-bold transition-all"
+                                    className="w-full pl-5 pr-5 py-4 bg-emerald-50/30 border-2 border-emerald-50 rounded-2xl focus:outline-none focus:border-emerald-500/30 text-emerald-950 placeholder-emerald-950/30 placeholder:text-[11px] sm:placeholder:text-sm font-bold transition-all text-sm sm:text-base"
                                 />
                             </div>
                         </div>
@@ -455,8 +443,8 @@ const DineInMenuPage = () => {
                                                 className="w-full bg-emerald-900 text-white py-6 rounded-2xl font-black text-lg shadow-2xl hover:bg-emerald-800 transition-all flex items-center justify-center relative overflow-hidden group/btn"
                                             >
                                                 <div className="absolute inset-0 bg-amber-400/20 translate-y-[100%] group-hover/btn:translate-y-0 transition-transform duration-500" />
-                                                <ShoppingBag size={24} className="mr-4 relative z-10" />
-                                                <span className="relative z-10 uppercase tracking-[0.2em]">Add to Order</span>
+                                                <Plus size={24} className="mr-4 relative z-10" />
+                                                <span className="relative z-10 uppercase tracking-[0.2em]">Add to Cart</span>
                                             </button>
                                         )}
 

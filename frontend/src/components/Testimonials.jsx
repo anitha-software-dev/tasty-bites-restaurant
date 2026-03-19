@@ -29,7 +29,7 @@ const reviews = [
 
 const Testimonials = () => {
     return (
-        <section className="section-padding bg-slate-950 relative overflow-hidden">
+        <section className="section-padding bg-slate-900 relative overflow-hidden">
             {/* Background patterns */}
             <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
                 <div className="absolute top-10 left-10 w-96 h-96 border border-white/20 rounded-full" />
@@ -39,8 +39,8 @@ const Testimonials = () => {
             <div className="container mx-auto relative z-10">
                 <div className="text-center mb-16">
                     <span className="text-accent font-semibold tracking-widest uppercase text-sm block mb-4">What Our Guests Say</span>
-                    <h2 className="text-white font-playfair text-4xl md:text-5xl lg:text-6xl">
-                        Trusted by <span className="text-accent font-playfair">Food Lovers</span>
+                    <h2 className="text-white font-playfair text-4xl md:text-6xl lg:text-7xl leading-tight">
+                        Trusted by <span className="text-primary italic">Food Lovers</span>
                     </h2>
                 </div>
 
@@ -52,11 +52,11 @@ const Testimonials = () => {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: idx * 0.2 }}
-                            className="bg-white/5 backdrop-blur-sm border border-white/10 p-10 rounded-3xl relative"
+                            className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] relative group hover:border-primary/50 transition-all duration-700 h-full"
                         >
-                            <Quote className="absolute top-6 right-8 text-accent/20 w-12 h-12" />
+                            <Quote className="absolute top-8 right-8 text-primary/10 w-16 h-16 rotate-12 group-hover:rotate-0 transition-transform duration-700" />
 
-                            <div className="flex items-center space-x-1 text-accent mb-6">
+                            <div className="flex items-center space-x-1 text-primary mb-8">
                                 {[...Array(review.rating)].map((_, i) => (
                                     <Star key={i} size={16} fill="currentColor" />
                                 ))}
@@ -75,9 +75,9 @@ const Testimonials = () => {
                 </div>
 
                 <div className="text-center mt-16">
-                    <Link to="/testimonials" className="text-accent font-bold uppercase tracking-widest text-sm py-2 border-b-2 border-accent/30 hover:border-accent transition-all">
-                        View All Reviews
-                    </Link>
+                        <Link to="/testimonials" className="btn-primary !px-12 !py-5 !text-[10px] shadow-[0_20px_50px_rgba(192,75,42,0.3)]">
+                            READ ALL EXPERIENCES
+                        </Link>
                 </div>
             </div>
         </section>

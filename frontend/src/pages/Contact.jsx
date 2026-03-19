@@ -181,7 +181,7 @@ const Contact = () => {
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 placeholder="e.g. Alex Perry"
-                                                className={`w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-2xl text-white placeholder:text-white/20 focus:ring-4 ${errors.name ? 'ring-red-500/20 border-red-500/50' : 'focus:ring-primary/20 focus:border-primary/40'} transition-all outline-none backdrop-blur-md shadow-inner text-base font-medium`}
+                                                className={`w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-2xl text-white placeholder:text-white/20 placeholder:text-[11px] sm:placeholder:text-sm focus:ring-4 ${errors.name ? 'ring-red-500/20 border-red-500/50' : 'focus:ring-primary/20 focus:border-primary/40'} transition-all outline-none backdrop-blur-md shadow-inner text-sm sm:text-base font-medium`}
                                             />
                                             {errors.name && <p className="text-red-400 text-[10px] font-bold uppercase tracking-wider ml-1">{errors.name}</p>}
                                         </div>
@@ -193,7 +193,7 @@ const Contact = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 placeholder="alex@example.com"
-                                                className={`w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-2xl text-white placeholder:text-white/20 focus:ring-4 ${errors.email ? 'ring-red-500/20 border-red-500/50' : 'focus:ring-primary/20 focus:border-primary/40'} transition-all outline-none backdrop-blur-md shadow-inner text-base font-medium`}
+                                                className={`w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-2xl text-white placeholder:text-white/20 placeholder:text-[11px] sm:placeholder:text-sm focus:ring-4 ${errors.email ? 'ring-red-500/20 border-red-500/50' : 'focus:ring-primary/20 focus:border-primary/40'} transition-all outline-none backdrop-blur-md shadow-inner text-sm sm:text-base font-medium`}
                                             />
                                             {errors.email && <p className="text-red-400 text-[10px] font-bold uppercase tracking-wider ml-1">{errors.email}</p>}
                                         </div>
@@ -206,7 +206,7 @@ const Contact = () => {
                                                 value={formData.phone}
                                                 onChange={handlePhoneChange}
                                                 className="backdrop-blur-md"
-                                                inputClassName="!py-4 text-base font-medium"
+                                                inputClassName="!py-4 text-sm sm:text-base font-medium"
                                             />
                                             {errors.phone && <p className="text-red-400 text-[10px] font-bold uppercase tracking-wider ml-1">{errors.phone}</p>}
                                         </div>
@@ -220,10 +220,10 @@ const Contact = () => {
                                                     className="w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-2xl text-white appearance-none cursor-pointer focus:ring-4 focus:ring-primary/20 focus:border-primary/40 transition-all outline-none h-[60px] backdrop-blur-md text-base font-medium"
                                                     style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C04B2A'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1.5rem center', backgroundSize: '1.2em 1.2em' }}
                                                 >
-                                                    <option className="bg-secondary">General Inquiry</option>
-                                                    <option className="bg-secondary">Table Reservation</option>
-                                                    <option className="bg-secondary">Catering Event</option>
-                                                    <option className="bg-secondary">Feedback</option>
+                                                    <option className="bg-slate-900">General Inquiry</option>
+                                                    <option className="bg-slate-900">Table Reservation</option>
+                                                    <option className="bg-slate-900">Catering Event</option>
+                                                    <option className="bg-slate-900">Feedback</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -237,7 +237,7 @@ const Contact = () => {
                                             value={formData.message}
                                             onChange={handleChange}
                                             placeholder="How can we assist you today?"
-                                            className={`w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-3xl text-white placeholder:text-white/20 focus:ring-4 ${errors.message ? 'ring-red-500/20 border-red-500/50' : 'focus:ring-primary/20 focus:border-primary/40'} transition-all outline-none resize-none backdrop-blur-md shadow-inner text-base font-medium`}
+                                            className={`w-full px-6 py-4 bg-white/[0.05] border border-white/10 rounded-3xl text-white placeholder:text-white/20 placeholder:text-[11px] sm:placeholder:text-sm focus:ring-4 ${errors.message ? 'ring-red-500/20 border-red-500/50' : 'focus:ring-primary/20 focus:border-primary/40'} transition-all outline-none resize-none backdrop-blur-md shadow-inner text-sm sm:text-base font-medium`}
                                         ></textarea>
                                         {errors.message && <p className="text-red-400 text-[10px] font-bold uppercase tracking-wider ml-1">{errors.message}</p>}
                                     </div>
@@ -247,7 +247,7 @@ const Contact = () => {
                                         whileTap={{ scale: 0.98 }}
                                         type="submit"
                                         disabled={isLoading}
-                                        className={`w-full relative overflow-hidden group/btn py-6 rounded-2xl text-base font-extrabold uppercase tracking-[0.25em] shadow-[0_20px_40px_rgba(192,75,42,0.3)] flex items-center justify-center space-x-3 transition-all ${isLoading ? 'opacity-70 cursor-wait' : 'bg-primary text-white hover:shadow-[0_25px_50px_rgba(192,75,42,0.4)]'}`}
+                                        className={`w-full relative overflow-hidden group/btn py-6 rounded-2xl text-xs sm:text-base font-extrabold uppercase tracking-[0.15em] sm:tracking-[0.25em] shadow-[0_20px_40px_rgba(192,75,42,0.3)] flex items-center justify-center space-x-3 transition-all whitespace-nowrap ${isLoading ? 'opacity-70 cursor-wait' : 'bg-primary text-white hover:shadow-[0_25px_50px_rgba(192,75,42,0.4)]'}`}
                                     >
                                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1.5s_infinite]" />
                                         {isLoading ? (

@@ -242,7 +242,7 @@ const BookTable = () => {
                                                     name="fullName"
                                                     value={formData.fullName}
                                                     onChange={handleChange}
-                                                    className={`w-full pl-12 sm:pl-16 pr-6 py-4 bg-slate-50 border-2 ${errors.fullName ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium shadow-sm text-sm sm:text-base`}
+                                                    className={`w-full pl-12 sm:pl-16 pr-6 py-4 bg-slate-50 border-2 ${errors.fullName ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 placeholder:text-[11px] sm:placeholder:text-sm focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium shadow-sm text-sm sm:text-base`}
                                                     placeholder="Enter your name"
                                                 />
                                             </div>
@@ -258,7 +258,7 @@ const BookTable = () => {
                                                     name="email"
                                                     value={formData.email}
                                                     onChange={handleChange}
-                                                    className={`w-full pl-12 sm:pl-16 pr-6 py-4 bg-slate-50 border-2 ${errors.email ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium shadow-sm text-sm sm:text-base`}
+                                                    className={`w-full pl-12 sm:pl-16 pr-6 py-4 bg-slate-50 border-2 ${errors.email ? 'border-red-500/50' : 'border-slate-100 focus:border-primary/60'} rounded-2xl text-slate-900 placeholder:text-slate-200 placeholder:text-[11px] sm:placeholder:text-sm focus:ring-4 focus:ring-primary/10 transition-all outline-none font-medium shadow-sm text-sm sm:text-base`}
                                                     placeholder="your@email.com"
                                                 />
                                             </div>
@@ -340,7 +340,7 @@ const BookTable = () => {
                                         whileTap={{ scale: 0.99 }}
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className={`w-full py-5 sm:py-6 rounded-2xl text-[13px] sm:text-base font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
+                                        className={`w-full py-4 sm:py-6 rounded-2xl text-xs sm:text-base font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all whitespace-nowrap ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
                                     >
                                         {isSubmitting ? (
                                             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />

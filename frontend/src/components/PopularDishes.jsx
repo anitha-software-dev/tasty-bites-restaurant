@@ -22,11 +22,11 @@ const PopularDishes = () => {
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 px-4">
                     <div className="max-w-xl">
                         <span className="text-primary font-semibold tracking-widest uppercase text-sm block mb-4">Trending Now</span>
-                        <h2 className="text-secondary font-playfair text-4xl md:text-5xl leading-tight">
+                        <h2 className="text-slate-900 font-playfair text-4xl md:text-5xl leading-tight">
                             Most Popular <span className="text-primary italic">Side Delights</span>
                         </h2>
                     </div>
-                    <p className="text-brand-text-light max-w-sm mt-6 md:mt-0">
+                    <p className="text-slate-500 max-w-sm mt-6 md:mt-0">
                         Complement your meal with our authentic starters and traditional sides.
                     </p>
                 </div>
@@ -55,7 +55,7 @@ const PopularDishes = () => {
                                 </div>
                             </div>
                             <div className="text-center">
-                                <h3 className="text-xl font-bold text-secondary mb-1 group-hover:text-primary transition-colors flex items-center justify-center gap-2">
+                                <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-primary transition-colors flex items-center justify-center gap-2">
                                     {dish.name}
                                 </h3>
                                 <span className="text-primary font-bold">{dish.price}</span>

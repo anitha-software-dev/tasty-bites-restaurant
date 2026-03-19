@@ -154,7 +154,7 @@ const CateringPage = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 href="#inquiry-form" 
-                                className="btn-primary !px-12 !py-5 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-base"
+                                className="btn-primary !px-6 sm:!px-12 !py-4 sm:!py-5 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-sm sm:!text-base whitespace-nowrap"
                             >
                                 Plan Your Heritage Menu
                             </motion.a>
@@ -305,13 +305,13 @@ const CateringPage = () => {
                                 <motion.a 
                                     href="#inquiry-form" 
                                     whileHover={{ gap: '1rem' }}
-                                    className={`w-full py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 transition-all ${
+                                    className={`w-full py-4 sm:py-5 rounded-2xl font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] text-xs flex items-center justify-center gap-2 sm:gap-3 transition-all whitespace-nowrap ${
                                         activePackage === tier.id 
                                     ? 'bg-white text-slate-900' 
                                     : 'bg-slate-900 text-white'
                                 }`}
                                 >
-                                    Select This Collection <ChevronRight size={16} />
+                                    Select This Collection <ChevronRight size={16} className="shrink-0" />
                                 </motion.a>
                             </motion.div>
                         ))}
@@ -385,7 +385,7 @@ const CateringPage = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 placeholder="legend@royal.com" 
-                                                className="w-full pl-16 pr-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-sm"
+                                                className="w-full pl-12 sm:pl-16 pr-8 py-4 sm:py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 placeholder:text-[11px] sm:placeholder:text-sm shadow-sm text-xs sm:text-sm"
                                             />
                                         </div>
                                     </div>
@@ -399,7 +399,7 @@ const CateringPage = () => {
                                                 value={formData.phone}
                                                 onChange={handlePhoneChange}
                                                 className="bg-slate-50 border-2 border-slate-100 rounded-2xl focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-white"
-                                                inputClassName="font-bold text-slate-900 placeholder:text-slate-300 text-sm"
+                                                inputClassName="font-bold text-slate-900 placeholder:text-slate-300 placeholder:text-[11px] sm:placeholder:text-sm text-sm"
                                                 isDark={true}
                                             />
                                         </div>
@@ -472,7 +472,7 @@ const CateringPage = () => {
                                                 value={formData.budget}
                                                 onChange={handleChange}
                                                 placeholder="e.g. £5000" 
-                                                className="w-full pl-16 pr-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-sm"
+                                                className="w-full pl-12 sm:pl-16 pr-8 py-4 sm:py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 placeholder:text-[11px] sm:placeholder:text-sm shadow-sm text-xs sm:text-sm"
                                             />
                                         </div>
                                     </div>
@@ -488,7 +488,7 @@ const CateringPage = () => {
                                             onChange={handleChange}
                                             rows="5" 
                                             placeholder="Detail your dream culinary landscape..." 
-                                            className="w-full pl-16 pr-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-3xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 resize-none shadow-sm text-sm"
+                                            className="w-full pl-12 sm:pl-16 pr-8 py-4 sm:py-5 bg-slate-50 border-2 border-slate-100 rounded-3xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 placeholder:text-[11px] sm:placeholder:text-sm resize-none shadow-sm text-xs sm:text-sm"
                                         ></textarea>
                                     </div>
                                 </div>
@@ -498,14 +498,14 @@ const CateringPage = () => {
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className={`w-full py-5 rounded-2xl bg-slate-950 text-white font-black uppercase tracking-[0.4em] text-[11px] shadow-2xl hover:bg-primary transition-all flex items-center justify-center gap-6 ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
+                                    className={`w-full py-5 rounded-2xl bg-slate-950 text-white font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-[10px] sm:text-[11px] shadow-2xl hover:bg-primary transition-all flex items-center justify-center gap-3 sm:gap-6 whitespace-nowrap ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
                                 >
                                     {isLoading ? (
                                         <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                                     ) : (
-                                        <>
-                                            Architect My Experience <Send size={18} className="animate-bounce" />
-                                        </>
+                                        <div className="flex items-center justify-center gap-2 sm:gap-4">
+                                            Architect My Experience <Send size={18} className="animate-bounce shrink-0" />
+                                        </div>
                                     )}
                                 </motion.button>
                             </form>

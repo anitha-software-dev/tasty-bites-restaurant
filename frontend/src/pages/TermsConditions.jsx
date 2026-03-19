@@ -2,10 +2,10 @@ import React from 'react';
 
 const TermsConditions = () => {
     return (
-        <div className="pt-32 pb-20 bg-brand-cream/50 min-h-screen">
+        <div className="pt-32 pb-20 bg-slate-50 min-h-screen">
             <div className="container mx-auto px-6 max-w-4xl">
-                <h1 className="font-playfair text-4xl md:text-5xl text-primary font-bold mb-8 text-center">Terms & Conditions</h1>
-                <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm space-y-8 text-secondary/80 leading-relaxed">
+                <h1 className="font-playfair text-3xl md:text-4xl text-slate-900 font-bold mb-8 text-center uppercase tracking-widest">Terms & Conditions</h1>
+                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8 text-slate-600 leading-relaxed">
                     <section>
                         <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">1. Acceptance of Terms</h2>
                         <p>By accessing and using the Tasty Bites website, you agree to comply with and be bound by these Terms & Conditions. If you disagree with any part of these terms, please do not use our website.</p>

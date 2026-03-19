@@ -128,9 +128,9 @@ const MenuPage = () => {
                         {qty === 0 ? (
                             <button
                                 onClick={(e) => { e.stopPropagation(); addToCart(dish); }}
-                                className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center justify-center"
+                                className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-primary transition-colors flex items-center justify-center whitespace-nowrap text-xs sm:text-sm"
                             >
-                                <Plus size={18} className="mr-2" />
+                                <Plus size={16} className="mr-2 shrink-0" />
                                 Add to Cart
                             </button>
                         ) : (
@@ -170,7 +170,7 @@ const MenuPage = () => {
 
                 <motion.div 
                     style={{ opacity: opacityHero }}
-                    className="absolute inset-0 flex items-center justify-center z-10"
+                    className="absolute inset-0 flex items-start sm:items-center justify-center z-10 pt-40 sm:pt-0"
                 >
                     <div className="container mx-auto px-6 text-center">
                         <div className="max-w-3xl mx-auto flex flex-col items-center">
@@ -182,22 +182,16 @@ const MenuPage = () => {
                             >
                                 <ShoppingBag size={14} /> The Culinary Collection
                             </motion.div>
-                            <h1 className="text-4xl sm:text-6xl md:text-8xl font-playfair text-white mb-4 sm:mb-6 leading-tight">
+                            <h1 className="text-3xl sm:text-5xl md:text-8xl font-playfair text-white mb-4 sm:mb-6 leading-tight">
                                 Order <span className="text-primary italic">Online</span>
                             </h1>
-                            <p className="text-white/80 text-sm sm:text-lg md:text-2xl font-light leading-relaxed max-w-xl mx-auto px-4">
+                            <p className="text-white text-sm sm:text-lg md:text-2xl font-medium leading-relaxed max-w-xl mx-auto px-4 drop-shadow-md">
                                 Explore our masterfully crafted South Indian menu, staged for your personal sanctuary or shared celebrations.
                             </p>
                         </div>
                     </div>
                 </motion.div>
                 
-                <div className="absolute top-1/2 -translate-y-1/2 right-12 z-20 hidden lg:block">
-                    <Link to="/" className="group flex items-center space-x-4 text-white hover:text-accent transition-all duration-500 bg-white/5 hover:bg-white/10 px-8 py-4 rounded-full backdrop-blur-xl border border-white/10 hover:border-accent/30 shadow-2xl">
-                        <ArrowLeft size={20} className="group-hover:-translate-x-2 transition-transform" />
-                        <span className="font-bold uppercase tracking-[0.3em] text-[10px]">Back to home</span>
-                    </Link>
-                </div>
             </div>
 
             <div className="container mx-auto px-6 mt-12">
@@ -217,7 +211,7 @@ const MenuPage = () => {
                                     placeholder="Search dishes..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-700 placeholder-slate-400 text-sm font-medium"
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-slate-700 placeholder-slate-400 placeholder:text-[11px] sm:placeholder:text-sm text-sm font-medium"
                                 />
                                 {searchQuery && (
                                     <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">

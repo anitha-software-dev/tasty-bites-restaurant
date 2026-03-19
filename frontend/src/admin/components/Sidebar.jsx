@@ -18,26 +18,31 @@ import {
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { adminOrdersApi } from '../services/adminApi';
+import api, { getImageUrl } from '../../services/api';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
     const { logout } = useAdminAuth();
     const [orderCount, setOrderCount] = useState(0);
+    const [restaurantInfo, setRestaurantInfo] = useState(null);
 
     useEffect(() => {
-        const fetchOrderCount = async () => {
+        const fetchData = async () => {
             try {
-                const orders = await adminOrdersApi.getAll();
-                // We count orders that are not Completed/Cancelled for the badge, or just total pending
+                const [orders, info] = await Promise.all([
+                    adminOrdersApi.getAll(),
+                    api.getRestaurantInfo()
+                ]);
+                
                 const pending = orders.filter(o => !['Completed', 'Cancelled', 'Delivered'].includes(o.status)).length;
                 setOrderCount(pending);
+                setRestaurantInfo(info);
             } catch (error) {
-                console.error('Failed to fetch sidebar order count:', error);
+                console.error('Failed to fetch sidebar data:', error);
             }
         };
 
-        fetchOrderCount();
-        // Set up interval for refreshing count every 30 seconds
-        const interval = setInterval(fetchOrderCount, 30000);
+        fetchData();
+        const interval = setInterval(fetchData, 30000);
         return () => clearInterval(interval);
     }, []);
     const menuItems = [
@@ -57,11 +62,17 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             {/* Header */}
             <div className="h-20 px-8 flex items-center justify-between border-b border-admin-border">
                 <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-admin-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-admin-primary/20">
-                        <ChefHat size={32} strokeWidth={2.5} />
+                    <div className="w-14 h-14 bg-admin-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-admin-primary/20 overflow-hidden">
+                        {restaurantInfo?.logo ? (
+                            <img src={getImageUrl(restaurantInfo.logo)} alt="Logo" className="w-full h-full object-cover" />
+                        ) : (
+                            <ChefHat size={32} strokeWidth={2.5} />
+                        )}
                     </div>
                     <div>
-                        <h1 className="text-xl font-black text-slate-900 tracking-tight leading-none">Tasty Bites</h1>
+                        <h1 className="text-xl font-black text-slate-900 tracking-tight leading-none truncate max-w-[120px]">
+                            {restaurantInfo?.name || 'Tasty Bites'}
+                        </h1>
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Admin Panel</p>
                     </div>
                 </div>

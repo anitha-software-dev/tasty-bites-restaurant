@@ -15,6 +15,7 @@ import {
 import { adminOrdersApi, adminReservationsApi, adminTestimonialsApi } from '../services/adminApi';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import DashboardCharts from '../components/DashboardCharts';
 
 const OperationWidget = ({ title, value, status, icon: Icon, colorClass }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group">
@@ -135,6 +136,9 @@ const AdminDashboard = () => {
                     colorClass="bg-purple-500"
                 />
             </div>
+
+            {/* Visual Analytics Section */}
+            {!loading && <DashboardCharts orders={orders} />}
 
             {/* Quick Overview Section */}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">

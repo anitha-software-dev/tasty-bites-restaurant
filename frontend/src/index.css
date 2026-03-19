@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply font-poppins bg-brand-cream text-brand-text-dark;
+    @apply font-poppins bg-slate-50 text-slate-900;
   }
 }
 
@@ -32,7 +32,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #FDF5E6;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -71,7 +71,7 @@
 }
 
 .flatpickr-months .flatpickr-month {
-  @apply !text-secondary !fill-secondary;
+  @apply !text-slate-900 !fill-slate-900;
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months {
@@ -84,7 +84,7 @@
 
 .flatpickr-months .flatpickr-prev-month,
 .flatpickr-months .flatpickr-next-month {
-  fill: var(--secondary) !important;
+  fill: #0f172a !important;
   transition: color 0.2s, fill 0.2s;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .flatpickr-weekday {
-  @apply !text-gray-400 !uppercase !text-[10px] !font-bold !tracking-widest;
+  @apply !text-slate-400 !uppercase !text-[10px] !font-bold !tracking-widest;
 }
 
 .flatpickr-input[readonly] {

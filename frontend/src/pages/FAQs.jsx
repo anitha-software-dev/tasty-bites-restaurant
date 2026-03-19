@@ -5,18 +5,17 @@ import { Link } from 'react-router-dom';
 import api from '../services/api';
 
 const AccordionItem = ({ item, isOpen, onToggle }) => (
-    <div className="border-b border-gray-100 last:border-b-0">
+    <div className="border-b border-slate-100 last:border-b-0 overflow-hidden">
         <button
             onClick={onToggle}
-            className="w-full flex items-center justify-between py-5 px-2 text-left group"
+            className="w-full flex items-center justify-between py-7 px-4 text-left group transition-all"
         >
-            <span className={`text-lg font-medium transition-colors ${isOpen ? 'text-primary' : 'text-secondary group-hover:text-primary'}`}>
+            <span className={`text-sm sm:text-lg font-medium tracking-tight transition-all duration-300 ${isOpen ? 'text-primary translate-x-2' : 'text-slate-600 group-hover:text-slate-900'}`}>
                 {item.q}
             </span>
-            <ChevronDown
-                size={20}
-                className={`text-gray-400 group-hover:text-primary transition-transform duration-300 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180 text-primary' : ''}`}
-            />
+            <div className={`p-2 rounded-xl transition-all duration-300 ${isOpen ? 'bg-primary/10 text-primary rotate-180' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100 group-hover:text-slate-600'}`}>
+                <ChevronDown size={20} />
+            </div>
         </button>
         <AnimatePresence initial={false}>
             {isOpen && (
@@ -24,10 +23,11 @@ const AccordionItem = ({ item, isOpen, onToggle }) => (
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="overflow-hidden"
+                    transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
                 >
-                    <p className="px-2 pb-6 text-gray-600 leading-relaxed">{item.a}</p>
+                    <div className="px-6 pb-8 text-slate-500 text-[13px] sm:text-base leading-relaxed font-light italic">
+                        {item.a}
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>
@@ -73,32 +73,34 @@ const FAQs = () => {
     };
 
     return (
-        <div className="pt-14 min-h-screen bg-brand-cream/30 pb-24">
+        <div className="pt-14 min-h-screen bg-slate-50 pb-24">
             {/* Hero Section */}
-            <section className="bg-secondary py-24 relative overflow-hidden">
-                <div className="absolute inset-0 bg-primary/10" />
+            <section className="py-32 relative overflow-hidden bg-white">
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-white to-white" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4" />
+                
                 <div className="container mx-auto px-6 text-center relative z-10">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="w-20 h-20 bg-accent rounded-full flex items-center justify-center text-secondary mx-auto mb-10 shadow-lg"
+                        className="w-24 h-24 bg-slate-50 border border-slate-100 rounded-[2rem] flex items-center justify-center text-primary mx-auto mb-10 shadow-sm"
                     >
-                        <HelpCircle size={36} />
+                        <HelpCircle size={40} className="animate-pulse" />
                     </motion.div>
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-white font-playfair text-5xl md:text-7xl mb-6"
+                        className="text-slate-900 font-playfair text-3xl md:text-5xl mb-8 leading-tight"
                     >
-                        Frequently Asked <span className="text-accent italic">Questions</span>
+                        Inquiry <span className="text-primary italic">Intelligence</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="text-white/60 text-lg max-w-xl mx-auto font-light tracking-wide uppercase"
+                        className="text-slate-500 text-sm md:text-base max-w-2xl mx-auto font-black uppercase tracking-[0.5em] leading-relaxed"
                     >
-                        Find answers to your most common questions
+                        Clarifying the journey from culture to cuisine
                     </motion.p>
                 </div>
             </section>
@@ -116,29 +118,36 @@ const FAQs = () => {
                 ) : (
                     <>
                         {/* Category Tabs */}
-                        <div className="flex flex-wrap justify-center gap-3 mb-12">
+                        <div className="flex flex-wrap justify-center gap-4 mb-20 px-4">
                             {categoryKeys.map(cat => (
                                 <button
                                     key={cat}
                                     onClick={() => handleCategoryChange(cat)}
-                                    className={`px-6 py-3 rounded-full text-sm font-semibold uppercase tracking-wider transition-all ${activeCategory === cat
-                                        ? 'bg-primary text-white shadow-md'
-                                        : 'bg-white text-gray-600 border border-gray-200 hover:border-primary hover:text-primary'
+                                    className={`px-4 sm:px-8 py-4 rounded-2xl text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] transition-all relative overflow-hidden group whitespace-nowrap ${activeCategory === cat
+                                        ? 'bg-primary text-white shadow-[0_10px_30px_rgba(192,75,42,0.3)]'
+                                        : 'bg-white text-slate-400 border border-slate-100 hover:border-primary/50 hover:text-primary shadow-sm'
                                         }`}
                                 >
-                                    {cat}
+                                    <span className="relative z-10">{cat}</span>
+                                    {activeCategory === cat && (
+                                        <motion.div 
+                                            layoutId="activeTab"
+                                            className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-50"
+                                        />
+                                    )}
                                 </button>
                             ))}
                         </div>
 
                         {/* Accordion */}
-                        <div className="max-w-3xl mx-auto">
+                        <div className="max-w-4xl mx-auto px-4">
                             <motion.div
                                 key={activeCategory}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="bg-white rounded-3xl p-6 md:p-10 shadow-sm border border-gray-100"
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="bg-white rounded-[3rem] p-8 md:p-14 border border-slate-100 shadow-sm relative"
                             >
+                                <div className="absolute -top-12 -left-12 w-64 h-64 bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
                                 {faqCategories[activeCategory]?.map((item, idx) => (
                                     <AccordionItem
                                         key={idx}
@@ -154,23 +163,27 @@ const FAQs = () => {
             </section>
 
             {/* Still Have Questions CTA */}
-            <section className="mt-24">
+            <section className="mt-40 bg-slate-50 py-24 relative overflow-hidden">
                 <div className="container mx-auto px-6">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="max-w-3xl mx-auto bg-secondary rounded-3xl p-12 md:p-16 text-center relative overflow-hidden"
+                        className="max-w-5xl mx-auto bg-white rounded-[4rem] p-16 md:p-24 text-center relative overflow-hidden border border-slate-100 shadow-sm"
                     >
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-                        <h2 className="text-3xl md:text-5xl font-playfair text-white mb-4 relative z-10">Still have <span className="text-accent italic">questions?</span></h2>
-                        <p className="text-white/70 text-lg mb-10 relative z-10">Our team is here to help</p>
+                        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                        <h2 className="text-2xl md:text-4xl font-playfair text-slate-900 mb-8 relative z-10 leading-tight">
+                            Still Seeking <br />
+                            <span className="text-primary italic font-light">Clarification?</span>
+                        </h2>
+                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.5em] mb-14 relative z-10">
+                            Our elite concierge team is standing by to assist
+                        </p>
                         <Link
                             to="/contact"
-                            className="inline-flex items-center space-x-3 bg-primary text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-accent hover:text-secondary transition-all shadow-xl group relative z-10"
+                            className="btn-primary !px-8 sm:!px-14 !py-4 sm:!py-7 !text-xs shadow-[0_20px_60px_rgba(192,75,42,0.4)] whitespace-nowrap"
                         >
-                            <span>Contact Us</span>
-                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                            INITIATE CONVERSATION
                         </Link>
                     </motion.div>
                 </div>

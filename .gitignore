@@ -39,3 +39,6 @@ Thumbs.db
 
 # Misc
 # .env.example (optionally track template by removing this line)
+
+# Local Uploads
+backend/uploads/

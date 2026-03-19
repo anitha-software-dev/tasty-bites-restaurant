@@ -2,10 +2,10 @@ import React from 'react';
 
 const PrivacyPolicy = () => {
     return (
-        <div className="pt-32 pb-20 bg-brand-cream/50 min-h-screen">
+        <div className="pt-32 pb-20 bg-slate-50 min-h-screen">
             <div className="container mx-auto px-6 max-w-4xl">
-                <h1 className="font-playfair text-4xl md:text-5xl text-primary font-bold mb-8 text-center">Privacy Policy</h1>
-                <div className="bg-white p-8 md:p-12 rounded-2xl shadow-sm space-y-8 text-secondary/80 leading-relaxed">
+                <h1 className="font-playfair text-3xl md:text-4xl text-slate-900 font-bold mb-8 text-center uppercase tracking-widest">Privacy Policy</h1>
+                <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8 text-slate-600 leading-relaxed">
                     <section>
                         <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">1. Introduction</h2>
                         <p>Welcome to Tasty Bites. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>

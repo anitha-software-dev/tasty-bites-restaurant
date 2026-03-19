@@ -26,14 +26,14 @@ const StatCounter = ({ value, label, icon: Icon }) => {
     }, [isInView, value]);
 
     return (
-        <div ref={ref} className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 border border-brand-cream shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group text-center">
+        <div ref={ref} className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
                 <Icon size={32} className="text-primary" />
             </div>
-            <h3 className="text-4xl font-bold text-secondary mb-2">
+            <h3 className="text-4xl font-bold text-slate-900 mb-2">
                 {count}{value.includes('+') ? '+' : ''}
             </h3>
-            <p className="text-brand-text-light font-medium uppercase tracking-widest text-xs">{label}</p>
+            <p className="text-slate-500 font-medium uppercase tracking-widest text-xs">{label}</p>
         </div>
     );
 };
@@ -54,17 +54,17 @@ const TimelineItem = ({ year, title, description, side, index }) => {
                 >
                     {index + 1}
                 </motion.div>
-                <div className="absolute h-full w-0.5 bg-brand-cream top-10" />
+                <div className="absolute h-full w-0.5 bg-slate-100 top-10" />
             </div>
             <motion.div 
                 initial={{ opacity: 0, x: side === 'left' ? 50 : -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className={`flex-1 w-full md:w-1/2 bg-white p-8 rounded-[2rem] shadow-lg border border-brand-cream/50 m-4 text-${side === 'left' ? 'left' : 'right'}`}
+                className={`flex-1 w-full md:w-1/2 bg-white p-8 rounded-[2rem] shadow-lg border border-slate-100 m-4 text-${side === 'left' ? 'left' : 'right'}`}
             >
                 <span className="text-primary font-bold text-lg mb-2 block font-playfair italic">{year}</span>
-                <h4 className="text-xl font-playfair font-bold text-secondary mb-3">{title}</h4>
-                <p className="text-brand-text-light leading-relaxed">{description}</p>
+                <h4 className="text-xl font-playfair font-bold text-slate-900 mb-3">{title}</h4>
+                <p className="text-slate-500 leading-relaxed">{description}</p>
             </motion.div>
         </div>
     );
@@ -105,7 +105,7 @@ const About = () => {
     ];
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-brand-cream/30">
+        <div ref={containerRef} className="min-h-screen bg-slate-50">
             {/* Hero Section with Parallax */}
             <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
                 <motion.div 
@@ -130,7 +130,7 @@ const About = () => {
                         <span className="text-accent font-bold tracking-[0.4em] uppercase text-sm block mb-6 px-4 py-2 border border-accent/30 rounded-full w-fit mx-auto backdrop-blur-sm">
                             Our Culinary Legacy
                         </span>
-                        <h1 className="text-white font-playfair text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                        <h1 className="text-white font-playfair text-4xl md:text-6xl font-bold mb-8 leading-tight">
                             A Tale of <span className="text-accent italic">Soul</span> & Spice
                         </h1>
                         <motion.div 
@@ -158,19 +158,19 @@ const About = () => {
                             whileInView={{ opacity: 1 }}
                             className="mb-16"
                         >
-                            <h2 className="text-secondary font-playfair text-4xl md:text-6xl leading-tight font-bold mb-10">
+                            <h2 className="text-slate-900 font-playfair text-3xl md:text-5xl leading-tight font-bold mb-10">
                                 "Flavours that whisper <span className="text-primary italic">tradition</span>, <br />
                                 crafted for the <span className="text-primary">modern palate</span>."
                             </h2>
                             <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
                         </motion.div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 text-left text-brand-text-light text-lg">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 text-left text-slate-500 text-lg">
                             <motion.div
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8 }}
-                                className="relative p-10 bg-brand-cream/20 rounded-[3rem] border border-brand-cream"
+                                className="relative p-10 bg-white rounded-[3rem] border border-slate-100 shadow-sm"
                             >
                                 <Heart className="text-primary mb-6" size={40} />
                                 <p className="leading-relaxed font-medium">
@@ -181,7 +181,7 @@ const About = () => {
                                 initial={{ opacity: 0, x: 30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8 }}
-                                className="relative p-10 bg-brand-cream/20 rounded-[3rem] border border-brand-cream mt-8 md:mt-12"
+                                className="relative p-10 bg-white rounded-[3rem] border border-slate-100 shadow-sm mt-8 md:mt-12"
                             >
                                 <Award className="text-primary mb-6" size={40} />
                                 <p className="leading-relaxed font-medium">
@@ -194,7 +194,7 @@ const About = () => {
             </section>
 
             {/* Stats Section */}
-            <section className="py-24 bg-brand-cream/50 relative">
+            <section className="py-24 bg-slate-50 relative">
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {stats.map((stat, i) => (
@@ -213,7 +213,7 @@ const About = () => {
                     </div>
                     
                     <div className="max-w-4xl mx-auto relative px-4">
-                        <div className="absolute left-1/2 top-0 w-0.5 h-full bg-brand-cream -translate-x-1/2 hidden md:block" />
+                        <div className="absolute left-1/2 top-0 w-0.5 h-full bg-slate-100 -translate-x-1/2 hidden md:block" />
                         {milestones.map((item, i) => (
                             <TimelineItem key={i} {...item} index={i} />
                         ))}
@@ -222,14 +222,14 @@ const About = () => {
             </section>
 
             {/* Enhanced Gallery Grid */}
-            <section className="py-32 bg-brand-cream/30">
+            <section className="py-32 bg-slate-50">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
                         <div className="max-w-xl">
-                            <h2 className="text-5xl font-playfair font-bold text-secondary mb-4">Captured Moments</h2>
-                            <p className="text-brand-text-light text-lg">A glimpse into our world where every corner tells a story and every dish is a masterpiece.</p>
+                            <h2 className="text-4xl font-playfair font-bold text-slate-900 mb-4">Captured Moments</h2>
+                            <p className="text-slate-500 text-lg">A glimpse into our world where every corner tells a story and every dish is a masterpiece.</p>
                         </div>
-                        <div className="hidden md:block h-px flex-1 bg-brand-cream mx-12 mb-6" />
+                        <div className="hidden md:block h-px flex-1 bg-slate-200 mx-12 mb-6" />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -268,7 +268,7 @@ const About = () => {
                     <img src="/images/hero-bg.png" alt="Pattern" className="w-full h-full object-cover" />
                 </div>
                 <div className="container mx-auto px-6 relative z-10">
-                    <h2 className="text-4xl md:text-6xl font-playfair font-bold mb-10 leading-tight">
+                    <h2 className="text-3xl md:text-5xl font-playfair font-bold mb-10 leading-tight">
                         Experience the Magic <br />
                         of <span className="text-accent italic">Tasty Bites</span> Today
                     </h2>
@@ -277,9 +277,9 @@ const About = () => {
                         whileTap={{ scale: 0.95 }}
                         className="inline-block"
                     >
-                        <a href="/menu" className="px-12 py-5 bg-primary text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all inline-flex items-center group">
+                        <a href="/menu" className="px-8 sm:px-12 py-4 sm:py-5 bg-primary text-white rounded-full font-bold uppercase tracking-widest text-xs sm:text-sm shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all inline-flex items-center group whitespace-nowrap">
                             Explore the Menu
-                            <Sparkles size={18} className="ml-3 group-hover:rotate-12 transition-transform" />
+                            <Sparkles size={18} className="ml-3 group-hover:rotate-12 transition-transform shrink-0" />
                         </a>
                     </motion.div>
                 </div>

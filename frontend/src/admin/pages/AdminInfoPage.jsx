@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Store, 
@@ -17,6 +17,7 @@ import {
     X
 } from 'lucide-react';
 import { toast } from 'react-toastify';
+import api from '../../services/api';
 
 const InfoField = ({ label, icon: Icon, value, onChange, placeholder, type = "text" }) => (
     <div className="space-y-2">
@@ -27,7 +28,7 @@ const InfoField = ({ label, icon: Icon, value, onChange, placeholder, type = "te
             </div>
             <input 
                 type={type}
-                value={value}
+                value={value || ''}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
                 className="w-full pl-14 pr-6 py-3.5 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:bg-white focus:border-slate-200 outline-none transition-all shadow-sm"
@@ -38,41 +39,185 @@ const InfoField = ({ label, icon: Icon, value, onChange, placeholder, type = "te
 
 const AdminInfoPage = () => {
     const [info, setInfo] = useState({
-        name: 'Tasty Bites',
-        address: '123 Curry Lane, London, SE1 7PB',
-        phone: '+44 20 7946 0123',
-        email: 'hello@tastybites.com',
-        website: 'www.tastybites-uk.com',
-        description: 'Authentic South Indian cuisine serving the heart of London with traditional recipes and modern flair.',
+        name: '',
+        address: '',
+        phone: '',
+        email: '',
+        website: '',
+        description: '',
         logo: null
     });
     const [hours, setHours] = useState({
-        open: '11:00',
-        close: '22:30',
+        open: '11:00 AM',
+        close: '10:30 PM',
         days: 'Mon-Sun'
     });
     const [isEditingHours, setIsEditingHours] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const fileInputRef = useRef(null);
 
-    const handleLogoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setInfo({ ...info, logo: reader.result });
-            };
-            reader.readAsDataURL(file);
+    useEffect(() => {
+        fetchInfo();
+    }, []);
+
+    const fetchInfo = async () => {
+        try {
+            const data = await api.getRestaurantInfo();
+            if (data) {
+                setInfo({
+                    name: data.name,
+                    address: data.address,
+                    phone: data.phone,
+                    email: data.email,
+                    website: data.website,
+                    description: data.description,
+                    logo: data.logo
+                });
+                if (data.openingHours) {
+                    setHours(data.openingHours);
+                }
+            }
+        } catch (err) {
+            toast.error('Failed to load restaurant information');
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleSave = () => {
-        setSaving(true);
-        setTimeout(() => {
-            setSaving(false);
-            toast.success('Restaurant profile updated successfully');
-        }, 1000);
+    const handleLogoUpload = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+                toast.error('Logo image must be less than 2MB');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('logo', file);
+
+            try {
+                toast.info('Uploading logo...');
+                const data = await api.uploadLogo(formData);
+                if (data.success) {
+                    setInfo({ ...info, logo: data.logoUrl });
+                    toast.success('Logo uploaded successfully');
+                }
+            } catch (err) {
+                toast.error('Failed to upload logo');
+                console.error(err);
+            }
+        }
     };
+
+    const handleSave = async () => {
+        setSaving(true);
+        try {
+            await api.updateRestaurantInfo({
+                ...info,
+                openingHours: hours
+            });
+            toast.success('Restaurant profile updated successfully');
+        } catch (err) {
+            toast.error(err.message || 'Failed to update profile');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const parseTime = (timeStr) => {
+        if (!timeStr) return { hour: '12', minute: '00', period: 'AM' };
+        const parts = timeStr.split(' ');
+        let time = parts[0];
+        let period = parts[1] || '';
+        const [h, m] = time.split(':');
+        let hh = parseInt(h);
+        let mm = m || '00';
+        if (!period) {
+            period = (hh >= 12) ? 'PM' : 'AM';
+            if (hh === 0) hh = 12;
+            else if (hh > 12) hh -= 12;
+        }
+        return { 
+            hour: hh.toString().padStart(2, '0'), 
+            minute: mm.toString().padStart(2, '0').substring(0, 2), 
+            period: period 
+        };
+    };
+
+    const formatTime = (hour, minute, period) => {
+        let h = parseInt(hour);
+        if (period === 'PM' && h < 12) h += 12;
+        if (period === 'AM' && h === 12) h = 0;
+        return `${h.toString().padStart(2, '0')}:${minute}`;
+    };
+
+    const TimePicker = ({ label, value, onChange }) => {
+        const { hour, minute, period } = parseTime(value);
+
+        const handleHourChange = (newVal) => {
+            let h = parseInt(newVal);
+            if (isNaN(h)) h = 1;
+            if (h < 1) h = 12;
+            if (h > 12) h = 1;
+            onChange(`${h.toString().padStart(2, '0')}:${minute} ${period}`);
+        };
+
+        const handleMinuteChange = (newVal) => {
+            let m = parseInt(newVal);
+            if (isNaN(m)) m = 0;
+            if (m < 0) m = 59;
+            if (m > 59) m = 0;
+            onChange(`${hour}:${m.toString().padStart(2, '0')} ${period}`);
+        };
+
+        const handlePeriodChange = (newPeriod) => {
+            onChange(`${hour}:${minute} ${newPeriod}`);
+        };
+
+        return (
+            <div className="space-y-2">
+                <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{label}</label>
+                <div className="flex items-center gap-1">
+                    <input 
+                        type="number" 
+                        min="1" 
+                        max="12"
+                        value={parseInt(hour)}
+                        onChange={(e) => handleHourChange(e.target.value)}
+                        className="w-14 p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-slate-900 transition-all text-center"
+                    />
+                    <span className="text-slate-400 font-bold">:</span>
+                    <input 
+                        type="number" 
+                        min="0" 
+                        max="59"
+                        step="1"
+                        value={parseInt(minute)}
+                        onChange={(e) => handleMinuteChange(e.target.value)}
+                        className="w-14 p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-slate-900 transition-all text-center"
+                    />
+                    <select
+                        value={period}
+                        onChange={(e) => handlePeriodChange(e.target.value)}
+                        className="w-16 p-2 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-slate-900 transition-all appearance-none text-center cursor-pointer"
+                    >
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+            </div>
+        );
+    };
+
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+                <Loader2 className="animate-spin text-primary" size={40} />
+                <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Loading Profile...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-5xl mx-auto space-y-12 pb-20">
@@ -96,19 +241,22 @@ const AdminInfoPage = () => {
                     <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
                         <div 
                             onClick={() => fileInputRef.current?.click()}
-                            className="w-32 h-32 bg-slate-50 rounded-[2.5rem] border-2 border-dashed border-slate-200 flex items-center justify-center mx-auto mb-6 relative group cursor-pointer overflow-hidden shadow-inner"
+                            className="w-48 h-48 bg-slate-50 rounded-[3rem] border-2 border-dashed border-slate-200 flex items-center justify-center mx-auto mb-6 relative group cursor-pointer overflow-hidden shadow-inner"
                         >
                             {info.logo ? (
-                                <img src={info.logo} alt="Logo" className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                <img src={getImageUrl(info.logo)} alt="Logo" className="w-full h-full object-contain p-4 transition-transform group-hover:scale-105" />
                             ) : (
                                 <div className="text-slate-300 group-hover:text-slate-900 transition-colors flex flex-col items-center">
-                                    <ImageIcon size={32} />
+                                    <ImageIcon size={48} />
                                     <span className="text-[10px] font-bold uppercase mt-2">Upload Logo</span>
                                 </div>
                             )}
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <Upload className="text-white" size={24} />
+                            </div>
                             <input type="file" ref={fileInputRef} onChange={handleLogoUpload} className="hidden" accept="image/*" />
                         </div>
-                        <h3 className="text-lg font-black text-slate-900">{info.name}</h3>
+                        <h3 className="text-xl font-black text-slate-900">{info.name || 'Your Restaurant'}</h3>
                         <p className="text-xs text-slate-500 mt-1 uppercase tracking-widest font-medium">Main Branch</p>
                     </div>
 
@@ -120,7 +268,7 @@ const AdminInfoPage = () => {
                                     {social === 'Instagram' && <Instagram size={18} className="text-pink-500" />}
                                     {social === 'Facebook' && <Facebook size={18} className="text-blue-600" />}
                                     {social === 'Twitter' && <Twitter size={18} className="text-sky-500" />}
-                                    <span className="text-[11px] font-bold text-slate-600 leading-none">Tasty Bites {social}</span>
+                                    <span className="text-[11px] font-bold text-slate-600 leading-none">{info.name || 'Restaurant'} {social}</span>
                                 </div>
                             ))}
                         </div>
@@ -172,7 +320,7 @@ const AdminInfoPage = () => {
                         <div className="space-y-2">
                             <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">About Description</label>
                             <textarea 
-                                value={info.description}
+                                value={info.description || ''}
                                 onChange={(e) => setInfo({...info, description: e.target.value})}
                                 rows={4}
                                 className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-medium text-slate-600 focus:bg-white focus:border-slate-200 outline-none transition-all resize-none shadow-sm"
@@ -193,26 +341,33 @@ const AdminInfoPage = () => {
                                             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Edit Opening Schedule</h4>
                                             <button onClick={() => setIsEditingHours(false)} className="text-slate-400 hover:text-slate-900"><X size={16} /></button>
                                         </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-[1fr,auto,auto] gap-8 items-start">
                                             <div className="space-y-2">
-                                                <label className="text-[9px] font-bold text-slate-400 uppercase">Days</label>
-                                                <select value={hours.days} onChange={e => setHours({...hours, days: e.target.value})} className="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none">
-                                                    <option>Mon-Sun</option>
-                                                    <option>Mon-Fri</option>
-                                                    <option>Weekend</option>
-                                                </select>
+                                                <label className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Schedule</label>
+                                                <input 
+                                                    type="text" 
+                                                    value={hours.days} 
+                                                    onChange={e => setHours({...hours, days: e.target.value})} 
+                                                    placeholder="e.g. Mon-Sun"
+                                                    className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none focus:border-slate-900 transition-all" 
+                                                />
                                             </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[9px] font-bold text-slate-400 uppercase">Open</label>
-                                                <input type="time" value={hours.open} onChange={e => setHours({...hours, open: e.target.value})} className="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[9px] font-bold text-slate-400 uppercase">Close</label>
-                                                <input type="time" value={hours.close} onChange={e => setHours({...hours, close: e.target.value})} className="w-full p-3 bg-white border border-slate-200 rounded-xl text-xs font-bold outline-none" />
-                                            </div>
+                                            <TimePicker 
+                                                label="Open"
+                                                value={hours.open}
+                                                onChange={(val) => setHours({...hours, open: val})}
+                                            />
+                                            <TimePicker 
+                                                label="Close"
+                                                value={hours.close}
+                                                onChange={(val) => setHours({...hours, close: val})}
+                                            />
                                         </div>
                                         <button 
-                                            onClick={() => setIsEditingHours(false)}
+                                            onClick={() => {
+                                                setIsEditingHours(false);
+                                                toast.success('Opening schedule updated');
+                                            }}
                                             className="w-full py-3 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg shadow-slate-900/10 mt-2"
                                         >
                                             Update Schedule
@@ -230,7 +385,7 @@ const AdminInfoPage = () => {
                                             </div>
                                             <div>
                                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Opening Schedule</p>
-                                                <p className="text-base font-black text-slate-900 mt-1">{hours.days}: {hours.open} - {hours.close}</p>
+                                                <p className="text-base font-black text-slate-900 mt-1">{hours.days || 'Mon-Sun'}: {hours.open || '11:00'} - {hours.close || '22:30'}</p>
                                             </div>
                                         </div>
                                         <button 

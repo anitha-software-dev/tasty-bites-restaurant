@@ -30,6 +30,7 @@ export const api = {
     signup: (userData) => request('/auth/signup', { method: 'POST', body: JSON.stringify(userData) }),
     getMe: () => request('/auth/me'),
     updateProfile: (updates) => request('/auth/profile', { method: 'PUT', body: JSON.stringify(updates) }),
+    changePassword: (passwordData) => request('/auth/change-password', { method: 'POST', body: JSON.stringify(passwordData) }),
 
     // Menu
     getMenu: () => request('/menu'),
@@ -63,6 +64,25 @@ export const api = {
 
     // FAQs
     getFaqs: () => request('/faqs'),
+
+    // Restaurant Info
+    getRestaurantInfo: () => request('/restaurant'),
+    updateRestaurantInfo: (data) => request('/restaurant', { method: 'PUT', body: JSON.stringify(data) }),
+    uploadLogo: (formData) => request('/restaurant/logo', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            // Do not set Content-Type, fetch will set it for FormData
+        }
+    }),
+};
+
+export const getImageUrl = (path) => {
+    if (!path) return null;
+    if (path.startsWith('http') || path.startsWith('data:')) return path;
+    // Remove /api from base if present to get root for uploads
+    const base = API_BASE.replace(/\/api$/, '');
+    return `${base}${path}`;
 };
 
 export default api;

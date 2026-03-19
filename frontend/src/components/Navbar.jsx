@@ -64,7 +64,7 @@ const Navbar = () => {
                                     setIsOrderTypeModalOpen(false);
                                 }
                             }}
-                            className={`text-xs xl:text-sm font-medium uppercase tracking-wider hover:text-primary transition-colors text-left ${isDark ? 'text-secondary' : 'text-white'
+                            className={`text-xs xl:text-sm font-medium uppercase tracking-wider hover:text-primary transition-colors text-left ${isDark ? 'text-slate-900' : 'text-white'
                                 }`}
                         >
                             {link.name}
@@ -73,11 +73,11 @@ const Navbar = () => {
                 </nav>
 
                 {/* Icons & Mobile Toggle */}
-                <div className="flex items-center gap-3 sm:space-x-5 shrink-0">
+                <div className="flex items-center gap-5 sm:space-x-5 shrink-0">
                     {/* Cart Icon */}
                     <button
                         onClick={() => setIsCartOpen(true)}
-                        className={`relative ${isDark ? 'text-secondary' : 'text-white'} hover:text-primary transition-colors`}
+                        className={`relative ${isDark ? 'text-slate-900' : 'text-white'} hover:text-primary transition-colors`}
                     >
                         <ShoppingCart size={22} />
                         {cartCount > 0 && (
@@ -94,7 +94,7 @@ const Navbar = () => {
                     {/* User Icon */}
                     <Link
                         to={isAuthenticated ? '/profile' : '/login'}
-                        className={`relative flex items-center justify-center ${isDark ? 'text-secondary' : 'text-white'} hover:text-primary transition-colors`}
+                        className={`relative flex items-center justify-center ${isDark ? 'text-slate-900' : 'text-white'} hover:text-primary transition-colors`}
                     >
                         {isAuthenticated ? (
                             <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold">
@@ -107,7 +107,7 @@ const Navbar = () => {
 
                     {/* Mobile Toggle */}
                     <button
-                        className={`lg:hidden ${isDark ? 'text-secondary' : 'text-white'}`}
+                        className={`lg:hidden ${isDark ? 'text-slate-900' : 'text-white'}`}
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -122,9 +122,9 @@ const Navbar = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="lg:hidden bg-white border-t border-gray-100 overflow-hidden"
+                        className="lg:hidden bg-white border-t border-gray-100 overflow-hidden mt-2 rounded-b-2xl shadow-xl"
                     >
-                        <div className="container mx-auto px-6 py-8 flex flex-col space-y-6">
+                        <div className="container mx-auto px-6 py-8 flex flex-col space-y-5">
                             {navLinks.map((link) => (
                                 <button
                                     key={link.name}
@@ -138,24 +138,19 @@ const Navbar = () => {
                                         }
                                         setIsOpen(false);
                                     }}
-                                    className="text-lg font-semibold text-secondary hover:text-primary transition-colors text-left"
+                                    className="text-sm font-semibold text-slate-900 hover:text-primary transition-colors text-left uppercase tracking-wider"
                                 >
                                     {link.name}
                                 </button>
                             ))}
                             <Link
                                 to={isAuthenticated ? '/profile' : '/login'}
-                                className="flex items-center space-x-3 text-lg font-semibold text-secondary hover:text-primary transition-colors"
+                                className="flex items-center space-x-3 text-sm font-semibold text-slate-900 hover:text-primary transition-colors uppercase tracking-wider"
                             >
-                                <User size={20} />
+                                <User size={16} />
                                 <span>{isAuthenticated ? 'My Profile' : 'Login / Sign Up'}</span>
                             </Link>
-                            <Link
-                                to="/book"
-                                className="bg-primary text-white text-center py-4 rounded-xl font-bold uppercase tracking-widest"
-                            >
-                                Book a Table
-                            </Link>
+
                         </div>
                     </motion.div>
                 )}

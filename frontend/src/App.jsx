@@ -35,7 +35,7 @@ const AppContent = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-brand-cream font-poppins selection:bg-primary/30 selection:text-primary">
+            <div className="min-h-screen bg-slate-50 font-poppins selection:bg-primary/30 selection:text-primary">
                 {!isAdmin && <Navbar />}
                 {!isAdmin && <CartPopover />}
 
