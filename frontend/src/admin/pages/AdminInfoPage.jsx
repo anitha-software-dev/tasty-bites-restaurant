@@ -17,7 +17,7 @@ import {
     X
 } from 'lucide-react';
 import { toast } from 'react-toastify';
-import api from '../../services/api';
+import api, { getImageUrl } from '../../services/api';
 
 const InfoField = ({ label, icon: Icon, value, onChange, placeholder, type = "text" }) => (
     <div className="space-y-2">

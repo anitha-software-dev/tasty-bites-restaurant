@@ -64,24 +64,21 @@ router.get('/', async (req, res) => {
 // PUT /api/restaurant (Admin only)
 router.put('/', authenticate, async (req, res) => {
     try {
-        // Here we should check if user is admin, but assuming authenticate sets role
-        // For now, allow any authenticated user to update for simplicity, 
-        // but ideally check req.role === 'admin'
-        
-        const { name, address, phone, email, website, description, logo, openingHours } = req.body;
+        const body = req.body;
         
         let info = await RestaurantInfo.findOne();
         if (!info) {
-            info = await RestaurantInfo.create(req.body);
+            info = await RestaurantInfo.create(body);
         } else {
-            if (name) info.name = name;
-            if (address) info.address = address;
-            if (phone) info.phone = phone;
-            if (email) info.email = email;
-            if (website) info.website = website;
-            if (description) info.description = description;
-            if (logo !== undefined) info.logo = logo;
-            if (openingHours) info.openingHours = openingHours;
+            // Use hasOwnProperty so empty strings are also saved (not ignored)
+            if (body.hasOwnProperty('name')) info.name = body.name;
+            if (body.hasOwnProperty('address')) info.address = body.address;
+            if (body.hasOwnProperty('phone')) info.phone = body.phone;
+            if (body.hasOwnProperty('email')) info.email = body.email;
+            if (body.hasOwnProperty('website')) info.website = body.website;
+            if (body.hasOwnProperty('description')) info.description = body.description;
+            if (body.hasOwnProperty('logo')) info.logo = body.logo;
+            if (body.hasOwnProperty('openingHours')) info.openingHours = body.openingHours;
             await info.save();
         }
         

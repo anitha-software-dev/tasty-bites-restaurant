@@ -5,7 +5,9 @@ const getToken = () => localStorage.getItem('tastybites_token');
 
 const request = async (endpoint, options = {}) => {
     const token = getToken();
-    const headers = { 'Content-Type': 'application/json', ...options.headers };
+    // Don't set Content-Type for FormData — browser must set it (with multipart boundary)
+    const isFormData = options.body instanceof FormData;
+    const headers = isFormData ? {} : { 'Content-Type': 'application/json', ...options.headers };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
     const response = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });

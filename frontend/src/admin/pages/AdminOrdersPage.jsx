@@ -65,7 +65,7 @@ const DetailModal = ({ order, isOpen, onClose, onUpdateStatus }) => {
                         <h2 className="text-2xl font-black text-slate-900 flex items-center gap-3">
                             Order details <span className="text-slate-300 font-light">#{order.orderId}</span>
                         </h2>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Transaction Summary & Operations</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Order Summary</p>
                     </div>
                     <button onClick={onClose} className="p-3 hover:bg-white rounded-2xl transition-all border border-transparent hover:border-slate-200 text-slate-400 hover:text-slate-900">
                         <XCircle size={24} />
@@ -113,7 +113,7 @@ const DetailModal = ({ order, isOpen, onClose, onUpdateStatus }) => {
                                 </div>
                                 <div className="bg-emerald-50 text-emerald-600 px-6 py-3 rounded-2xl border border-emerald-100 flex items-center gap-2">
                                     <CreditCard size={16} />
-                                    <span className="text-[10px] font-black uppercase tracking-widest">Paid In Full</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest">Paid</span>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +179,7 @@ const DetailModal = ({ order, isOpen, onClose, onUpdateStatus }) => {
 
                 <div className="p-8 border-t border-slate-100 bg-slate-50/50 flex justify-end">
                     <button onClick={onClose} className="px-10 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-800 transition-all shadow-xl hover:shadow-slate-900/20">
-                        Dismiss Detail
+                        Close
                     </button>
                 </div>
             </motion.div>
@@ -615,7 +615,7 @@ const AdminOrdersPage = () => {
                                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Order ID</th>
                                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Customer Info</th>
                                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Type</th>
-                                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Grand Total</th>
+                                    <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Amount</th>
                                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
                                     <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
                                 </tr>

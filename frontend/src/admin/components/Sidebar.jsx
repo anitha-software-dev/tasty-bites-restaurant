@@ -62,11 +62,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             {/* Header */}
             <div className="h-20 px-8 flex items-center justify-between border-b border-admin-border">
                 <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-admin-primary rounded-2xl flex items-center justify-center text-white shadow-xl shadow-admin-primary/20 overflow-hidden">
+                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-slate-100 overflow-hidden flex-shrink-0">
                         {restaurantInfo?.logo ? (
-                            <img src={getImageUrl(restaurantInfo.logo)} alt="Logo" className="w-full h-full object-cover" />
+                            <img src={getImageUrl(restaurantInfo.logo)} alt="Logo" className="w-full h-full object-contain p-1" />
                         ) : (
-                            <ChefHat size={32} strokeWidth={2.5} />
+                            <div className="w-full h-full bg-admin-primary rounded-2xl flex items-center justify-center text-white">
+                                <ChefHat size={26} strokeWidth={2.5} />
+                            </div>
                         )}
                     </div>
                     <div>

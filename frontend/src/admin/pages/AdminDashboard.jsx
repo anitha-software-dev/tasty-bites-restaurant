@@ -84,8 +84,8 @@ const AdminDashboard = () => {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">System Overview</h1>
-                    <p className="text-sm font-medium text-slate-500 mt-1 uppercase tracking-widest">Daily Operations Console</p>
+                    <h1 className="text-3xl font-black text-slate-900 tracking-tight">Dashboard</h1>
+                    <p className="text-sm font-medium text-slate-500 mt-1 uppercase tracking-widest">Live Overview</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <button 
