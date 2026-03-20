@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
         });
 
         // Send email notification to restaurant (Awaited for serverless reliability)
-        const emailSent = await sendCateringNotification({ name, email, phone, eventType, eventDate, guests, details });
+        const emailSent = await sendCateringNotification({ name, email, phone, eventType, eventDate, guests, message: details });
 
         if (!emailSent) {
             console.error(`[Catering Enquiry] Email notification failed for ${email}`);
