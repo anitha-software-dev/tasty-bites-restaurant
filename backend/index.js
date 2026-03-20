@@ -38,6 +38,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Main Dashboard Landing Page
 app.get('/', (req, res) => {
+    const frontendUrl = process.env.FRONTEND_URL || 'https://tasty-bites-restaurant.vercel.app';
+    const adminUrl = process.env.ADMIN_URL || `${frontendUrl}/admin`;
+
     res.send(`
         <!DOCTYPE html>
         <html lang="en">
@@ -66,8 +69,8 @@ app.get('/', (req, res) => {
                     overflow: hidden;
                 }
                 .container {
-                    width: 90%;
-                    max-width: 800px;
+                    width: 95%;
+                    max-width: 900px;
                     text-align: center;
                     position: relative;
                 }
@@ -115,8 +118,8 @@ app.get('/', (req, res) => {
                 }
                 .grid {
                     display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 20px;
+                    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                    gap: 15px;
                     margin-top: 40px;
                 }
                 .card {
@@ -128,14 +131,21 @@ app.get('/', (req, res) => {
                     cursor: pointer;
                     text-decoration: none;
                     color: inherit;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
                 }
                 .card:hover {
                     background: rgba(217, 119, 74, 0.1);
                     border-color: var(--accent);
                     transform: translateY(-5px);
                 }
-                .card h3 { margin: 0 0 10px 0; font-size: 15px; color: var(--accent); }
-                .card p { margin: 0; font-size: 13px; color: #888; }
+                .card.primary {
+                    background: rgba(217, 119, 74, 0.05);
+                    border-color: rgba(217, 119, 74, 0.2);
+                }
+                .card h3 { margin: 0 0 10px 0; font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+                .card p { margin: 0; font-size: 12px; color: #888; }
                 .footer {
                     margin-top: 40px;
                     font-size: 12px;
@@ -156,6 +166,14 @@ app.get('/', (req, res) => {
                     <p style="color: #888; margin-bottom: 20px;">Innovative API Infrastructure for Premium Dining</p>
                     
                     <div class="grid">
+                        <a href="${frontendUrl}" target="_blank" class="card primary">
+                            <h3>Frontend App</h3>
+                            <p>Live Customer Site</p>
+                        </a>
+                        <a href="${adminUrl}" target="_blank" class="card primary">
+                            <h3>Admin Panel</h3>
+                            <p>Management Console</p>
+                        </a>
                         <a href="/api/health?smtp=true" class="card">
                             <h3>Diagnostics</h3>
                             <p>System & SMTP Health</p>
@@ -164,14 +182,10 @@ app.get('/', (req, res) => {
                             <h3>Email Test</h3>
                             <p>Verify SMTP Delivery</p>
                         </a>
-                        <a href="/api/categories" class="card">
-                            <h3>Inventory</h3>
-                            <p>Digital Menu Data</p>
-                        </a>
                     </div>
                 </div>
                 <div class="footer">
-                    PRODUCTION ENVIRONMENT • SSL SECURE • V3.0.0
+                    PRODUCTION ENVIRONMENT • SSL SECURE • V3.1.0
                 </div>
             </div>
         </body>
