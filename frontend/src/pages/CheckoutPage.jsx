@@ -60,8 +60,8 @@ const CheckoutPage = () => {
                     <UtensilsCrossed size={40} />
                 </div>
                 <h2 className="text-3xl font-playfair text-slate-900 mb-4">Your Cart is Empty</h2>
-                <p className="text-slate-500 mb-8 max-w-xs font-medium">Looks like you haven't added any authentic flavours to your cart yet.</p>
-                <Link to="/menu" className="btn-primary px-10 py-4 rounded-xl">Browse Menu</Link>
+                <p className="text-slate-500 mb-8 max-w-xs font-medium">Your cart is empty. Add something delicious to get started!</p>
+                <Link to="/menu" className="btn-primary px-8 py-3 rounded-xl">Browse Menu</Link>
             </div>
         );
     }
@@ -164,10 +164,10 @@ const CheckoutPage = () => {
                             className="flex items-center space-x-2 text-slate-500 hover:text-primary transition-colors mb-4 group"
                         >
                             <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform shrink-0" />
-                            <span className="whitespace-nowrap">Return to Menu</span>
+                            <span className="whitespace-nowrap">Back to Menu</span>
                         </button>
                         <h1 className="text-4xl md:text-5xl font-playfair text-slate-900">
-                            Secure Checkout
+                            Checkout
                         </h1>
                         <div className="flex items-center mt-3 space-x-4">
                             <span className="text-sm text-primary font-bold uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full">
@@ -200,7 +200,7 @@ const CheckoutPage = () => {
                                             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
                                                 <User size={20} />
                                             </div>
-                                            <h2 className="text-2xl font-playfair text-slate-900">Personal Details</h2>
+                                            <h2 className="text-2xl font-playfair text-slate-900">Your Details</h2>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -286,7 +286,7 @@ const CheckoutPage = () => {
                                             </div>
 
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-900 mb-2 uppercase tracking-widest">Note to Chef (Optional)</label>
+                                                <label className="block text-xs font-bold text-slate-900 mb-2 uppercase tracking-widest">Special Instructions (Optional)</label>
                                                 <div className="relative">
                                                     <MessageSquare size={18} className="absolute left-4 top-4 text-slate-300" />
                                                     <textarea
@@ -321,9 +321,9 @@ const CheckoutPage = () => {
                                                 <CreditCard size={28} />
                                             </div>
                                             <div className="flex-1">
-                                                <h4 className="font-bold text-slate-900 text-lg">Secure Card Payment</h4>
+                                                <h4 className="font-bold text-slate-900 text-lg">Pay by Card</h4>
                                                 <p className={`text-sm font-medium ${isPaymentSuccessful ? 'text-green-600' : 'text-slate-400'}`}>
-                                                    {isPaymentSuccessful ? 'Card verified successfully' : 'Safe payment via Stripe'}
+                                                    {isPaymentSuccessful ? 'Card verified successfully' : 'Secure payment'}
                                                 </p>
                                             </div>
                                             {isPaymentSuccessful ? (
@@ -419,7 +419,7 @@ const CheckoutPage = () => {
                             <div className="mt-8">
                                 <button
                                     onClick={handlePlaceOrder}
-                                    className={`w-full btn-primary py-4 rounded-2xl flex items-center justify-center space-x-3 text-sm sm:text-lg shadow-premium group transition-all ${isProcessing ? 'opacity-70 cursor-wait' : 'hover:scale-[1.02]'}`}
+                                    className={`w-full btn-primary py-3 rounded-2xl flex items-center justify-center space-x-3 text-sm shadow-premium group transition-all ${isProcessing ? 'opacity-70 cursor-wait' : 'hover:scale-[1.02]'}`}
                                     disabled={isProcessing}
                                 >
                                     {isProcessing ? (
@@ -433,7 +433,7 @@ const CheckoutPage = () => {
                                 </button>
                                 <p className="text-[10px] text-slate-400 text-center mt-4 uppercase tracking-[0.1em] font-bold leading-tight flex items-center justify-center">
                                     <ShieldCheck size={12} className="mr-1 text-green-500" />
-                                    Secure & encrypted checkout
+                                    Secure checkout
                                 </p>
                             </div>
                         </div>

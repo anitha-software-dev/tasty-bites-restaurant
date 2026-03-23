@@ -174,7 +174,7 @@ const About = () => {
                             >
                                 <Heart className="text-primary mb-6" size={40} />
                                 <p className="leading-relaxed font-medium">
-                                    For generations, our families have perfected the art of South Indian cooking in the heart of traditional kitchens. Every dosa is born from a legacy, every spice blend is a secret whispered through time. We don't just cook; we preserve a way of life that celebrates the joy of slow, soulful food.
+                                   Each dish is made with love, patience, and our own hand-ground spices.
                                 </p>
                             </motion.div>
                             <motion.div
@@ -185,7 +185,7 @@ const About = () => {
                             >
                                 <Award className="text-primary mb-6" size={40} />
                                 <p className="leading-relaxed font-medium">
-                                    From the coastal serenity of Kerala to the vibrant spirit of Bangalore, we've curated a menu that captures the true soul of the South. We invite you to sit at our table, not just as a guest, but as a part of our continuing story. Experience heritage on a plate.
+                                    From the coastal serenity of Kerala to the vibrant spirit of Bangalore, we've curated a menu that captures the true soul of the South. We invite you to sit at our table, not just as a guest, but as a part of our continuing story. Experience authentic South Indian flavours.
                                 </p>
                             </motion.div>
                         </div>
@@ -277,8 +277,8 @@ const About = () => {
                         whileTap={{ scale: 0.95 }}
                         className="inline-block"
                     >
-                        <a href="/menu" className="px-8 sm:px-12 py-4 sm:py-5 bg-primary text-white rounded-full font-bold uppercase tracking-widest text-xs sm:text-sm shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all inline-flex items-center group whitespace-nowrap">
-                            Explore the Menu
+                        <a href="/menu" className="px-8 py-3 bg-primary text-white rounded-full font-bold uppercase tracking-widest text-sm shadow-xl shadow-primary/20 hover:bg-primary-dark transition-all inline-flex items-center group whitespace-nowrap">
+                            Order Now
                             <Sparkles size={18} className="ml-3 group-hover:rotate-12 transition-transform shrink-0" />
                         </a>
                     </motion.div>

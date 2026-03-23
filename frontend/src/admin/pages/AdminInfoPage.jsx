@@ -286,13 +286,15 @@ const AdminInfoPage = () => {
                                 onChange={(val) => setInfo({...info, name: val})}
                                 placeholder="e.g. Tasty Bites"
                             />
-                            <InfoField 
-                                label="Official Email" 
-                                icon={Mail} 
-                                value={info.email} 
-                                onChange={(val) => setInfo({...info, email: val})}
-                                placeholder="contact@restaurant.com"
-                            />
+                            <div className="md:col-span-2">
+                                <InfoField 
+                                    label="Official Email" 
+                                    icon={Mail} 
+                                    value={info.email} 
+                                    onChange={(val) => setInfo({...info, email: val})}
+                                    placeholder="contact@restaurant.com"
+                                />
+                            </div>
                             <InfoField 
                                 label="Contact Number" 
                                 icon={Phone} 

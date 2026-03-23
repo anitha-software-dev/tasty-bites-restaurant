@@ -43,6 +43,7 @@ export const api = {
     createOrder: (orderData) => request('/orders', { method: 'POST', body: JSON.stringify(orderData) }),
     getOrders: () => request('/orders'),
     getOrder: (orderId) => request(`/orders/${orderId}`),
+    updateOrder: (id, data) => request(`/orders/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
 
     // Reservations
     createReservation: (data) => request('/reservations', { method: 'POST', body: JSON.stringify(data) }),
@@ -77,6 +78,18 @@ export const api = {
             // Do not set Content-Type, fetch will set it for FormData
         }
     }),
+
+    // Tables
+    getTables: () => request('/tables'),
+    createTable: (data) => request('/tables', { method: 'POST', body: JSON.stringify(data) }),
+    updateTable: (id, data) => request(`/tables/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+    deleteTable: (id) => request(`/tables/${id}`, { method: 'DELETE' }),
+
+    // Staff (Waiters & Chefs)
+    getStaff: () => request('/staff'),
+    createStaff: (data) => request('/staff', { method: 'POST', body: JSON.stringify(data) }),
+    updateStaff: (id, data) => request(`/staff/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+    deleteStaff: (id) => request(`/staff/${id}`, { method: 'DELETE' }),
 };
 
 export const getImageUrl = (path) => {

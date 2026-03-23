@@ -7,15 +7,15 @@ const TermsConditions = () => {
                 <h1 className="font-playfair text-3xl md:text-4xl text-slate-900 font-bold mb-8 text-center uppercase tracking-widest">Terms & Conditions</h1>
                 <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-sm border border-slate-100 space-y-8 text-slate-600 leading-relaxed">
                     <section>
-                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">1. Acceptance of Terms</h2>
+                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">1. Acceptance</h2>
                         <p>By accessing and using the Tasty Bites website, you agree to comply with and be bound by these Terms & Conditions. If you disagree with any part of these terms, please do not use our website.</p>
                     </section>
                     <section>
-                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">2. Online Ordering</h2>
+                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">2. Ordering</h2>
                         <p>When placing an order through our website, you warrant that you are legally capable of entering into binding contracts. All orders are subject to acceptance by us, and we will confirm such acceptance by sending you an email or SMS notification.</p>
                     </section>
                     <section>
-                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">3. Pricing and Payment</h2>
+                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">3. Price & Payment</h2>
                         <p>All prices are quoted in the local currency and are inclusive of applicable taxes unless stated otherwise. Delivery costs will be added to the total amount due as set out in our delivery guide. Payment must be made by credit/debit card or other accepted payment methods at the time of order.</p>
                     </section>
                     <section>

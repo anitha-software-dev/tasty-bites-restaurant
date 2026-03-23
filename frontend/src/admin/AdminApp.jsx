@@ -12,6 +12,9 @@ import AdminReservationsPage from './pages/AdminReservationsPage';
 import AdminInfoPage from './pages/AdminInfoPage';
 import AdminSettingsPage from './pages/AdminSettingsPage';
 import AdminTestimonialsPage from './pages/AdminTestimonialsPage';
+import AdminTablesPage from './pages/AdminTablesPage';
+import AdminWaitersPage from './pages/AdminWaitersPage';
+import AdminChefPage from './pages/AdminChefPage';
 import AdminErrorBoundary from './components/AdminErrorBoundary';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -39,6 +42,9 @@ function AdminApp() {
             <Route path="menu" element={<AdminMenuPage />} />
             <Route path="categories" element={<AdminCategoriesPage />} />
             <Route path="bookings" element={<AdminReservationsPage />} />
+            <Route path="tables" element={<AdminTablesPage />} />
+            <Route path="waiters" element={<AdminWaitersPage />} />
+            <Route path="chef" element={<AdminChefPage />} />
             <Route path="testimonials" element={<AdminTestimonialsPage />} />
             <Route path="info" element={<AdminInfoPage />} />
             <Route path="settings" element={<AdminSettingsPage />} />

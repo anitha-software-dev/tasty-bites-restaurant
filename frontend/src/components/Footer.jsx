@@ -1,9 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp } from 'lucide-react';
-import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ChevronRight, Heart } from 'lucide-react';
+import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ChevronRight, Heart, Loader2 } from 'lucide-react';
+import api, { getImageUrl } from '../services/api';
 
 const Footer = () => {
+    const [info, setInfo] = React.useState(null);
+
+    React.useEffect(() => {
+        const fetchInfo = async () => {
+            try {
+                const data = await api.getRestaurantInfo();
+                if (data) setInfo(data);
+            } catch (err) {
+                console.log('Footer info fetch error:', err);
+            }
+        };
+        fetchInfo();
+    }, []);
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -24,12 +39,28 @@ const Footer = () => {
                     <div className="lg:col-span-2">
                         <div className="flex justify-center md:justify-start">
                             <Link to="/" className="inline-block mb-8 mx-auto md:mx-0">
-                                <img src="/images/logo.png" alt="Tasty Bites" className="h-12 w-auto object-contain" />
+                                {info?.logo ? (
+                                    <img src={getImageUrl(info.logo)} alt={info.name} className="h-12 w-auto object-contain" />
+                                ) : (
+                                    <img src="/images/logo.png" alt="Tasty Bites" className="h-12 w-auto object-contain" />
+                                )}
                             </Link>
                         </div>
                         <p className="text-white/60 text-sm leading-relaxed mb-8 pr-4 text-center md:text-left">
-                            Global Indian Eats — Where Friends & Family Meets to Taste the Tradition in Style.
+                            {info?.description || "Global Indian Eats — Where Friends & Family Meets to Taste the Tradition in Style."}
                         </p>
+                        
+                        <div className="space-y-4 mb-8">
+                            <div className="flex items-center justify-center md:justify-start gap-3 text-white/50 hover:text-white transition-colors">
+                                <Mail size={16} className="text-primary" />
+                                <span className="text-xs font-bold uppercase tracking-widest">{info?.email || "hello@tastybites.com"}</span>
+                            </div>
+                            <div className="flex items-center justify-center md:justify-start gap-3 text-white/50 hover:text-white transition-colors">
+                                <Phone size={16} className="text-primary" />
+                                <span className="text-xs font-bold uppercase tracking-widest">{info?.phone || "+44 20 7946 0123"}</span>
+                            </div>
+                        </div>
+
                         <div className="flex justify-center md:justify-start space-x-3 text-xs font-bold text-white uppercase tracking-widest">
                             <span>Follow Us:</span>
                             <a href="#" className="text-accent hover:text-white transition-colors">Instagram</a>

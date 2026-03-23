@@ -180,13 +180,13 @@ const MenuPage = () => {
                                 transition={{ duration: 0.8 }}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-accent/20 backdrop-blur-md border border-accent/30 text-accent rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-4 sm:mb-6 whitespace-nowrap"
                             >
-                                <ShoppingBag size={14} /> The Culinary Collection
+                                <ShoppingBag size={14} /> Our Menu
                             </motion.div>
                             <h1 className="text-3xl sm:text-5xl md:text-8xl font-playfair text-white mb-4 sm:mb-6 leading-tight">
                                 Order <span className="text-primary italic">Online</span>
                             </h1>
                             <p className="text-white text-sm sm:text-lg md:text-2xl font-medium leading-relaxed max-w-xl mx-auto px-4 drop-shadow-md">
-                                Explore our masterfully crafted South Indian menu, staged for your personal sanctuary or shared celebrations.
+                                Explore our delicious South Indian menu, perfect for your home or events.
                             </p>
                         </div>
                     </div>

@@ -13,6 +13,19 @@ const ContactSection = () => {
         message: ''
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [info, setInfo] = useState(null);
+
+    React.useEffect(() => {
+        const fetchInfo = async () => {
+            try {
+                const data = await api.getRestaurantInfo();
+                if (data) setInfo(data);
+            } catch (err) {
+                console.error('ContactSection info fetch error:', err);
+            }
+        };
+        fetchInfo();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -77,7 +90,7 @@ const ContactSection = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-slate-900 mb-1">Our Location</h3>
-                                        <p className="text-slate-500">123 High Street, Kensington, London W8 5SF</p>
+                                        <p className="text-slate-500">{info?.address || "123 High Street, Kensington, London W8 5SF"}</p>
                                     </div>
                                 </div>
 
@@ -87,7 +100,7 @@ const ContactSection = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-slate-900 mb-1">Phone Number</h3>
-                                        <p className="text-slate-500">+44 1792 951309</p>
+                                        <p className="text-slate-500">{info?.phone || "+44 1792 951309"}</p>
                                     </div>
                                 </div>
 
@@ -97,7 +110,7 @@ const ContactSection = () => {
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold text-slate-900 mb-1">Email Address</h3>
-                                        <p className="text-slate-500 break-all">tastybitesrestaurant7@gmail.com</p>
+                                        <p className="text-slate-500 break-all">{info?.email || "tastybitesrestaurant7@gmail.com"}</p>
                                     </div>
                                 </div>
                             </div>

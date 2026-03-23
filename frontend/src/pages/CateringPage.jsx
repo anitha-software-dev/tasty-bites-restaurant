@@ -78,9 +78,9 @@ const CateringPage = () => {
     const packageTiers = [
         {
             id: 'essential',
-            name: 'Essential',
+            name: 'Basic',
             icon: <Home className="text-secondary" />,
-            description: 'Perfect for intimate home gatherings and small family celebrations.',
+            description: 'Perfect for small home parties and family gatherings.',
             price: 'From £15/person',
             features: ['3 Appetizers', '2 Main Curries', 'Basmati Rice', '1 Dessert', 'Disposable Set'],
             color: 'bg-emerald-50/50'
@@ -97,9 +97,9 @@ const CateringPage = () => {
         },
         {
             id: 'grand',
-            name: 'Grand Feast',
+            name: 'Premium',
             icon: <Heart className="text-accent" />,
-            description: 'The ultimate luxury experience for weddings and large gala events.',
+            description: 'The ultimate experience for weddings and large events.',
             price: 'From £45/person',
             features: ['Unlimited Starters', 'Premium Live Counters', 'Multi-Course Buffet', 'Dessert Wall', 'Full Event Planning'],
             color: 'bg-secondary/5'
@@ -137,16 +137,15 @@ const CateringPage = () => {
                             transition={{ delay: 0.5 }}
                             className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-xl border border-white/20 text-accent rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-6 sm:mb-10 mx-auto whitespace-nowrap"
                         >
-                            <Star size={14} className="animate-pulse" /> Crafted Celebrations
+                            <Star size={14} className="animate-pulse" /> Authentic Indian Catering
                         </motion.div>
                         
                         <h1 className="text-3xl sm:text-5xl md:text-7xl font-playfair text-white mb-6 sm:mb-8 leading-[1.1] tracking-tight px-2">
-                            Memories Reimagined <br />
-                            <span className="text-accent italic font-light drop-shadow-2xl">Through Flavor</span>
+                             Authentic <span className="text-accent italic font-light drop-shadow-2xl text-2xl sm:text-4xl md:text-6xl">Indian Catering</span>
                         </h1>
                         
                         <p className="text-sm sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto font-light leading-relaxed mb-10 sm:mb-12 px-6">
-                            Bringing the authentic soul of South Indian spice to your grandest stages and intimate corners.
+                            Delicious South Indian food for weddings, parties, and office events.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
@@ -154,12 +153,12 @@ const CateringPage = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 href="#inquiry-form" 
-                                className="btn-primary !px-6 sm:!px-12 !py-4 sm:!py-5 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-sm sm:!text-base whitespace-nowrap"
+                                className="btn-primary !px-8 !py-3 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-sm whitespace-nowrap"
                             >
-                                Plan Your Heritage Menu
+                                Request a Quote
                             </motion.a>
                             <a href="#packages" className="text-white font-bold flex items-center gap-3 hover:text-accent transition-all group py-4">
-                                <span className="uppercase tracking-[0.2em] text-sm">View Curated Tiers</span> 
+                                <span className="uppercase tracking-[0.2em] text-sm">View Packages</span> 
                                 <ChevronRight size={20} className="group-hover:translate-x-2 transition-transform" />
                             </a>
                         </div>
@@ -169,9 +168,9 @@ const CateringPage = () => {
                 {/* Floating Micro-Features */}
                 <div className="absolute bottom-16 w-full hidden lg:flex justify-center gap-24 text-white/70">
                     {[
-                        { icon: <Award size={20} />, text: "Michelin Standard Chefs" },
-                        { icon: <ShieldCheck size={20} />, text: "Artisanal Spice Blends" },
-                        { icon: <Users size={20} />, text: "Full Scale Coordination" }
+                        { icon: <Award size={20} />, text: "Expert Chefs" },
+                        { icon: <ShieldCheck size={20} />, text: "Authentic Spices" },
+                        { icon: <Users size={20} />, text: "Full Event Support" }
                     ].map((f, i) => (
                         <motion.div 
                             key={i}
@@ -220,21 +219,21 @@ const CateringPage = () => {
                             className="space-y-10"
                         >
                             <div>
-                                <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6">Our Philosophy</span>
+                                <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6">About Our Catering</span>
                                 <h2 className="text-4xl md:text-6xl font-playfair text-slate-900 leading-[1.1]">
-                                    Traditional Heart, <br />
-                                    <span className="text-primary italic font-light">Infinite Modern Detail</span>
+                                    Traditional Taste, <br />
+                                    <span className="text-primary italic font-light">Modern Service</span>
                                 </h2>
                             </div>
                             
                             <p className="text-base text-slate-500 leading-relaxed font-medium">
-                                Every grain of spice is a choice. Every plate is a narrative. We transform ordinary venues into extraordinary canvases of aroma and color, ensuring your story is told through the lens of pure, unadulterated heritage.
+                                We bring authentic South Indian flavors to your special events. Our team works hard to make sure your guests enjoy every meal.
                             </p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
                                 {[
-                                    { icon: <ShieldCheck className="text-primary" />, title: "Precision Execution", desc: "No detail is too small for our perfectionists." },
-                                    { icon: <Users className="text-primary" />, title: "Concierge Planning", desc: "Dedicated managers for every single client." }
+                                    { icon: <ShieldCheck className="text-primary" />, title: "Perfect Execution", desc: "We handle every detail with care." },
+                                    { icon: <Users className="text-primary" />, title: "Event Planning", desc: "Dedicated event managers for every client." }
                                 ].map((item, i) => (
                                     <div key={i} className="space-y-4">
                                         <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center">
@@ -254,9 +253,9 @@ const CateringPage = () => {
             <section id="packages" className="py-24 bg-white relative">
                 <div className="container mx-auto px-6 text-center mb-16">
                     <span className="bg-primary/10 text-primary px-5 py-2 rounded-full font-black uppercase tracking-[0.2em] text-[10px] mb-6 inline-block italic">
-                        The Tasty Bites Collections
+                        Catering Packages
                     </span>
-                    <h2 className="text-4xl md:text-6xl font-playfair text-slate-900">A Match for Every <span className="text-primary">Curated Vibe</span></h2>
+                    <h2 className="text-4xl md:text-6xl font-playfair text-slate-900">Packages for Every <span className="text-primary">Event Type</span></h2>
                 </div>
 
                 <div className="container mx-auto px-6">
@@ -276,7 +275,7 @@ const CateringPage = () => {
                                     <span className={`absolute -top-5 left-1/2 -translate-x-1/2 px-8 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl transition-colors duration-500 whitespace-nowrap ${
                                         activePackage === tier.id ? 'bg-accent text-white' : 'bg-primary text-white'
                                     }`}>
-                                        Signature Collection
+                                        Most Popular
                                     </span>
                                 )}
                                 
@@ -305,13 +304,13 @@ const CateringPage = () => {
                                 <motion.a 
                                     href="#inquiry-form" 
                                     whileHover={{ gap: '1rem' }}
-                                    className={`w-full py-4 sm:py-5 rounded-2xl font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] text-xs flex items-center justify-center gap-2 sm:gap-3 transition-all whitespace-nowrap ${
+                                    className={`w-full py-3 rounded-2xl font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] text-xs flex items-center justify-center gap-2 sm:gap-3 transition-all whitespace-nowrap ${
                                         activePackage === tier.id 
                                     ? 'bg-white text-slate-900' 
                                     : 'bg-slate-900 text-white'
                                 }`}
                                 >
-                                    Select This Collection <ChevronRight size={16} className="shrink-0" />
+                                    Select Package <ChevronRight size={16} className="shrink-0" />
                                 </motion.a>
                             </motion.div>
                         ))}
@@ -328,20 +327,20 @@ const CateringPage = () => {
                     <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-24 items-center">
                         <div className="lg:w-2/5 space-y-12">
                             <div>
-                                <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6 px-4 py-2 bg-primary/10 rounded-full w-fit">Direct Line</span>
+                                <span className="text-primary font-black uppercase tracking-[0.3em] text-[10px] block mb-6 px-4 py-2 bg-primary/10 rounded-full w-fit">Contact Us</span>
                                 <h2 className="text-4xl md:text-5xl font-playfair text-slate-900 leading-[1.2]">
-                                    Architect Your <br />
-                                    <span className="text-primary italic font-light font-playfair">Culinary Experience</span>
+                                    Request a <br />
+                                    <span className="text-primary italic font-light font-playfair text-3xl sm:text-4xl md:text-5xl">Quote</span>
                                 </h2>
                                 <p className="text-slate-600 mt-8 text-lg font-medium leading-relaxed">
-                                    Our heritage consultants are ready to translate your vision into a legacy-defining reality. Fill in the specifics and we'll reach out within 24 hours.
+                                    Our catering team is ready to help you plan your perfect event. Fill in the details and we'll reach out within 24 hours.
                                 </p>
                             </div>
 
                             <div className="space-y-8">
                                 {[
-                                    { icon: <Mail size={18} />, label: "Private Suite Email", value: "catering@tastybites.co.uk" },
-                                    { icon: <Phone size={18} />, label: "Concierge Hotline", value: "+44 123 456 7890" }
+                                    { icon: <Mail size={18} />, label: "Email", value: "catering@tastybites.co.uk" },
+                                    { icon: <Phone size={18} />, label: "Phone", value: "+44 123 456 7890" }
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-center gap-6 group">
                                         <div className="w-14 h-14 bg-white shadow-md rounded-2xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
@@ -360,7 +359,7 @@ const CateringPage = () => {
                             <form onSubmit={handleSubmit} className="space-y-10">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Full Identity *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Full Name *</label>
                                         <div className="relative group">
                                             <User className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -369,13 +368,13 @@ const CateringPage = () => {
                                                 required
                                                 value={formData.fullName}
                                                 onChange={handleChange}
-                                                placeholder="Arthur Pendragon" 
+                                                placeholder="Enter your name" 
                                                 className="w-full pl-12 sm:pl-16 pr-8 py-4 sm:py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-xs sm:text-sm"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Digital Mail *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Email Address *</label>
                                         <div className="relative group">
                                             <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -384,7 +383,7 @@ const CateringPage = () => {
                                                 required
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                placeholder="legend@royal.com" 
+                                                placeholder="Enter your email" 
                                                 className="w-full pl-12 sm:pl-16 pr-8 py-4 sm:py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 placeholder:text-[11px] sm:placeholder:text-sm shadow-sm text-xs sm:text-sm"
                                             />
                                         </div>
@@ -393,7 +392,7 @@ const CateringPage = () => {
 
                                 <div className="grid grid-cols-1 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Secure Phone *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Phone Number *</label>
                                         <div className="shadow-sm rounded-2xl">
                                             <PhoneInput 
                                                 value={formData.phone}
@@ -408,7 +407,7 @@ const CateringPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Vision Category</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Event Type</label>
                                         <div className="relative group">
                                             <Award className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <select 
@@ -417,16 +416,16 @@ const CateringPage = () => {
                                                 onChange={handleChange}
                                                 className="w-full pl-16 pr-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 appearance-none cursor-pointer shadow-sm text-sm"
                                             >
-                                                <option>Corporate Gala</option>
-                                                <option>Grand Wedding</option>
-                                                <option>Private Soiree</option>
-                                                <option>Milestone Jubilee</option>
-                                                <option>Elite Retreat</option>
+                                                <option>Corporate Party</option>
+                                                <option>Wedding Event</option>
+                                                <option>Private Party</option>
+                                                <option>Family Gathering</option>
+                                                <option>Other Event</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Planned Date</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Event Date</label>
                                         <div className="relative group catering-datepicker">
                                             <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary z-10" size={18} />
                                             <Flatpickr
@@ -448,7 +447,7 @@ const CateringPage = () => {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Elite Guests *</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Number of Guests *</label>
                                         <div className="relative group">
                                             <Users className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -463,7 +462,7 @@ const CateringPage = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Aspirant Budget</label>
+                                        <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Estimated Budget</label>
                                         <div className="relative group">
                                             <Wallet className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                             <input 
@@ -479,7 +478,7 @@ const CateringPage = () => {
                                 </div>
 
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Narrative & Vision</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 ml-3 text-center sm:text-left block">Message</label>
                                     <div className="relative group">
                                         <MessageSquare className="absolute left-6 top-8 text-primary/40 transition-colors group-focus-within:text-primary" size={18} />
                                         <textarea 
@@ -487,7 +486,7 @@ const CateringPage = () => {
                                             value={formData.message}
                                             onChange={handleChange}
                                             rows="5" 
-                                            placeholder="Detail your dream culinary landscape..." 
+                                            placeholder="Tell us about your event details..." 
                                             className="w-full pl-12 sm:pl-16 pr-8 py-4 sm:py-5 bg-slate-50 border-2 border-slate-100 rounded-3xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-300 placeholder:text-[11px] sm:placeholder:text-sm resize-none shadow-sm text-xs sm:text-sm"
                                         ></textarea>
                                     </div>
@@ -498,13 +497,13 @@ const CateringPage = () => {
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className={`w-full py-5 rounded-2xl bg-slate-950 text-white font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-[10px] sm:text-[11px] shadow-2xl hover:bg-primary transition-all flex items-center justify-center gap-3 sm:gap-6 whitespace-nowrap ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
+                                    className={`w-full py-3.5 rounded-2xl bg-slate-950 text-white font-black uppercase tracking-[0.2em] sm:tracking-[0.4em] text-sm shadow-2xl hover:bg-primary transition-all flex items-center justify-center gap-3 sm:gap-6 whitespace-nowrap ${isLoading ? 'opacity-70 cursor-wait' : ''}`}
                                 >
                                     {isLoading ? (
                                         <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin" />
                                     ) : (
                                         <div className="flex items-center justify-center gap-2 sm:gap-4">
-                                            Architect My Experience <Send size={18} className="animate-bounce shrink-0" />
+                                            Submit Request <Send size={18} className="animate-bounce shrink-0" />
                                         </div>
                                     )}
                                 </motion.button>

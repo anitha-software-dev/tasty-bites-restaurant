@@ -76,7 +76,7 @@ const Testimonials = () => {
 
                 <div className="text-center mt-16">
                         <Link to="/testimonials" className="btn-primary !px-12 !py-5 !text-[10px] shadow-[0_20px_50px_rgba(192,75,42,0.3)]">
-                            READ ALL EXPERIENCES
+                            VIEW ALL REVIEWS
                         </Link>
                 </div>
             </div>

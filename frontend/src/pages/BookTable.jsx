@@ -187,7 +187,7 @@ const BookTable = () => {
                         <div className="lg:col-span-5 text-slate-900">
                             <motion.div variants={formVariants} className="mb-6 inline-flex items-center space-x-2 text-primary bg-primary/10 px-4 py-2 rounded-full border border-primary/20 backdrop-blur-md">
                                 <GlassWater size={18} />
-                                <span className="text-sm font-bold uppercase tracking-widest">Fine Dining Experience</span>
+                                <span className="text-sm font-bold uppercase tracking-widest">Book a Table</span>
                             </motion.div>
                             
                             <motion.h1 variants={formVariants} className="text-3xl sm:text-5xl md:text-7xl font-playfair mb-6 leading-tight">
@@ -205,7 +205,7 @@ const BookTable = () => {
                                         <AlertCircle className="text-primary" size={20} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-slate-900">Quick Reservation</h4>
+                                        <h4 className="font-bold text-slate-900">Easy Booking</h4>
                                         <p className="text-slate-400 text-sm">Takes less than 2 minutes to book.</p>
                                     </div>
                                 </div>
@@ -215,7 +215,7 @@ const BookTable = () => {
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-slate-900">Instant Confirmation</h4>
-                                        <p className="text-slate-400 text-sm">Receive immediate booking reference.</p>
+                                        <p className="text-slate-400 text-sm">Get instant confirmation.</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -280,8 +280,8 @@ const BookTable = () => {
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Reservation Date</label>
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Booking Date</label>
                                             <div className="relative group/input">
                                                 <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/80 group-focus-within/input:text-primary z-10 pointer-events-none transition-colors" size={18} />
                                                 <Flatpickr
@@ -340,13 +340,13 @@ const BookTable = () => {
                                         whileTap={{ scale: 0.99 }}
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className={`w-full py-4 sm:py-6 rounded-2xl text-xs sm:text-base font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all whitespace-nowrap ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
+                                        className={`w-full py-3 rounded-2xl text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] shadow-xl flex items-center justify-center gap-2 sm:gap-3 transition-all whitespace-nowrap ${isSubmitting ? 'bg-slate-300 cursor-wait' : 'bg-primary text-white hover:bg-primary/90'}`}
                                     >
                                         {isSubmitting ? (
                                             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         ) : (
                                             <div className="flex items-center justify-center gap-2 whitespace-nowrap">
-                                                <span>Confirm My Reservation</span>
+                                                <span>Book Now</span>
                                                 <CheckCircle2 size={18} className="shrink-0 sm:w-5 sm:h-5" />
                                             </div>
                                         )}

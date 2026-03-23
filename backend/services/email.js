@@ -57,7 +57,7 @@ const getTransporter = async () => {
     return transporterInstance;
 };
 
-const FROM_EMAIL = process.env.SMTP_USER || 'no-reply@tastybites.com';
+const FROM_EMAIL = process.env.FROM_EMAIL || process.env.SMTP_USER || 'no-reply@tastybites.com';
 const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'anitha05staging@gmail.com';
 
 /**

@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
                         <p>We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances: Where we need to perform the contract we are about to enter into or have entered into with you. Where it is necessary for our legitimate interests (or those of a third party) and your interests and fundamental rights do not override those interests. Where we need to comply with a legal obligation.</p>
                     </section>
                     <section>
-                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">4. Data Security</h2>
+                        <h2 className="text-2xl font-playfair text-primary mb-4 font-semibold">4. Security</h2>
                         <p>We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorised way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.</p>
                     </section>
                 </div>

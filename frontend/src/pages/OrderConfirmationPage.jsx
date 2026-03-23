@@ -59,8 +59,8 @@ const OrderConfirmationPage = () => {
 
     const steps = [
         { id: 1, label: 'Order Placed', icon: ShoppingBag, active: true },
-        { id: 2, label: 'Kitchen Preparing', icon: ChefHat, active: true },
-        { id: 3, label: isDineIn ? 'Serving Soon' : 'Ready for Pickup', icon: isDineIn ? Utensils : MapPin, active: false },
+        { id: 2, label: 'Preparing Your Food', icon: ChefHat, active: true },
+        { id: 3, label: isDineIn ? 'Almost Ready' : 'Ready for Pickup', icon: isDineIn ? Utensils : MapPin, active: false },
     ];
 
     return (
@@ -85,7 +85,7 @@ const OrderConfirmationPage = () => {
                     </motion.div>
 
                     <h1 className="text-4xl md:text-5xl font-playfair font-bold text-slate-900 mb-2">
-                        {isDineIn ? "Kitchen is Notified!" : "Order Confirmed!"}
+                        {isDineIn ? "Order Received!" : "Order Confirmed!"}
                     </h1>
                     <p className="text-slate-500 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
                         {isDineIn

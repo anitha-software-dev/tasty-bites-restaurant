@@ -15,9 +15,19 @@ const Contact = () => {
     });
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const [restaurantInfo, setRestaurantInfo] = useState(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        const fetchInfo = async () => {
+            try {
+                const data = await api.getRestaurantInfo();
+                if (data) setRestaurantInfo(data);
+            } catch (err) {
+                console.error('Failed to fetch restaurant info:', err);
+            }
+        };
+        fetchInfo();
     }, []);
 
     const handleChange = (e) => {
@@ -130,9 +140,9 @@ const Contact = () => {
                         {/* Info Cards Side */}
                         <motion.div variants={itemVariants} className="lg:col-span-4 space-y-6">
                             {[
-                                { icon: MapPin, label: "Visit Us", value: "123 High Street, Kensington, London W8 5SF" },
-                                { icon: Phone, label: "Call Us", value: "+44 1792 951309" },
-                                { icon: Mail, label: "Email Us", value: "tastybitesrestaurant7@gmail.com" }
+                                { icon: MapPin, label: "Visit Us", value: restaurantInfo?.address || "123 Curry Lane, London, SE1 7PB" },
+                                { icon: Phone, label: "Call Us", value: restaurantInfo?.phone || "+44 20 7946 0123" },
+                                { icon: Mail, label: "Email Us", value: restaurantInfo?.email || "hello@tastybites.com" }
                             ].map((info, idx) => (
                                 <div key={idx} className="bg-slate-900/40 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-white/10 group hover:border-primary/40 transition-all duration-500 shadow-2xl flex items-start space-x-5">
                                     <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center text-primary group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
@@ -230,7 +240,7 @@ const Contact = () => {
                                     </div>
 
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Your Detailed Message</label>
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/80 ml-1">Your Message</label>
                                         <textarea
                                             name="message"
                                             rows="4"
@@ -254,7 +264,7 @@ const Contact = () => {
                                             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         ) : (
                                             <>
-                                                <span>Send Your Message</span>
+                                                <span>Send Message</span>
                                                 <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                             </>
                                         )}

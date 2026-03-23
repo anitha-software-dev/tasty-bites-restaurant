@@ -27,7 +27,7 @@ const Navbar = () => {
     }, [location]);
 
     const navLinks = [
-        { name: 'Place Your Order', path: '/menu' },
+        { name: 'Order Now', path: '/menu' },
         { name: 'Book a Table', path: '/book' },
         { name: 'Catering', path: '/catering' },
         { name: 'Our Story', path: '/about' },

@@ -92,7 +92,7 @@ const FAQs = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-slate-900 font-playfair text-3xl md:text-5xl mb-8 leading-tight"
                     >
-                        Inquiry <span className="text-primary italic">Intelligence</span>
+                        Common <span className="text-primary italic">Questions</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
@@ -100,7 +100,7 @@ const FAQs = () => {
                         transition={{ delay: 0.3 }}
                         className="text-slate-500 text-sm md:text-base max-w-2xl mx-auto font-black uppercase tracking-[0.5em] leading-relaxed"
                     >
-                        Clarifying the journey from culture to cuisine
+                        Find answers to your questions about our food and service.
                     </motion.p>
                 </div>
             </section>
@@ -173,17 +173,17 @@ const FAQs = () => {
                     >
                         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                         <h2 className="text-2xl md:text-4xl font-playfair text-slate-900 mb-8 relative z-10 leading-tight">
-                            Still Seeking <br />
-                            <span className="text-primary italic font-light">Clarification?</span>
+                            Still Have <br />
+                            <span className="text-primary italic font-light">Questions?</span>
                         </h2>
                         <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.5em] mb-14 relative z-10">
-                            Our elite concierge team is standing by to assist
+                            Our team is here to help you.
                         </p>
                         <Link
                             to="/contact"
-                            className="btn-primary !px-8 sm:!px-14 !py-4 sm:!py-7 !text-xs shadow-[0_20px_60px_rgba(192,75,42,0.4)] whitespace-nowrap"
+                            className="btn-primary !px-8 !py-4 sm:!py-7 !text-xs shadow-[0_20px_60px_rgba(192,75,42,0.4)] whitespace-nowrap"
                         >
-                            INITIATE CONVERSATION
+                            CONTACT US
                         </Link>
                     </motion.div>
                 </div>

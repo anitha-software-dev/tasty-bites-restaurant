@@ -94,7 +94,7 @@ const SignupPage = () => {
                             <User size={28} />
                         </div>
                         <h1 className="text-3xl font-playfair text-slate-900 mb-2">Create Account</h1>
-                        <p className="text-slate-500 text-sm">Join Tasty Bites for a faster checkout experience</p>
+                        <p className="text-slate-500 text-sm">Create an account for faster checkout</p>
                     </div>
 
                     {error && (

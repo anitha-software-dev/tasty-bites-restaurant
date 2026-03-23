@@ -20,6 +20,20 @@ export const authenticate = (req, res, next) => {
     }
 };
 
+// Add isAdmin middleware
+import { User } from '../models/index.js';
+export const isAdmin = async (req, res, next) => {
+    try {
+        const user = await User.findByPk(req.userId);
+        if (!user || user.role !== 'admin') {
+            return res.status(403).json({ error: 'Admin access required' });
+        }
+        next();
+    } catch (err) {
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 export const optionalAuth = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('Bearer ')) {

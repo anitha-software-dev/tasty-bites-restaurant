@@ -26,7 +26,7 @@ const slides = [
         image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
         title: 'A Culinary Journey To',
         subtitle: 'The Heart of India',
-        desc: 'Join us for an unforgettable dining experience where tradition meets modern culinary artistry.'
+        desc: 'Join us for an unforgettable dining experience where tradition meets modern South Indian cooking.'
     }
 ];
 
@@ -87,8 +87,8 @@ const Hero = () => {
                         transition={{ duration: 0.8, delay: 0.7 }}
                         className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 w-full"
                     >
-                        <Link to="/menu" className="btn-primary flex items-center group w-full sm:w-auto justify-center whitespace-nowrap text-xs sm:text-base px-6 sm:px-8">
-                            Explore Menu
+                        <Link to="/menu" className="btn-primary flex items-center group w-full sm:w-auto justify-center whitespace-nowrap text-sm px-6 sm:px-8">
+                            Order Now
                             <motion.span
                                 animate={{ x: [0, 5, 0] }}
                                 transition={{ repeat: Infinity, duration: 1.5 }}
@@ -97,7 +97,7 @@ const Hero = () => {
                                 <ArrowRight size={18} className="ml-2" />
                             </motion.span>
                         </Link>
-                        <Link to="/about" className="px-6 sm:px-8 py-3 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-white hover:text-slate-900 transition-all w-full sm:w-auto text-center whitespace-nowrap">
+                        <Link to="/about" className="px-6 sm:px-8 py-2.5 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-semibold uppercase tracking-wider text-sm hover:bg-white hover:text-slate-900 transition-all w-full sm:w-auto text-center whitespace-nowrap">
                             Our Story
                         </Link>
                     </motion.div>

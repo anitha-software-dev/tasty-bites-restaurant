@@ -79,7 +79,7 @@ const TestimonialsPage = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-slate-900 font-playfair text-3xl md:text-5xl mb-8 leading-tight"
                     >
-                        Guest <span className="text-primary italic">Experiences</span>
+                        Customer <span className="text-primary italic">Reviews</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
@@ -87,7 +87,7 @@ const TestimonialsPage = () => {
                         transition={{ delay: 0.3 }}
                         className="text-slate-500 text-sm md:text-base max-w-2xl mx-auto font-black uppercase tracking-[0.5em] leading-relaxed"
                     >
-                        Real stories from our beloved community & global food enthusiasts
+                        Read about our happy customers' experiences.
                     </motion.p>
                 </div>
             </section>
@@ -103,7 +103,7 @@ const TestimonialsPage = () => {
                                     <div className="flex text-primary mb-1">
                                         {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
                                     </div>
-                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Global Satisfaction Index</p>
+                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Average Rating</p>
                                 </div>
                             </div>
                         </div>
@@ -170,8 +170,8 @@ const TestimonialsPage = () => {
             <section id="review-form" className="py-24 relative overflow-hidden bg-slate-50">
                 <div className="container mx-auto px-6 max-w-4xl">
                     <div className="text-center mb-16">
-                        <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block italic">Voices of Heritage</span>
-                        <h2 className="text-3xl md:text-5xl font-playfair text-slate-900">Project Your <span className="text-primary italic">Narrative</span></h2>
+                        <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block italic">Write a Review</span>
+                        <h2 className="text-3xl md:text-5xl font-playfair text-slate-900">Share Your <span className="text-primary italic">Story</span></h2>
                     </div>
 
                     <motion.div
@@ -186,7 +186,7 @@ const TestimonialsPage = () => {
                              {/* Grid Inputs */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-4 mb-3 block">Full Identity *</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-4 mb-3 block">Full Name *</label>
                                     <input
                                         type="text"
                                         required
@@ -212,8 +212,8 @@ const TestimonialsPage = () => {
                             {/* Premium Star Selector */}
                             <div className="py-6 border-y border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
                                 <div>
-                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 block">Heritage Rating *</label>
-                                    <p className="text-xs text-slate-300">Select the intensity of your journey</p>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2 block">Rating *</label>
+                                    <p className="text-xs text-slate-300">How was your experience?</p>
                                 </div>
                                 <div className="flex items-center space-x-3">
                                     {[1, 2, 3, 4, 5].map((star) => (
@@ -236,21 +236,21 @@ const TestimonialsPage = () => {
 
                             {/* Review Text */}
                             <div>
-                                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-4 mb-3 block">Your Perspective *</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 ml-4 mb-3 block">Your Review *</label>
                                 <textarea
                                     required
                                     rows="5"
                                     value={formData.text}
                                     onChange={(e) => setFormData({ ...formData, text: e.target.value })}
                                     className="w-full px-8 py-5 rounded-3xl bg-slate-50 border-2 border-slate-100 focus:border-primary focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-200 placeholder:text-[11px] sm:placeholder:text-sm text-sm resize-none outline-none"
-                                    placeholder="Detail your dream culinary landscape..."
+                                    placeholder="Tell us about your meal..."
                                 />
                             </div>
 
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className={`w-full py-4 sm:py-6 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] text-xs shadow-2xl hover:bg-white hover:text-primary transition-all flex items-center justify-center gap-4 sm:gap-6 whitespace-nowrap ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}
+                                className={`w-full py-3 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.3em] sm:tracking-[0.5em] text-sm shadow-2xl hover:bg-white hover:text-primary transition-all flex items-center justify-center gap-4 sm:gap-6 whitespace-nowrap ${isSubmitting ? 'opacity-70 cursor-wait' : ''}`}
                             >
                                 {isSubmitting ? (
                                     <>
@@ -273,7 +273,7 @@ const TestimonialsPage = () => {
                         viewport={{ once: true }}
                         className="text-2xl md:text-4xl font-playfair text-slate-900 mb-8"
                     >
-                        Ready to <span className="text-primary italic">Ascend?</span>
+                        Ready to <span className="text-primary italic">Order?</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0 }}
@@ -282,7 +282,7 @@ const TestimonialsPage = () => {
                         transition={{ delay: 0.1 }}
                         className="text-slate-500 text-sm md:text-base max-w-2xl mx-auto mb-12 font-medium tracking-[0.2em] uppercase"
                     >
-                        Join our elite community and experience the pinnacle of artisanal dining
+                        Enjoy the best South Indian food today.
                     </motion.p>
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -292,9 +292,9 @@ const TestimonialsPage = () => {
                     >
                         <Link
                             to="/menu"
-                            className="btn-primary !px-8 !py-4 sm:!py-6 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-xs whitespace-nowrap"
+                            className="btn-primary !px-8 !py-3 shadow-[0_20px_50px_rgba(192,75,42,0.3)] !text-sm whitespace-nowrap"
                         >
-                            EXPLORE THE HERITAGE MENU
+                            ORDER NOW
                         </Link>
                     </motion.div>
                 </div>

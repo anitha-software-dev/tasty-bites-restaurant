@@ -13,6 +13,8 @@ import faqRoutes from './routes/faqs.js';
 import menuRoutes from './routes/menu.js';
 import testimonialRoutes from './routes/testimonials.js';
 import restaurantRoutes from './routes/restaurant.js';
+import tableRoutes from './routes/tables.js';
+import staffRoutes from './routes/staff.js';
 import { verifyConnection, sendTestEmail } from './services/email.js';
 import dns from 'node:dns';
 
@@ -23,9 +25,17 @@ if (dns.setDefaultResultOrder) {
 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Ensure uploads directory exists for production (Render ephemeral storage)
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log('📁 Created uploads directory');
+}
 
 dotenv.config();
 
@@ -34,7 +44,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadsDir));
 
 // Main Dashboard Landing Page
 app.get('/', (req, res) => {
@@ -266,6 +276,8 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/faqs', faqRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/restaurant', restaurantRoutes);
+app.use('/api/tables', tableRoutes);
+app.use('/api/staff', staffRoutes);
 
 db.sync({ alter: true }).then(() => {
     console.log('✅ Database synced successfully');

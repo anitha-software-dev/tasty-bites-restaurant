@@ -14,7 +14,8 @@ import {
     X,
     Store,
     Layers,
-    ChefHat
+    ChefHat,
+    Grid2X2
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { adminOrdersApi } from '../services/adminApi';
@@ -32,7 +33,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                     adminOrdersApi.getAll(),
                     api.getRestaurantInfo()
                 ]);
-                
+
                 const pending = orders.filter(o => !['Completed', 'Cancelled', 'Delivered'].includes(o.status)).length;
                 setOrderCount(pending);
                 setRestaurantInfo(info);
@@ -50,6 +51,9 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         { path: 'orders', icon: <ShoppingBag size={18} />, label: 'Orders' },
         { path: 'menu', icon: <Utensils size={18} />, label: 'Menu Items' },
         { path: 'categories', icon: <Layers size={18} />, label: 'Categories' },
+        { path: 'tables', icon: <Grid2X2 size={18} />, label: 'Tables' },
+        { path: 'waiters', icon: <Users size={18} />, label: 'Waiters' },
+        { path: 'chef', icon: <ChefHat size={18} />, label: 'Chef Menu' },
         { path: 'bookings', icon: <Calendar size={18} />, label: 'Reservations' },
         { path: 'testimonials', icon: <MessageSquare size={18} />, label: 'Testimonials' },
     ];
