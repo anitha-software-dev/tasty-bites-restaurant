@@ -105,6 +105,7 @@ The project follows a modern monorepo structure for seamless coordination betwee
    ```
    - Dashboard: `http://localhost:5173/admin`
    - Website: `http://localhost:5173`
+   - API: `http://localhost:5000`
 
 ---
 
