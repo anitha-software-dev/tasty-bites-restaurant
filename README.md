@@ -1,49 +1,112 @@
-# Tasty Bites Restaurant
+# 🍽️ Tasty Bites - Premium Restaurant Management System
 
-A modern restaurant management system with a public website and an admin dashboard.
+[![Frontend Deployment](https://img.shields.io/badge/Frontend-Vercel-black?style=for-the-badge&logo=vercel)](https://tasty-bites-restaurant-ten.vercel.app)
+[![Backend Status](https://img.shields.io/badge/Backend-Render-EFEFEF?style=for-the-badge&logo=render)](https://tasty-bites-restaurant.onrender.com/api/health)
+[![Full Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/anitha-software-dev/tasty-bites-restaurant)
 
-## Tech Stack
+Tasty Bites is a sophisticated, full-stack restaurant management solution designed for the modern culinary industry. It seamlessly integrates a high-conversion customer-facing website with a powerful, real-time administrative ecosystem.
 
-- **Frontend:** React + Vite
-- **Admin Dashboard:** React + Vite
-- **Backend:** Node.js + Express
-- **Database:** PostgreSQL (Local) / Neon (Production)
-- **Deployment:** Vercel
+---
 
-## Project Structure
+## 🚀 Key Modules & Features
 
-- `/frontend`: Public-facing website.
-- `/admin`: Management dashboard for staff.
-- `/backend`: Express API and database models.
+### 🛒 Customer Experience (Frontend)
+- **High-End UI/UX**: Built with Framer Motion for liquid-smooth transitions and a premium aesthetic.
+- **Dynamic Menu**: Categorized digital menu with real-time filtering and search.
+- **Online Ordering**: Integrated cart and checkout flow with localized address management.
+- **Table Reservations**: Intuitive booking system with instant status tracking.
+- **Catering Portal**: Dedicated inquiry flow for event management.
+- **Personalized Profiles**: User accounts for order history and saved preferences.
+- **Social Proof**: Elegant testimonials and FAQ sections to build brand trust.
 
-## Local Setup
+### 🛡️ Administrative Portal (Staff Only)
+- **Live Order Tracking**: Purpose-built interfaces for **Chefs** (Kitchen Display) and **Waiters** (Floor Management).
+- **Menu Management**: Full CRUD capabilities for dishes, categories, and availability.
+- **Reservation Control**: Manage bookings, update statuses, and seat guests efficiently.
+- **Staff Administration**: Role-based access control (RBAC) for managing the restaurant team.
+- **Business Intelligence**: Real-time analytics dashboard with revenue trends and order distribution charts.
+- **Store Preferences**: Global control over restaurant info, logos, and operating details.
 
-1. **Clone the repository.**
-2. **Install dependencies:**
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React 18, Vite, Framer Motion, Tailwind CSS, Lucide React, Axios |
+| **Backend** | Node.js, Express, Sequelize ORM, JWT Authentication |
+| **Database** | PostgreSQL (Neon for Production) |
+| **Deployment** | Vercel (Frontend/Admin), Render (Backend/API) |
+| **Tooling** | Git, NPM, Postman, Recharts (Analytics) |
+
+---
+
+## 📂 Project Architecture
+
+The project follows a modern monorepo structure for seamless coordination between services:
+
+```text
+├── frontend/             # React + Vite application (Customer & Admin)
+│   ├── src/
+│   │   ├── admin/        # Secured Administrative Dashboard
+│   │   ├── components/   # Shared UI components
+│   │   ├── pages/        # Customer-facing views
+│   │   └── services/     # API interaction layer
+├── backend/              # Node.js + Express API
+│   ├── config/           # Database & Auth configuration
+│   ├── models/           # Sequelize schema definitions
+│   ├── routes/           # API Endpoint controllers
+│   └── services/         # Business logic & Email integration
+├── vercel.json           # Root Vercel build configuration
+└── render.yaml           # Root Render blueprint for infrastructure
+```
+
+---
+
+## ☁️ Deployment Strategy
+
+### **Frontend & Admin (Vercel)**
+- **Auto-build**: Configured via `vercel.json` at the root.
+- **Target**: The `frontend` workspace is compiled and served as a SPA.
+- **Env Required**: `VITE_API_URL` (Points to the Render API).
+
+### **Backend & API (Render)**
+- **Live Service**: Hosted on Render using the `render.yaml` blueprint.
+- **Database**: Connected to a high-availability PostgreSQL instance.
+- **Env Required**: `DATABASE_URL`, `JWT_SECRET`, `SMTP_USER`, `SMTP_PASS`.
+
+---
+
+## 💻 Local Quickstart
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/anitha-software-dev/tasty-bites-restaurant.git
+   cd tasty-bites-restaurant
+   ```
+
+2. **Install all dependencies**:
    ```bash
    npm run install:all
    ```
-3. **Configure environment variables:**
-   - Create a `.env` file in the `backend` directory based on the provided configuration.
-4. **Seed the database:**
+
+3. **Configure Environment**:
+   - Create `backend/.env` (DB_URL, JWT_SECRET, etc.)
+   - Ensure local PostgreSQL is running.
+
+4. **Initialize System**:
    ```bash
    npm run seed
    ```
-5. **Run the development servers:**
+
+5. **Launch Project**:
    ```bash
    npm run dev
    ```
-   - Public site: `http://localhost:5173`
-   - Admin dashboard: `http://localhost:5173/admin`
-   - Backend API: `http://localhost:5000`
+   - Dashboard: `http://localhost:5173/admin`
+   - Website: `http://localhost:5173`
 
-## Deployment
+---
 
-### Backend
-The backend is designed to be deployed on Vercel or any Node.js host. Connect it to a Neon PostgreSQL instance.
-
-### Frontend & Admin
-Both frontend and admin are Vite projects. They can be deployed on Vercel. Ensure the `VITE_API_URL` (if used) points to your deployed backend.
-
-## License
-MIT
+## 📄 License
+Distributed under the **MIT License**. See `LICENSE` for more information.
