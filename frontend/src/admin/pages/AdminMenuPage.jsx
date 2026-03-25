@@ -389,7 +389,7 @@ const AdminMenuPage = () => {
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <h1 className="text-4xl font-black text-slate-900 tracking-tight">Food Menu <span className="text-admin-primary/40 text-lg font-bold uppercase tracking-widest ml-4">Refined</span></h1>
+                    <h1 className="text-4xl font-black text-slate-900 tracking-tight">Food Menu</h1>
                     <p className="text-sm font-medium text-slate-500 mt-2 uppercase tracking-widest flex items-center gap-2">
                         <Utensils size={14} className="text-admin-primary" /> Manage your menu
                     </p>
@@ -441,8 +441,8 @@ const AdminMenuPage = () => {
                         <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-6">Loading...</p>
                     </div>
                 ) : filteredItems.length > 0 ? (
-                    <div className="w-full overflow-x-auto no-scrollbar rounded-[2.5rem]">
-                        <table className="w-full text-left border-collapse min-w-[900px]">
+                    <div className="w-full overflow-x-auto rounded-[2.5rem]">
+                        <table className="w-full text-left border-collapse min-w-[800px]">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Preview</th>
