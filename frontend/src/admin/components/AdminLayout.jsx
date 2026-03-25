@@ -18,7 +18,7 @@ const AdminLayout = () => {
                 />
             )}
 
-            <div className="flex-1 flex flex-col min-h-screen md:ml-72 transition-all duration-300 overflow-x-hidden">
+            <div className="w-full min-h-screen md:pl-72 transition-all duration-300 overflow-x-hidden flex flex-col">
                 <TopBar onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
                 <main className="p-4 md:p-10 flex-1">
                     <Outlet />

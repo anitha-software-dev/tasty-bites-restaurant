@@ -441,23 +441,23 @@ const AdminMenuPage = () => {
                         <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-6">Loading...</p>
                     </div>
                 ) : filteredItems.length > 0 ? (
-                    <div className="w-full overflow-x-auto rounded-[2.5rem]">
-                        <table className="w-full text-left border-collapse min-w-[800px]">
+                    <div className="w-full overflow-x-auto rounded-[2.5rem] border border-slate-100">
+                        <table className="w-full text-left border-collapse min-w-[700px]">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Preview</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Item Details</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Chef</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Price</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Badges</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Preview</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Item Details</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Chef</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Price</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Badges</th>
+                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
                                 {filteredItems.map(item => (
                                     <tr key={item.id} className="group hover:bg-slate-50/30 transition-colors">
-                                        <td className="px-8 py-6">
+                                        <td className="px-4 py-6">
                                             <div className="w-20 h-16 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 group-hover:scale-105 transition-transform duration-500">
                                                 {item.image ? (
                                                     <img src={item.image} alt="" className="w-full h-full object-cover" />
@@ -466,18 +466,18 @@ const AdminMenuPage = () => {
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-4 py-6">
                                             <div className="max-w-xs">
                                                 <p className="text-base font-black text-slate-900 tracking-tight mb-1">{item.name}</p>
                                                 <p className="text-[11px] font-medium text-slate-400 line-clamp-1">{item.description}</p>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-4 py-6">
                                             <span className="px-4 py-1.5 bg-white border border-slate-100 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
                                                 {item.category}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-4 py-6">
                                             {item.chefName ? (
                                                 <div className="flex items-center gap-2">
                                                     <div className="w-8 h-8 rounded-full bg-admin-primary/10 flex items-center justify-center text-admin-primary text-[10px] font-black uppercase tracking-tighter">
@@ -489,16 +489,16 @@ const AdminMenuPage = () => {
                                                 <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">Unassigned</span>
                                             )}
                                         </td>
-                                        <td className="px-8 py-6 text-base font-black text-slate-900 tracking-tighter">
+                                        <td className="px-4 py-6 text-base font-black text-slate-900 tracking-tighter">
                                             £{Number(String(item.price || 0).replace(/[^0-9.]/g, '')).toFixed(2)}
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-4 py-6">
                                             <div className="flex items-center gap-2">
                                                 {item.vegetarian && <div className="w-8 h-8 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center border border-emerald-100" title="Veg"><Leaf size={14} /></div>}
                                                 {item.popular && <div className="w-8 h-8 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center border border-amber-100" title="Special"><Flame size={14} /></div>}
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6 text-right">
+                                        <td className="px-4 py-6 text-right">
                                             <div className="flex items-center justify-end gap-2 transition-opacity duration-300">
                                                 <button
                                                     onClick={() => { setSelectedItem(item); setIsModalOpen(true); }}
