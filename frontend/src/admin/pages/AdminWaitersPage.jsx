@@ -23,7 +23,7 @@ import {
     Key
 } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { adminStaffApi } from '../services/adminApi';
+import { adminStaffApi, adminTablesApi } from '../services/adminApi';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
 const AdminWaitersPage = () => {
@@ -44,15 +44,27 @@ const AdminWaitersPage = () => {
         password: ''
     });
 
-    const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
-    const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
-    const [selectedStaffForSchedule, setSelectedStaffForSchedule] = useState(null);
-    const [isBulkMessageModalOpen, setIsBulkMessageModalOpen] = useState(false);
     const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+    const [isTableModalOpen, setIsTableModalOpen] = useState(false);
+    const [selectedWaiterForTables, setSelectedWaiterForTables] = useState(null);
+    const [allTables, setAllTables] = useState([]);
+    const [assignedTableIds, setAssignedTableIds] = useState([]);
+    const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
+    const [isBulkMessageModalOpen, setIsBulkMessageModalOpen] = useState(false);
 
     useEffect(() => {
         fetchStaff();
+        fetchTables();
     }, []);
+
+    const fetchTables = async () => {
+        try {
+            const data = await adminTablesApi.getAll();
+            setAllTables(data);
+        } catch (error) {
+            console.error("Failed to load tables", error);
+        }
+    };
 
     const fetchStaff = async () => {
         try {
@@ -148,6 +160,33 @@ const AdminWaitersPage = () => {
         w.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         w.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const handleOpenTableModal = (waiter) => {
+        setSelectedWaiterForTables(waiter);
+        // Extract IDs of tables currently assigned to this waiter
+        const currentTables = waiter.Tables?.map(t => t.id) || [];
+        setAssignedTableIds(currentTables);
+        setIsTableModalOpen(true);
+    };
+
+    const handleAssignTables = async () => {
+        try {
+            await adminStaffApi.updateTables(selectedWaiterForTables.id, assignedTableIds);
+            toast.success(`Tables updated for ${selectedWaiterForTables.name}`);
+            setIsTableModalOpen(false);
+            fetchStaff();
+        } catch (error) {
+            toast.error("Failed to assign tables: " + error.message);
+        }
+    };
+
+    const toggleTableSelection = (tableId) => {
+        setAssignedTableIds(prev => 
+            prev.includes(tableId) 
+                ? prev.filter(id => id !== tableId)
+                : [...prev, tableId]
+        );
+    };
 
     if (loading) return (
         <div className="flex items-center justify-center min-h-[400px]">
@@ -248,6 +287,14 @@ const AdminWaitersPage = () => {
                                     </div>
                                 </div>
                                 <div className="flex gap-1 transition-opacity">
+                                    <button 
+                                        onClick={() => handleOpenTableModal(waiter)} 
+                                        className="p-3 text-slate-300 hover:text-admin-primary hover:bg-admin-primary/5 rounded-2xl transition-all flex flex-col items-center gap-1"
+                                        title="Assign Tables"
+                                    >
+                                        <LayoutGrid size={16} />
+                                        <span className="text-[8px] font-black">{waiter.Tables?.length || 0}</span>
+                                    </button>
                                     <button onClick={() => handleOpenModal(waiter)} className="p-3 text-slate-300 hover:text-admin-primary hover:bg-admin-primary/5 rounded-2xl transition-all"><Edit size={16} /></button>
                                     <button onClick={() => handleDelete(waiter)} className="p-3 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-2xl transition-all"><Trash2 size={16} /></button>
                                 </div>
@@ -373,6 +420,66 @@ const AdminWaitersPage = () => {
                                     </div>
                                     <button type="submit" className="w-full py-5 bg-slate-900 text-white rounded-[2rem] text-xs font-black uppercase tracking-widest hover:bg-admin-primary transition-all shadow-xl shadow-slate-200 mt-4">{editingStaff ? 'Update Waiter' : 'Add Waiter'}</button>
                                 </form>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+            {/* Table Assignment Modal */}
+            <AnimatePresence>
+                {isTableModalOpen && (
+                    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsTableModalOpen(false)} className="absolute inset-0 bg-slate-900/40 backdrop-blur-md" />
+                        <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.9, opacity: 0, y: 20 }} className="relative w-full max-w-xl bg-white rounded-[3rem] overflow-hidden shadow-2xl p-10">
+                            <div className="flex justify-between items-center mb-8">
+                                <div>
+                                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Assign Tables</h2>
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Select tables for {selectedWaiterForTables?.name}</p>
+                                </div>
+                                <button onClick={() => setIsTableModalOpen(false)} className="p-3 bg-slate-50 text-slate-400 hover:text-slate-900 rounded-2xl transition-all"><X size={20} /></button>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar mb-8 p-1">
+                                {allTables.map(table => {
+                                    const isSelected = assignedTableIds.includes(table.id);
+                                    const isAssignedToOther = table.waiterId && table.waiterId !== selectedWaiterForTables?.id;
+                                    
+                                    return (
+                                        <button
+                                            key={table.id}
+                                            onClick={() => toggleTableSelection(table.id)}
+                                            className={`relative p-6 rounded-3xl border-2 transition-all flex flex-col items-center gap-2 group ${
+                                                isSelected 
+                                                    ? 'border-admin-primary bg-admin-primary/5 text-admin-primary' 
+                                                    : 'border-slate-100 hover:border-slate-200 text-slate-400'
+                                            }`}
+                                        >
+                                            <LayoutGrid size={24} className={isSelected ? 'text-admin-primary' : 'text-slate-200 group-hover:text-slate-400'} />
+                                            <span className="text-sm font-black tracking-tight">{table.number}</span>
+                                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-60">{table.location}</span>
+                                            
+                                            {isAssignedToOther && !isSelected && (
+                                                <div className="absolute top-2 right-2 w-2 h-2 bg-amber-400 rounded-full" title="Currently assigned to another waiter" />
+                                            )}
+                                            
+                                            {isSelected && (
+                                                <div className="absolute -top-2 -right-2 bg-admin-primary text-white p-1 rounded-full shadow-lg">
+                                                    <CheckCircle2 size={12} />
+                                                </div>
+                                            )}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="flex gap-4">
+                                <button onClick={() => setIsTableModalOpen(false)} className="flex-1 py-4 text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-900">Cancel</button>
+                                <button 
+                                    onClick={handleAssignTables}
+                                    className="flex-[2] py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-admin-primary shadow-xl shadow-slate-200"
+                                >
+                                    Save Assignments
+                                </button>
                             </div>
                         </motion.div>
                     </div>

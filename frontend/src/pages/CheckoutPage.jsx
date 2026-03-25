@@ -140,6 +140,7 @@ const CheckoutPage = () => {
                         orderId: response.orderId,
                         orderType,
                         tableNumber: orderType === 'Dine-In' ? localTableNumber : null,
+                        waiterName: response.waiterName,
                         collectionTime: (orderType === 'Collection' || orderType === 'Takeaway') ? collectionTime : null
                     }
                 });

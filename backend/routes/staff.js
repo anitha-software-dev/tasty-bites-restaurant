@@ -6,16 +6,37 @@ import { Op } from 'sequelize';
 
 const router = express.Router();
 
-// Get all staff (waiters and chefs)
+// Get list of waiters (public/authenticated version for order display)
+router.get('/waiters', authenticate, async (req, res) => {
+    try {
+        const waiters = await User.findAll({
+            where: { role: 'waiter', status: 'Active' },
+            attributes: ['id', 'name']
+        });
+        res.json(waiters);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get all staff (waiters and chefs) - Admin only
 router.get('/', authenticate, isAdmin, async (req, res) => {
     try {
+        const { Table } = await import('../models/index.js');
         const staff = await User.findAll({
             where: {
                 role: {
                     [Op.in]: ['waiter', 'chef']
                 }
             },
-            attributes: { exclude: ['password'] }
+            attributes: { exclude: ['password'] },
+            include: [
+                {
+                    model: Table,
+                    as: 'Tables',
+                    attributes: ['id', 'number']
+                }
+            ]
         });
         res.json(staff);
     } catch (error) {
@@ -88,6 +109,56 @@ router.delete('/:id', authenticate, isAdmin, async (req, res) => {
         await staff.destroy();
         res.json({ message: 'Staff member deleted successfully' });
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Assign tables to waiter (Bulk)
+router.put('/:id/tables', authenticate, isAdmin, async (req, res) => {
+    try {
+        const { tableIds } = req.body; // Array of table IDs
+        const { Table, Order } = await import('../models/index.js');
+        
+        const waiter = await User.findByPk(req.params.id);
+        if (!waiter || waiter.role !== 'waiter') {
+            return res.status(404).json({ error: 'Waiter not found' });
+        }
+
+        // 1. Unassign all tables currently assigned to this waiter
+        await Table.update(
+            { waiterId: null },
+            { where: { waiterId: waiter.id } }
+        );
+
+        // 2. Assign selected tables to this waiter
+        if (tableIds && tableIds.length > 0) {
+            await Table.update(
+                { waiterId: waiter.id },
+                { where: { id: { [Op.in]: tableIds } } }
+            );
+
+            // 3. Sync active orders for these newly assigned tables
+            const assignedTables = await Table.findAll({
+                where: { id: { [Op.in]: tableIds } }
+            });
+
+            for (const table of assignedTables) {
+                await Order.update(
+                    { waiterName: waiter.name },
+                    { 
+                        where: { 
+                            tableNumber: table.number,
+                            orderType: 'Dine-In',
+                            status: ['Order Received', 'In Progress', 'Ready']
+                        } 
+                    }
+                );
+            }
+        }
+
+        res.json({ success: true, message: 'Tables assigned successfully' });
+    } catch (error) {
+        console.error('Bulk table assignment error:', error);
         res.status(500).json({ error: error.message });
     }
 });

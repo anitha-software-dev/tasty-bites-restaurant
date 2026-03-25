@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User, ShoppingBag, MapPin, CalendarCheck, LogOut, Save, ArrowLeft, Calendar, Package, ChevronRight, Clock, CheckCircle2, Truck, CookingPot, Eye, Plus, Home, Briefcase, MoreHorizontal, X, Phone, Mail, ArrowRight, AlertCircle, RefreshCw } from 'lucide-react';
+import { User, ShoppingBag, MapPin, CalendarCheck, LogOut, Save, ArrowLeft, Calendar, Package, ChevronRight, Clock, CheckCircle2, Truck, CookingPot, Eye, Plus, Home, Briefcase, MoreHorizontal, X, Phone, Mail, ArrowRight, AlertCircle, RefreshCw, UserCheck } from 'lucide-react';
 import api from '../services/api';
 import { toast } from 'react-toastify';
 import PhoneInput from '../components/PhoneInput';
@@ -203,32 +203,37 @@ const OrdersTab = () => {
     const [sortOrder, setSortOrder] = useState('Newest first');
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [orders, setOrders] = useState([]);
+    const [waiters, setWaiters] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchOrders = async () => {
+    const fetchData = async () => {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await api.getOrders();
-            setOrders(data || []);
+            const [ordersData, waitersData] = await Promise.all([
+                api.getOrders(),
+                api.getWaiters().catch(() => []) // Fallback to empty if fails
+            ]);
+            setOrders(ordersData || []);
+            setWaiters(waitersData || []);
         } catch (err) {
             setError(err.message || 'Failed to load orders.');
-            toast.error(err.message || 'Failed to load orders.');
+            toast.error(err.message || 'Failed to load data.');
         } finally {
             setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchOrders();
+        fetchData();
     }, []);
 
     const filteredOrders = orders.filter(o => statusFilter === 'All' || o.status === statusFilter)
         .sort((a, b) => sortOrder === 'Newest first' ? -1 : 1);
 
     if (selectedOrder) {
-        return <OrderDetail order={selectedOrder} onBack={() => setSelectedOrder(null)} />;
+        return <OrderDetail order={selectedOrder} waiters={waiters} onBack={() => setSelectedOrder(null)} />;
     }
 
     return (
@@ -303,7 +308,7 @@ const OrdersTab = () => {
 };
 
 // --- ORDER DETAIL ---
-const OrderDetail = ({ order, onBack }) => {
+const OrderDetail = ({ order, waiters = [], onBack }) => {
     const isDineIn = order.orderType === 'Dine-In';
     const isCollection = order.orderType === 'Collection' || order.orderType === 'Takeaway';
     
@@ -389,6 +394,19 @@ const OrderDetail = ({ order, onBack }) => {
                                     {order.orderType || 'Pickup'}
                                     {order.tableNumber && <span className="ml-2 text-primary">• Table {order.tableNumber}</span>}
                                 </div>
+                                {isDineIn && order.waiterName && (
+                                    <div className="flex items-center space-x-3 mt-3 animate-in fade-in slide-in-from-bottom-1 duration-500">
+                                        <div className="w-8 h-8 bg-slate-50 border border-slate-100 rounded-lg flex items-center justify-center text-primary">
+                                            <UserCheck size={14} />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-tight leading-none mb-1">Assigned Waiter</span>
+                                            <span className="text-sm font-bold text-slate-900 leading-none">
+                                                {order.waiterName}
+                                            </span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

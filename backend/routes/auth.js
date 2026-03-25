@@ -43,7 +43,7 @@ router.post('/signup', async (req, res) => {
                 email: user.email,
                 phone: user.phone,
                 role: user.role,
-                memberSince: user.createdAt.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+                memberSince: new Date(user.createdAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
             }
         });
     } catch (err) {
@@ -56,12 +56,13 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(`[AUTH] Login attempt for: ${email}`);
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required' });
         }
-
         const user = await User.findOne({ where: { email } });
         if (!user) {
+            console.log(`[AUTH] User not found: ${email}`);
             return res.status(401).json({ error: 'Invalid email or password.' });
         }
 
@@ -81,12 +82,19 @@ router.post('/login', async (req, res) => {
                 email: user.email,
                 phone: user.phone,
                 role: user.role,
-                memberSince: user.createdAt.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+                memberSince: new Date(user.createdAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
             }
         });
     } catch (err) {
-        console.error('Login error:', err);
-        res.status(500).json({ error: 'Server error' });
+        console.error('Login error detail:', {
+            message: err.message,
+            stack: err.stack,
+            body: req.body
+        });
+        res.status(500).json({ 
+            error: `Login failed: ${err.message}`,
+            detail: err.stack
+        });
     }
 });
 
@@ -105,7 +113,7 @@ router.get('/me', authenticate, async (req, res) => {
             email: user.email,
             phone: user.phone,
             role: user.role,
-            memberSince: user.createdAt.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }),
+            memberSince: new Date(user.createdAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }),
             totalOrders
         });
     } catch (err) {

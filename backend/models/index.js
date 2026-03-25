@@ -22,6 +22,9 @@ User.hasMany(Address, { foreignKey: 'userId' });
 Address.belongsTo(User, { foreignKey: 'userId' });
 
 Table.belongsTo(User, { as: 'waiter', foreignKey: 'waiterId' });
-User.hasMany(Table, { foreignKey: 'waiterId' });
+User.hasMany(Table, { as: 'Tables', foreignKey: 'waiterId' });
+
+MenuItem.belongsTo(User, { as: 'chef', foreignKey: 'chefId' });
+User.hasMany(MenuItem, { foreignKey: 'chefId' });
 
 export { sequelize, User, MenuItem, Order, Reservation, Address, ContactMessage, CateringEnquiry, Testimonial, FAQ, RestaurantInfo, Table };

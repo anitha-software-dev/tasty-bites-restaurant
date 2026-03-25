@@ -21,7 +21,7 @@ export const authenticate = (req, res, next) => {
 };
 
 // Add isAdmin middleware
-import { User } from '../models/index.js';
+import User from '../models/User.js';
 export const isAdmin = async (req, res, next) => {
     try {
         const user = await User.findByPk(req.userId);
@@ -30,6 +30,7 @@ export const isAdmin = async (req, res, next) => {
         }
         next();
     } catch (err) {
+        console.error('Admin middleware error:', err);
         res.status(500).json({ error: 'Server error' });
     }
 };

@@ -36,10 +36,43 @@ router.post('/', authenticate, isAdmin, async (req, res) => {
 // Update table
 router.put('/:id', authenticate, isAdmin, async (req, res) => {
     try {
+        const { Table, User: UserModel, Order } = await import('../models/index.js');
         const table = await Table.findByPk(req.params.id);
         if (!table) return res.status(404).json({ error: 'Table not found' });
         
         await table.update(req.body);
+
+        // SYNC LOGIC: If waiterId was updated, sync all active Dine-In orders for this table
+        if (req.body.waiterId !== undefined) {
+            const updatedTable = await Table.findByPk(table.id, {
+                include: [{ model: UserModel, as: 'waiter', attributes: ['name'] }]
+            });
+            
+            if (updatedTable.waiter) {
+                await Order.update(
+                    { waiterName: updatedTable.waiter.name },
+                    { 
+                        where: { 
+                            tableNumber: updatedTable.number,
+                            orderType: 'Dine-In',
+                            status: ['Order Received', 'In Progress', 'Ready']
+                        } 
+                    }
+                );
+            } else if (req.body.waiterId === null) {
+                // If waiter was unassigned, clear it from active orders too
+                await Order.update(
+                    { waiterName: '' },
+                    { 
+                        where: { 
+                            tableNumber: updatedTable.number,
+                            orderType: 'Dine-In',
+                            status: ['Order Received', 'In Progress', 'Ready']
+                        } 
+                    }
+                );
+            }
+        }
         res.json(table);
     } catch (error) {
         res.status(400).json({ error: error.message });

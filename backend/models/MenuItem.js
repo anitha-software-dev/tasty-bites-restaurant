@@ -11,7 +11,15 @@ const MenuItem = sequelize.define('MenuItem', {
     vegetarian: { type: DataTypes.BOOLEAN, defaultValue: false },
     dairyFree: { type: DataTypes.BOOLEAN, defaultValue: false },
     glutenFree: { type: DataTypes.BOOLEAN, defaultValue: false },
-    type: { type: DataTypes.ENUM('veg', 'nonveg'), defaultValue: 'veg' }
+    type: { type: DataTypes.ENUM('veg', 'nonveg'), defaultValue: 'veg' },
+    chefId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'users',
+            key: 'id'
+        }
+    }
 }, { 
     timestamps: true,
     freezeTableName: true,

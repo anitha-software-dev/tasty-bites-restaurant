@@ -7,11 +7,15 @@ const router = express.Router();
 // GET /api/menu
 router.get('/', async (req, res) => {
     try {
-        const items = await MenuItem.findAll({ order: [['popular', 'DESC'], ['name', 'ASC']] });
+        const items = await MenuItem.findAll({ 
+            include: [{ model: User, as: 'chef', attributes: ['id', 'name'] }],
+            order: [['popular', 'DESC'], ['name', 'ASC']] 
+        });
         // Format price as string with £ sign for frontend compatibility
         const formatted = items.map(item => ({
             ...item.toJSON(),
-            price: item.price ? `£${item.price.toFixed(2)}` : '£0.00'
+            price: item.price ? `£${item.price.toFixed(2)}` : '£0.00',
+            chefName: item.chef ? item.chef.name : null
         }));
         res.json(formatted);
     } catch (err) {
@@ -38,9 +42,15 @@ router.get('/categories', async (req, res) => {
 // GET /api/menu/:id
 router.get('/:id', async (req, res) => {
     try {
-        const item = await MenuItem.findByPk(req.params.id);
+        const item = await MenuItem.findByPk(req.params.id, {
+            include: [{ model: User, as: 'chef', attributes: ['id', 'name'] }]
+        });
         if (!item) return res.status(404).json({ error: 'Item not found' });
-        res.json({ ...item.toJSON(), price: item.price ? `£${item.price.toFixed(2)}` : '£0.00' });
+        res.json({ 
+            ...item.toJSON(), 
+            price: item.price ? `£${item.price.toFixed(2)}` : '£0.00',
+            chefName: item.chef ? item.chef.name : null
+        });
     } catch (err) {
         console.error('Menu item fetch error:', err);
         res.status(500).json({ error: 'Server error: ' + err.message });

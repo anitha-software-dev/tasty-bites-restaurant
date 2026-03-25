@@ -279,17 +279,22 @@ app.use('/api/staff', staffRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
-    console.error('SERVER_ERROR:', err);
+    console.error(`🚨 [INTERNAL_SERVER_ERROR] ${req.method} ${req.path}:`, err);
+    console.error('Req Body:', req.body);
+    console.error('Stack Trace:', err.stack);
+    
     res.status(500).json({ 
         error: 'Internal Server Error',
         message: err.message,
+        path: req.path,
+        method: req.method,
         stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
     });
 });
 
 db.sync({ alter: true }).then(() => {
     console.log('✅ Database synced successfully');
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
         console.log(`🚀 Tasty Bites API running on port ${PORT}`);
     });
 }).catch(err => {

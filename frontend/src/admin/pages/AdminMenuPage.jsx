@@ -21,9 +21,10 @@ import {
     CheckSquare,
     Square,
     AlertCircle,
-    ChevronDown
+    ChevronDown,
+    ChefHat
 } from 'lucide-react';
-import { adminMenuApi } from '../services/adminApi';
+import { adminMenuApi, adminStaffApi } from '../services/adminApi';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
 import { toast } from 'react-toastify';
 
@@ -36,8 +37,10 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
         image: '',
         popular: false,
         vegetarian: true,
-        type: 'veg'
+        type: 'veg',
+        chefId: ''
     });
+    const [chefs, setChefs] = useState([]);
     const [previewImage, setPreviewImage] = useState('');
     const [saving, setSaving] = useState(false);
     const [categories, setCategories] = useState(['VEG', 'NON-VEG', 'SIGNATURES', 'SEA FOOD', 'CURRIES', 'BIRIYANI', 'RICE AND BREADS']);
@@ -48,7 +51,8 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
         if (item) {
             setFormData({
                 ...item,
-                price: item.price !== null && item.price !== undefined ? String(item.price).replace('£', '') : ''
+                price: item.price !== null && item.price !== undefined ? String(item.price).replace('£', '') : '',
+                chefId: item.chefId || ''
             });
             setPreviewImage(item.image || '');
         } else {
@@ -60,12 +64,23 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                 image: '',
                 popular: false,
                 vegetarian: true,
-                type: 'veg'
+                type: 'veg',
+                chefId: ''
             });
             setPreviewImage('');
         }
         fetchCategories();
+        fetchChefs();
     }, [item, isOpen]);
+
+    const fetchChefs = async () => {
+        try {
+            const data = await adminStaffApi.getAll();
+            setChefs(data.filter(s => s.role === 'chef'));
+        } catch (error) {
+            console.error('Failed to fetch chefs:', error);
+        }
+    };
 
     const fetchCategories = async () => {
         setCategoryLoading(true);
@@ -104,14 +119,16 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
         e.preventDefault();
         setSaving(true);
         try {
-            await onSave({
+            const success = await onSave({
                 ...formData,
                 price: parseFloat(formData.price) || 0
             });
-            onClose();
+            if (success !== false) {
+                onClose();
+            }
         } catch (error) {
-            console.error('Save failed:', error);
-            toast.error(error.response?.data?.error || 'Failed to save menu item');
+            console.error('Submit failed:', error);
+            toast.error(error.response?.data?.error || 'Validation failed. Please check your inputs.');
         } finally {
             setSaving(false);
         }
@@ -161,8 +178,7 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                             </div>
                         </div>
 
-                        {/* Category & Price */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Category</label>
                                 <div className="relative">
@@ -171,8 +187,24 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                                         onChange={e => setFormData({ ...formData, category: e.target.value })}
                                         className="w-full pl-5 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all appearance-none cursor-pointer shadow-sm"
                                     >
-                                        {categories.map(cat => (
+                                        {categories.map(cat => (cat !== 'Parotta and Idiyappam' && (
                                             <option key={cat} value={cat}>{cat}</option>
+                                        )))}
+                                    </select>
+                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Assigned Chef (Optional)</label>
+                                <div className="relative">
+                                    <select
+                                        value={formData.chefId}
+                                        onChange={e => setFormData({ ...formData, chefId: e.target.value })}
+                                        className="w-full pl-5 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all appearance-none cursor-pointer shadow-sm"
+                                    >
+                                        <option value="">No Chef Assigned</option>
+                                        {chefs.map(chef => (
+                                            <option key={chef.id} value={chef.id}>{chef.name}</option>
                                         ))}
                                     </select>
                                     <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
@@ -309,20 +341,24 @@ const AdminMenuPage = () => {
 
     const handleSave = async (itemData) => {
         try {
-            // Clean read-only fields
-            const { id, createdAt, updatedAt, ...cleanData } = itemData;
+            // Clean read-only fields and common cruft
+            const { id, _id, createdAt, updatedAt, __v, ...cleanData } = itemData;
+            const targetId = id || _id || (selectedItem ? selectedItem.id || selectedItem._id : null);
 
-            if (selectedItem) {
-                await adminMenuApi.update(selectedItem.id, cleanData);
+            if (selectedItem && targetId) {
+                await adminMenuApi.update(targetId, cleanData);
                 toast.success('Dish updated successfully');
             } else {
                 await adminMenuApi.create(cleanData);
                 toast.success('New dish added successfully');
             }
             fetchMenu();
+            return true;
         } catch (error) {
             console.error('Operation failed:', error);
-            toast.error(error.response?.data?.error || 'Operation failed');
+            const errorMsg = error.response?.data?.details || error.response?.data?.error || error.message || 'Unknown server error';
+            toast.error(`Operation failed: ${errorMsg}`);
+            return false;
         }
     };
 
@@ -349,7 +385,7 @@ const AdminMenuPage = () => {
     });
 
     return (
-        <div className="space-y-10 pb-20">
+        <div className="space-y-10 pb-20 max-w-full overflow-hidden">
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
@@ -369,45 +405,50 @@ const AdminMenuPage = () => {
             </div>
 
             {/* Toolbar */}
-            <div className="flex flex-col lg:flex-row gap-6 lg:items-center justify-between bg-white/50 backdrop-blur-md p-6 rounded-[2.5rem] border border-slate-100/50">
-                <div className="flex flex-wrap items-center gap-2 py-1">
-                    {categoriesList.map(cat => (
-                        <button
-                            key={cat}
-                            onClick={() => setActiveCategory(cat)}
-                            className={`px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeCategory === cat ? 'bg-slate-900 text-white shadow-lg' : 'bg-white text-slate-400 hover:text-slate-600 border border-slate-100'}`}
+            <div className="flex flex-col md:flex-row gap-6 items-center justify-between bg-white/50 backdrop-blur-md p-6 rounded-[2.5rem] border border-slate-100/50">
+                <div className="flex items-center gap-4 w-full md:w-auto">
+                    <div className="relative min-w-[200px]">
+                        <select
+                            value={activeCategory}
+                            onChange={(e) => setActiveCategory(e.target.value)}
+                            className="w-full pl-6 pr-12 py-4 bg-white border border-slate-100 rounded-2xl text-[10px] font-black uppercase tracking-widest outline-none transition-all shadow-sm appearance-none cursor-pointer focus:ring-2 focus:ring-admin-primary/20"
                         >
-                            {cat}
-                        </button>
-                    ))}
+                            {categoriesList.map(cat => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                        </select>
+                        <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={16} />
+                    </div>
                 </div>
-                <div className="relative w-full md:w-80 group px-2">
+                
+                <div className="relative w-full md:w-80 group">
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-admin-primary transition-colors" size={18} />
                     <input 
                         type="text"
                         placeholder="Search menu..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-14 pr-6 py-4 bg-slate-50 border-none rounded-[1.5rem] text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all placeholder:text-slate-300"
+                        className="w-full pl-14 pr-6 py-4 bg-white border border-slate-100 rounded-[1.5rem] text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all placeholder:text-slate-300"
                     />
                 </div>
             </div>
 
             {/* Menu Items Table */}
-            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden min-h-[400px]">
+            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm min-h-[400px]">
                 {loading ? (
                     <div className="py-40 flex flex-col items-center">
                         <Loader2 className="animate-spin text-admin-primary/40" size={48} />
                         <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-6">Loading...</p>
                     </div>
                 ) : filteredItems.length > 0 ? (
-                    <div className="w-full overflow-x-auto no-scrollbar">
+                    <div className="w-full overflow-x-auto no-scrollbar rounded-[2.5rem]">
                         <table className="w-full text-left border-collapse min-w-[900px]">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Preview</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Item Details</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Chef</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Price</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Badges</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
@@ -436,6 +477,18 @@ const AdminMenuPage = () => {
                                                 {item.category}
                                             </span>
                                         </td>
+                                        <td className="px-8 py-6">
+                                            {item.chefName ? (
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-8 h-8 rounded-full bg-admin-primary/10 flex items-center justify-center text-admin-primary text-[10px] font-black uppercase tracking-tighter">
+                                                        {item.chefName.split(' ').map(n => n[0]).join('')}
+                                                    </div>
+                                                    <span className="text-xs font-bold text-slate-700">{item.chefName}</span>
+                                                </div>
+                                            ) : (
+                                                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">Unassigned</span>
+                                            )}
+                                        </td>
                                         <td className="px-8 py-6 text-base font-black text-slate-900 tracking-tighter">
                                             £{Number(String(item.price || 0).replace(/[^0-9.]/g, '')).toFixed(2)}
                                         </td>
@@ -450,12 +503,21 @@ const AdminMenuPage = () => {
                                                 <button
                                                     onClick={() => { setSelectedItem(item); setIsModalOpen(true); }}
                                                     className="p-3 text-slate-400 hover:text-admin-primary hover:bg-admin-primary/5 rounded-2xl transition-all"
+                                                    title="Edit Item"
                                                 >
                                                     <Edit2 size={18} />
                                                 </button>
                                                 <button
+                                                    onClick={() => { setSelectedItem(item); setIsModalOpen(true); }}
+                                                    className="p-3 text-slate-400 hover:text-admin-primary hover:bg-admin-primary/5 rounded-2xl transition-all"
+                                                    title="Assign Chef"
+                                                >
+                                                    <ChefHat size={18} />
+                                                </button>
+                                                <button
                                                     onClick={() => confirmDelete(item)}
                                                     className="p-3 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-2xl transition-all"
+                                                    title="Delete Item"
                                                 >
                                                     <Trash2 size={18} />
                                                 </button>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ShoppingBag, ArrowRight, Utensils, Clock, MapPin, ChefHat, Heart } from 'lucide-react';
+import { CheckCircle2, ShoppingBag, ArrowRight, Utensils, Clock, MapPin, UserCheck, Heart } from 'lucide-react';
 import { useLocation, Link, Navigate } from 'react-router-dom';
+import api from '../services/api';
 
 const OrderConfirmationPage = () => {
     const location = useLocation();
@@ -42,6 +43,20 @@ const OrderConfirmationPage = () => {
             return () => clearInterval(pollInterval);
         }
     }, [location.state]);
+
+    const [waiters, setWaiters] = React.useState([]);
+
+    React.useEffect(() => {
+        const fetchWaiters = async () => {
+            try {
+                const data = await api.getWaiters();
+                setWaiters(data || []);
+            } catch (err) {
+                console.error('Failed to fetch waiters:', err);
+            }
+        };
+        fetchWaiters();
+    }, []);
 
     if (!location.state?.orderId) {
         return <Navigate to="/" replace />;
@@ -132,13 +147,28 @@ const OrderConfirmationPage = () => {
                         </div>
 
                         {isDineIn && (
-                            <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col items-center">
-                                <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-2">Service Timer</span>
-                                <div className="flex items-center space-x-2 text-primary font-bold">
-                                    <Clock size={18} />
-                                    <span className="text-2xl font-mono">{formatTime(seconds)}</span>
+                            <>
+                                <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100 flex flex-col items-center">
+                                    <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-2">Service Timer</span>
+                                    <div className="flex items-center space-x-2 text-primary font-bold">
+                                        <Clock size={18} />
+                                        <span className="text-2xl font-mono">{formatTime(seconds)}</span>
+                                    </div>
                                 </div>
-                            </div>
+                                {location.state.waiterName && (
+                                    <div className="md:col-span-3 bg-primary/5 rounded-3xl p-6 border border-primary/10 flex flex-col items-center animate-in fade-in slide-in-from-bottom-2 duration-700">
+                                    <div className="flex items-center space-x-3">
+                                        <UserCheck size={20} className="text-primary" />
+                                        <div>
+                                            <span className="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold block mb-1">Your Waiter</span>
+                                            <span className="text-xl font-bold text-slate-900">
+                                                {location.state.waiterName}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                         )}
                     </div>
 

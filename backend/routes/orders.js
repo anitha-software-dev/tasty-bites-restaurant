@@ -19,6 +19,28 @@ router.post('/', optionalAuth, async (req, res) => {
             order: [['id', 'DESC']]
         });
         const orderId = lastOrder ? (lastOrder.id + 1).toString() : '1';
+
+        // Auto-assign waiter from table if it's a Dine-In order
+        let assignedWaiterName = waiterName || '';
+        if (orderType === 'Dine-In' && tableNumber) {
+            try {
+                const { Table, User: UserModel } = await import('../models/index.js');
+                const table = await Table.findOne({
+                    where: { number: tableNumber },
+                    include: [{
+                        model: UserModel,
+                        as: 'waiter',
+                        attributes: ['name']
+                    }]
+                });
+                if (table && table.waiter && !assignedWaiterName) {
+                    assignedWaiterName = table.waiter.name;
+                }
+            } catch (tableErr) {
+                console.error('Table waiter lookup failed:', tableErr);
+            }
+        }
+
         const order = await Order.create({
             orderId,
             userId: req.userId || null,
@@ -32,7 +54,7 @@ router.post('/', optionalAuth, async (req, res) => {
             instructions: instructions || '',
             orderType: orderType || 'Collection',
             tableNumber: tableNumber || null,
-            waiterName: waiterName || '',
+            waiterName: assignedWaiterName,
             status: 'Order Received',
             paymentStatus: 'Paid'
         });
@@ -57,7 +79,8 @@ router.post('/', optionalAuth, async (req, res) => {
         res.status(201).json({
             success: true,
             orderId: order.orderId,
-            id: order.id
+            id: order.id,
+            waiterName: order.waiterName
         });
     } catch (err) {
         console.error('CRITICAL: Create order error:', err);
@@ -153,10 +176,13 @@ router.get('/:orderId', optionalAuth, async (req, res) => {
         const order = await Order.findOne({ where: whereClause });
         if (!order) return res.status(404).json({ error: 'Order not found' });
 
+        const formattedDate = new Date(order.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        const formattedTime = new Date(order.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+
         res.json({
             ...order.toJSON(),
             items: JSON.parse(order.items),
-            date: order.createdAt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + order.createdAt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+            date: `${formattedDate}, ${formattedTime}`,
             contact: { phone: order.customerPhone, email: order.customerEmail }
         });
     } catch (err) {

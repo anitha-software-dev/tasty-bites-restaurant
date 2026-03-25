@@ -158,6 +158,10 @@ export const adminStaffApi = {
     delete: async (id) => {
         const response = await adminApi.delete(`staff/${id}`);
         return response.data;
+    },
+    updateTables: async (id, tableIds) => {
+        const response = await adminApi.put(`staff/${id}/tables`, { tableIds });
+        return response.data;
     }
 };
 

@@ -87,6 +87,7 @@ export const api = {
 
     // Staff (Waiters & Chefs)
     getStaff: () => request('/staff'),
+    getWaiters: () => request('/staff/waiters'),
     createStaff: (data) => request('/staff', { method: 'POST', body: JSON.stringify(data) }),
     updateStaff: (id, data) => request(`/staff/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     deleteStaff: (id) => request(`/staff/${id}`, { method: 'DELETE' }),

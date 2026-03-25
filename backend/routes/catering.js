@@ -31,8 +31,13 @@ router.post('/', async (req, res) => {
 
         res.status(201).json({ success: true, message: 'Catering enquiry received successfully.' });
     } catch (err) {
-        console.error('Catering enquiry error:', err);
-        res.status(500).json({ error: 'Server error' });
+        console.error('CRITICAL: Catering enquiry error:', err);
+        console.error('Request Body:', req.body);
+        res.status(500).json({ 
+            error: 'Server error', 
+            details: err.message,
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        });
     }
 });
 

@@ -57,8 +57,29 @@ const getTransporter = async () => {
     return transporterInstance;
 };
 
-const FROM_EMAIL = process.env.FROM_EMAIL || process.env.SMTP_USER || 'no-reply@tastybites.com';
+// Use a non-gmail From address for SendGrid to avoid DMARC spam flagging
+const FROM_EMAIL = 'notifications@tastybites-restaurant.onrender.com'; 
 const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'tastybitesrestaurant7@gmail.com';
+const RESTAURANT_ADDRESS = "123 Spice Route, London, UK"; // Replace with actual address if available
+
+/**
+ * Date Formatting Helper
+ */
+const formatEmailDate = (date) => {
+    if (!date) return 'N/A';
+    try {
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return date; // Return original if invalid
+        return d.toLocaleDateString('en-GB', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    } catch (e) {
+        return date;
+    }
+};
 
 /**
  * Premium Email Template Wrapper
@@ -93,7 +114,9 @@ const getPremiumTemplate = (title, content, footer = "Thank you for choosing Tas
         </div>
         <div class="footer">
             <p>${footer}</p>
+            <p style="margin: 10px 0; color: #64748b;">${RESTAURANT_ADDRESS}</p>
             <p>&copy; ${new Date().getFullYear()} Tasty Bites Restaurant. All rights reserved.</p>
+            <p style="font-size: 10px; margin-top: 20px;">You received this email because you made a request at Tasty Bites.</p>
         </div>
     </div>
 </body>
@@ -108,6 +131,7 @@ const sendEmail = async (options) => {
 
     if (!to) {
         console.error("❌ EMAIL ERROR: Unspecified 'to' address. Check payload data.");
+        console.error("Payload Options:", { subject, text, cc });
         return { success: false, error: "Recipient 'to' address is missing." };
     }
 
@@ -121,12 +145,13 @@ const sendEmail = async (options) => {
         try {
             const msg = {
                 to,
-                from: FROM_EMAIL,
+                from: { name: "Tasty Bites Restaurant", email: FROM_EMAIL },
                 subject,
                 html,
                 text: fallbackText,
                 cc,
-                replyTo: replyTo || FROM_EMAIL,
+                replyTo: replyTo || RESTAURANT_EMAIL || FROM_EMAIL,
+                categories: ['Transactional', subject.split(' ')[0]],
                 mailSettings: {
                     sandbox_mode: { enable: false },
                     spam_check: { enable: true }
@@ -142,7 +167,7 @@ const sendEmail = async (options) => {
         } catch (error) {
             const errorBody = error.response ? error.response.body : null;
             const errorMessage = errorBody ? JSON.stringify(errorBody) : error.message;
-            console.error('❌ SendGrid API Error:', errorMessage);
+            console.error(`❌ SendGrid API Error for ${to}:`, errorMessage);
             
             if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
                 return { success: false, error: `SendGrid API Error: ${errorMessage}. (SMTP Fallback skipped on Render)` };
@@ -154,17 +179,18 @@ const sendEmail = async (options) => {
     try {
         const t = await getTransporter();
         const info = await t.sendMail({
-            from: `"Tasty Bites" <${FROM_EMAIL}>`,
+            from: `"Tasty Bites Restaurant" <${FROM_EMAIL}>`,
             to,
             cc,
-            replyTo: replyTo || FROM_EMAIL,
+            replyTo: replyTo || RESTAURANT_EMAIL || FROM_EMAIL,
             subject,
             html,
             text: fallbackText,
             headers: {
+                'X-Entity-Ref-ID': Date.now().toString(),
                 'Precedence': 'bulk',
                 'X-Auto-Response-Suppress': 'OOF, AutoReply',
-                'List-Unsubscribe': `<mailto:${FROM_EMAIL}?subject=unsubscribe>`
+                'List-Unsubscribe': `<mailto:${RESTAURANT_EMAIL}?subject=unsubscribe>`
             }
         });
         console.log(`📧 Email delivered via SMTP to ${to}`);
@@ -185,7 +211,7 @@ export const sendBookingConfirmation = async (bookingData) => {
         <p>Your table has been successfully reserved! We're excited to host you at Tasty Bites.</p>
         <div class="details-box">
             <div class="detail-row"><span class="detail-label">Booking Ref:</span> <span class="detail-value">#${referenceNumber}</span></div>
-            <div class="detail-row"><span class="detail-label">Date:</span> <span class="detail-value">${date}</span></div>
+            <div class="detail-row"><span class="detail-label">Date:</span> <span class="detail-value">${formatEmailDate(date)}</span></div>
             <div class="detail-row"><span class="detail-label">Time:</span> <span class="detail-value">${time}</span></div>
             <div class="detail-row"><span class="detail-label">Guests:</span> <span class="detail-value">${guests}</span></div>
             ${occasion && occasion !== 'None' ? `<div class="detail-row"><span class="detail-label">Occasion:</span> <span class="detail-value">${occasion}</span></div>` : ''}
@@ -194,7 +220,13 @@ export const sendBookingConfirmation = async (bookingData) => {
     `;
 
     const html = getPremiumTemplate("Reservation Confirmed", content);
-    return await sendEmail({ to: email, subject: `Booking Confirmed #${referenceNumber}`, html, cc: RESTAURANT_EMAIL });
+    return await sendEmail({ 
+        to: email, 
+        replyTo: RESTAURANT_EMAIL,
+        subject: `Booking Confirmed #${referenceNumber}`, 
+        html, 
+        cc: RESTAURANT_EMAIL 
+    });
 };
 
 export const sendContactNotification = async (contactData) => {
@@ -247,7 +279,7 @@ export const sendCateringNotification = async (cateringData) => {
             <div class="detail-row"><span class="detail-label">Client:</span> <span class="detail-value">${name}</span></div>
             <div class="detail-row"><span class="detail-label">Contact:</span> <span class="detail-value">${email} / ${phone}</span></div>
             <div class="detail-row"><span class="detail-label">Event:</span> <span class="detail-value">${eventType}</span></div>
-            <div class="detail-row"><span class="detail-label">Date:</span> <span class="detail-value">${eventDate}</span></div>
+            <div class="detail-row"><span class="detail-label">Date:</span> <span class="detail-value">${formatEmailDate(eventDate)}</span></div>
             <div class="detail-row"><span class="detail-label">Guests:</span> <span class="detail-value">${guests}</span></div>
         </div>
         <p><strong>Special Requests:</strong><br/>${message}</p>
@@ -258,13 +290,13 @@ export const sendCateringNotification = async (cateringData) => {
         replyTo: email,
         subject: `[Catering Enquiry] ${eventType} - ${name}`, 
         html: htmlRest,
-        text: `New catering inquiry from ${name} for ${eventType} on ${eventDate}.`
+        text: `New catering inquiry from ${name} for ${eventType} on ${formatEmailDate(eventDate)}.`
     });
 
     // Customer Confirmation
     const contentCust = `
         <p>Dear ${name},</p>
-        <p>Thank you for your catering inquiry! Our events coordinator has been notified and will review your request for the ${eventType} on ${eventDate}.</p>
+        <p>Thank you for your catering inquiry! Our events coordinator has been notified and will review your request for the ${eventType} on <strong>${formatEmailDate(eventDate)}</strong>.</p>
         <div class="details-box">
             <p>We will contact you shortly at <strong>${phone}</strong> to discuss the menu and pricing details.</p>
         </div>
@@ -276,7 +308,7 @@ export const sendCateringNotification = async (cateringData) => {
         replyTo: RESTAURANT_EMAIL,
         subject: `Catering Inquiry - ${eventType}`,
         html: htmlCust,
-        text: `Dear ${name}, thank you for your catering inquiry for ${eventType}. We will be in touch soon.`
+        text: `Dear ${name}, thank you for your catering inquiry for ${eventType} on ${formatEmailDate(eventDate)}. We will be in touch soon.`
     });
 };
 

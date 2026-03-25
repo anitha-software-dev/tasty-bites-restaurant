@@ -25,8 +25,13 @@ router.post('/', async (req, res) => {
 
         res.status(201).json({ success: true, message: 'Message received successfully.' });
     } catch (err) {
-        console.error('Contact form error:', err);
-        res.status(500).json({ error: 'Server error' });
+        console.error('CRITICAL: Contact form error:', err);
+        console.error('Request Body:', req.body);
+        res.status(500).json({ 
+            error: 'Server error', 
+            details: err.message,
+            stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+        });
     }
 });
 
