@@ -134,6 +134,8 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
         }
     };
 
+    const isViewMode = item?.viewOnly || false;
+
     if (!isOpen) return null;
 
     return (
@@ -145,161 +147,153 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
             >
                 <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between">
                     <div>
-                        <h2 className="text-2xl font-black text-slate-900 tracking-tight">{item ? 'Edit Dish' : 'Add New Dish'}</h2>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Manage your menu item details</p>
+                        <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                            {isViewMode ? 'Dish Details' : (item ? 'Edit Dish' : 'Add New Dish')}
+                        </h2>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
+                            {isViewMode ? 'Detailed dish information' : 'Manage your menu item details'}
+                        </p>
                     </div>
                     <button onClick={onClose} className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400"><X size={20} /></button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-8 space-y-6">
+                <div className="flex-1 overflow-y-auto p-8 space-y-8">
+                    {/* View Image Header if in view mode */}
+                    {isViewMode && previewImage && (
+                        <div className="w-full aspect-video rounded-3xl overflow-hidden border border-slate-100 shadow-inner bg-slate-50">
+                            <img src={previewImage} alt={formData.name} className="w-full h-full object-cover" />
+                        </div>
+                    )}
+
                     <div className="space-y-6">
-                        {/* Name & Description */}
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Dish Name</label>
-                                <input
-                                    required
-                                    value={formData.name}
-                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all shadow-sm"
-                                    placeholder="Enter dish name (e.g. Butter Chicken)"
-                                />
+                                {isViewMode ? (
+                                    <p className="text-2xl font-black text-slate-900 ml-1">{formData.name}</p>
+                                ) : (
+                                    <input
+                                        required
+                                        value={formData.name}
+                                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                                        className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all shadow-sm"
+                                        placeholder="Enter dish name"
+                                    />
+                                )}
                             </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Description</label>
-                                <textarea
-                                    required
-                                    rows={3}
-                                    value={formData.description}
-                                    onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                    className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-medium text-slate-600 focus:bg-white focus:border-admin-primary/20 outline-none transition-all resize-none shadow-sm"
-                                    placeholder="Briefly describe the ingredients and taste..."
-                                />
+                                {isViewMode ? (
+                                    <p className="text-sm font-medium text-slate-600 ml-1 leading-relaxed">{formData.description}</p>
+                                ) : (
+                                    <textarea
+                                        required
+                                        rows={3}
+                                        value={formData.description}
+                                        onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                        className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-medium text-slate-600 focus:bg-white focus:border-admin-primary/20 outline-none transition-all resize-none shadow-sm"
+                                        placeholder="Describe the dish..."
+                                    />
+                                )}
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Category</label>
-                                <div className="relative">
-                                    <select
-                                        value={formData.category}
-                                        onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full pl-5 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all appearance-none cursor-pointer shadow-sm"
-                                    >
-                                        {categories.map(cat => (cat !== 'Parotta and Idiyappam' && (
-                                            <option key={cat} value={cat}>{cat}</option>
-                                        )))}
-                                    </select>
-                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Assigned Chef (Optional)</label>
-                                <div className="relative">
-                                    <select
-                                        value={formData.chefId}
-                                        onChange={e => setFormData({ ...formData, chefId: e.target.value })}
-                                        className="w-full pl-5 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all appearance-none cursor-pointer shadow-sm"
-                                    >
-                                        <option value="">No Chef Assigned</option>
-                                        {chefs.map(chef => (
-                                            <option key={chef.id} value={chef.id}>{chef.name}</option>
-                                        ))}
-                                    </select>
-                                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Price (£)</label>
-                                <div className="relative">
-                                    <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-black">£</span>
-                                    <input
-                                        required
-                                        type="number"
-                                        step="0.01"
-                                        value={formData.price}
-                                        onChange={e => setFormData({ ...formData, price: e.target.value })}
-                                        className="w-full pl-10 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all shadow-sm"
-                                        placeholder="0.00"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Popular & Available Toggles */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <label className={`flex items-center justify-between px-6 py-4 rounded-2xl border-2 transition-all cursor-pointer ${formData.popular ? 'bg-amber-50 border-amber-200 text-amber-700' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
-                                <div className="flex items-center gap-3">
-                                    <Flame size={18} />
-                                    <span className="text-xs font-black uppercase tracking-widest">Popular</span>
-                                </div>
-                                <input
-                                    type="checkbox"
-                                    className="hidden"
-                                    checked={formData.popular}
-                                    onChange={e => setFormData({ ...formData, popular: e.target.checked })}
-                                />
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.popular ? 'border-amber-500 bg-amber-500' : 'border-slate-200'}`}>
-                                    {formData.popular && <CheckSquare size={12} className="text-white" />}
-                                </div>
-                            </label>
-                            <label className={`flex items-center justify-between px-6 py-4 rounded-2xl border-2 transition-all cursor-pointer ${formData.vegetarian ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'bg-white border-slate-100 text-slate-500 hover:border-slate-200'}`}>
-                                <div className="flex items-center gap-3">
-                                    <Leaf size={18} />
-                                    <span className="text-xs font-black uppercase tracking-widest">Vegetarian</span>
-                                </div>
-                                <input
-                                    type="checkbox"
-                                    className="hidden"
-                                    checked={formData.vegetarian}
-                                    onChange={e => setFormData({ ...formData, vegetarian: e.target.checked, type: e.target.checked ? 'veg' : 'nonveg' })}
-                                />
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.vegetarian ? 'border-emerald-500 bg-emerald-500' : 'border-slate-200'}`}>
-                                    {formData.vegetarian && <CheckSquare size={12} className="text-white" />}
-                                </div>
-                            </label>
-                        </div>
-
-                        {/* Image Upload Area */}
-                        <div className="space-y-3">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Dish Photo</label>
-                            <div
-                                onClick={() => fileInputRef.current?.click()}
-                                className="relative w-48 aspect-square mx-auto rounded-[2rem] border-2 border-dashed border-slate-200 hover:border-admin-primary/40 hover:bg-admin-primary/[0.02] transition-all cursor-pointer overflow-hidden group flex flex-col items-center justify-center bg-slate-50 shadow-inner"
-                            >
-                                {previewImage ? (
-                                    <>
-                                        <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
-                                        <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white backdrop-blur-sm">
-                                            <Upload size={24} />
-                                            <span className="text-[10px] font-black uppercase tracking-widest mt-2">Change Photo</span>
-                                        </div>
-                                    </>
+                                {isViewMode ? (
+                                    <p className="px-5 py-4 bg-slate-50 rounded-2xl font-black text-admin-primary uppercase tracking-widest text-xs inline-block">{formData.category}</p>
                                 ) : (
-                                    <div className="text-center group-hover:scale-105 transition-transform p-4">
-                                        <div className="w-12 h-12 bg-white rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-slate-200/50 mx-auto mb-3 text-slate-300 group-hover:text-admin-primary group-hover:shadow-admin-primary/20 transition-all">
-                                            <ImageIcon size={24} />
-                                        </div>
-                                        <p className="text-xs font-black text-slate-600">Upload Image</p>
-                                        <p className="text-[8px] uppercase tracking-widest mt-1 text-slate-400 font-bold">PNG, JPG (5MB)</p>
+                                    <div className="relative">
+                                        <select
+                                            value={formData.category}
+                                            onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                            className="w-full pl-5 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all appearance-none cursor-pointer shadow-sm"
+                                        >
+                                            {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
                                     </div>
                                 )}
-                                <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Chef</label>
+                                {isViewMode ? (
+                                    <p className="px-5 py-4 bg-slate-50 rounded-2xl font-bold text-slate-700 text-xs inline-block">{item.chefName || 'Unassigned'}</p>
+                                ) : (
+                                    <div className="relative">
+                                        <select
+                                            value={formData.chefId}
+                                            onChange={e => setFormData({ ...formData, chefId: e.target.value })}
+                                            className="w-full pl-5 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all appearance-none cursor-pointer shadow-sm"
+                                        >
+                                            <option value="">No Chef assigned</option>
+                                            {chefs.map(chef => <option key={chef.id} value={chef.id}>{chef.name}</option>)}
+                                        </select>
+                                        <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Price</label>
+                                <p className="text-2xl font-black text-slate-900 ml-1">£{formData.price}</p>
                             </div>
                         </div>
+
+                        <div className="flex gap-4">
+                            {formData.vegetarian && (
+                                <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-100">
+                                    <Leaf size={14} /> <span className="text-[10px] font-black uppercase tracking-widest">Vegetarian</span>
+                                </div>
+                            )}
+                            {formData.popular && (
+                                <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-600 rounded-xl border border-amber-100">
+                                    <Flame size={14} /> <span className="text-[10px] font-black uppercase tracking-widest">Popular</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {!isViewMode && (
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Dish Photo</label>
+                                <div
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="relative w-48 aspect-square mx-auto rounded-[2rem] border-2 border-dashed border-slate-200 hover:border-admin-primary/40 hover:bg-admin-primary/[0.02] transition-all cursor-pointer overflow-hidden group flex flex-col items-center justify-center bg-slate-50 shadow-inner"
+                                >
+                                    {previewImage ? (
+                                        <>
+                                            <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
+                                            <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white backdrop-blur-sm">
+                                                <Upload size={24} />
+                                                <span className="text-[10px] font-black uppercase tracking-widest mt-2">Change Photo</span>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <div className="text-center group-hover:scale-105 transition-transform p-4">
+                                            <div className="w-12 h-12 bg-white rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-slate-200/50 mx-auto mb-3 text-slate-300 group-hover:text-admin-primary group-hover:shadow-admin-primary/20 transition-all">
+                                                <ImageIcon size={24} />
+                                            </div>
+                                            <p className="text-xs font-black text-slate-600">Upload Image</p>
+                                        </div>
+                                    )}
+                                    <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </form>
+                </div>
 
                 <div className="p-8 border-t border-slate-100 flex gap-4">
-                    <button type="button" onClick={onClose} className="flex-1 px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">Cancel</button>
-                    <button
-                        onClick={handleSubmit}
-                        disabled={saving}
-                        className="flex-[1.5] bg-slate-900 hover:bg-slate-800 text-white px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 shadow-lg shadow-slate-900/10 transition-all disabled:opacity-50"
-                    >
-                        {saving ? <Loader2 className="animate-spin" size={16} /> : <>{item ? 'Update Dish' : 'Save Dish'}</>}
-                    </button>
+                    <button type="button" onClick={onClose} className="flex-1 px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">Close</button>
+                    {!isViewMode && (
+                        <button
+                            onClick={handleSubmit}
+                            disabled={saving}
+                            className="flex-[1.5] bg-slate-900 hover:bg-slate-800 text-white px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 shadow-lg shadow-slate-900/10 transition-all disabled:opacity-50"
+                        >
+                            {saving ? <Loader2 className="animate-spin" size={16} /> : <>{item ? 'Update Dish' : 'Save Dish'}</>}
+                        </button>
+                    )}
                 </div>
             </motion.div>
         </div>
@@ -445,7 +439,6 @@ const AdminMenuPage = () => {
                         <table className="w-full text-left border-collapse min-w-[700px]">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
-                                    <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Preview</th>
                                     <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Item Details</th>
                                     <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Category</th>
                                     <th className="px-4 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Chef</th>
@@ -457,15 +450,6 @@ const AdminMenuPage = () => {
                             <tbody className="divide-y divide-slate-100">
                                 {filteredItems.map(item => (
                                     <tr key={item.id} className="group hover:bg-slate-50/30 transition-colors">
-                                        <td className="px-4 py-6">
-                                            <div className="w-20 h-16 rounded-2xl overflow-hidden bg-slate-100 border border-slate-100 group-hover:scale-105 transition-transform duration-500">
-                                                {item.image ? (
-                                                    <img src={item.image} alt="" className="w-full h-full object-cover" />
-                                                ) : (
-                                                    <div className="w-full h-full flex items-center justify-center text-slate-300"><ImageIcon size={20} /></div>
-                                                )}
-                                            </div>
-                                        </td>
                                         <td className="px-4 py-6">
                                             <div className="max-w-xs">
                                                 <p className="text-base font-black text-slate-900 tracking-tight mb-1">{item.name}</p>
@@ -500,6 +484,13 @@ const AdminMenuPage = () => {
                                         </td>
                                         <td className="px-4 py-6 text-right">
                                             <div className="flex items-center justify-end gap-2 transition-opacity duration-300">
+                                                <button
+                                                    onClick={() => { setSelectedItem({...item, viewOnly: true}); setIsModalOpen(true); }}
+                                                    className="p-3 text-slate-400 hover:text-admin-primary hover:bg-admin-primary/5 rounded-2xl transition-all"
+                                                    title="View Details"
+                                                >
+                                                    <Eye size={18} />
+                                                </button>
                                                 <button
                                                     onClick={() => { setSelectedItem(item); setIsModalOpen(true); }}
                                                     className="p-3 text-slate-400 hover:text-admin-primary hover:bg-admin-primary/5 rounded-2xl transition-all"
