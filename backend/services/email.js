@@ -104,12 +104,15 @@ const getPremiumTemplate = (title, content, footer = "Thank you for choosing Tas
  * Universal Email Sender (HTTP API Priority, SMTP Fallback)
  */
 const sendEmail = async (options) => {
-    const { to, subject, html, cc, replyTo } = options;
+    const { to, subject, html, text, cc, replyTo } = options;
 
     if (!to) {
         console.error("❌ EMAIL ERROR: Unspecified 'to' address. Check payload data.");
         return { success: false, error: "Recipient 'to' address is missing." };
     }
+
+    // Generate basic text fallback if missing to reduce spam score
+    const fallbackText = text || subject || "New notification from Tasty Bites Restaurant";
 
     console.log(`📡 Attempting delivery to: ${to} | Subject: ${subject}`);
 
@@ -121,8 +124,9 @@ const sendEmail = async (options) => {
                 from: FROM_EMAIL,
                 subject,
                 html,
+                text: fallbackText,
                 cc,
-                replyTo,
+                replyTo: replyTo || FROM_EMAIL,
                 mailSettings: {
                     sandbox_mode: { enable: false },
                     spam_check: { enable: true }
@@ -153,9 +157,10 @@ const sendEmail = async (options) => {
             from: `"Tasty Bites" <${FROM_EMAIL}>`,
             to,
             cc,
-            replyTo,
+            replyTo: replyTo || FROM_EMAIL,
             subject,
             html,
+            text: fallbackText,
             headers: {
                 'Precedence': 'bulk',
                 'X-Auto-Response-Suppress': 'OOF, AutoReply',
@@ -194,7 +199,9 @@ export const sendBookingConfirmation = async (bookingData) => {
 
 export const sendContactNotification = async (contactData) => {
     const { name, email, subject, message } = contactData;
-    const content = `
+    
+    // Internal Notification to Restaurant
+    const contentRest = `
         <p>You have received a new message from the website contact form:</p>
         <div class="details-box">
             <div class="detail-row"><span class="detail-label">From:</span> <span class="detail-value">${name} (${email})</span></div>
@@ -202,41 +209,80 @@ export const sendContactNotification = async (contactData) => {
         </div>
         <p><strong>Message:</strong><br/>${message}</p>
     `;
-    const html = getPremiumTemplate("New Contact Inquiry", content);
-    return await sendEmail({ 
+    const htmlRest = getPremiumTemplate("New Contact Inquiry", contentRest);
+    await sendEmail({ 
         to: RESTAURANT_EMAIL, 
         replyTo: email,
-        subject: `[Internal Support] ${subject} - ${name}`, 
-        html
+        subject: `[Support] ${subject} - ${name}`, 
+        html: htmlRest,
+        text: `New contact from ${name}: ${message}`
+    });
+
+    // Customer Auto-Response
+    const contentCust = `
+        <p>Dear ${name},</p>
+        <p>Thank you for reaching out to Tasty Bites. We have received your message regarding <strong>"${subject}"</strong> and our team will get back to you within 24 hours.</p>
+        <div class="details-box">
+            <p style="margin:0; font-style: italic; color: #64748b;">" ${message.length > 100 ? message.substring(0, 100) + '...' : message} "</p>
+        </div>
+        <p>If your matter is urgent, please call us directly at our restaurant.</p>
+    `;
+    const htmlCust = getPremiumTemplate("We've Received Your Message", contentCust);
+    return await sendEmail({
+        to: email,
+        replyTo: RESTAURANT_EMAIL,
+        subject: `Re: ${subject} - Tasty Bites Restaurant`,
+        html: htmlCust,
+        text: `Hi ${name}, we received your message and will respond soon.`
     });
 };
 
 export const sendCateringNotification = async (cateringData) => {
     const { name, email, phone, eventType, eventDate, guests, message } = cateringData;
-    const content = `
+    
+    // Internal Notification
+    const contentRest = `
         <p>A new catering inquiry has been received:</p>
         <div class="details-box">
-            <div class="detail-row"><span class="detail-label">Client:</span> <span class="detail-value">${name} (${email})</span></div>
+            <div class="detail-row"><span class="detail-label">Client:</span> <span class="detail-value">${name}</span></div>
+            <div class="detail-row"><span class="detail-label">Contact:</span> <span class="detail-value">${email} / ${phone}</span></div>
             <div class="detail-row"><span class="detail-label">Event:</span> <span class="detail-value">${eventType}</span></div>
             <div class="detail-row"><span class="detail-label">Date:</span> <span class="detail-value">${eventDate}</span></div>
             <div class="detail-row"><span class="detail-label">Guests:</span> <span class="detail-value">${guests}</span></div>
         </div>
         <p><strong>Special Requests:</strong><br/>${message}</p>
     `;
-    const html = getPremiumTemplate("New Catering Inquiry", content);
-    return await sendEmail({ 
+    const htmlRest = getPremiumTemplate("New Catering Inquiry", contentRest);
+    await sendEmail({ 
         to: RESTAURANT_EMAIL, 
         replyTo: email,
         subject: `[Catering Enquiry] ${eventType} - ${name}`, 
-        html
+        html: htmlRest,
+        text: `New catering inquiry from ${name} for ${eventType} on ${eventDate}.`
+    });
+
+    // Customer Confirmation
+    const contentCust = `
+        <p>Dear ${name},</p>
+        <p>Thank you for your catering inquiry! Our events coordinator has been notified and will review your request for the ${eventType} on ${eventDate}.</p>
+        <div class="details-box">
+            <p>We will contact you shortly at <strong>${phone}</strong> to discuss the menu and pricing details.</p>
+        </div>
+        <p>We look forward to helping you host a memorable event!</p>
+    `;
+    const htmlCust = getPremiumTemplate("Catering Inquiry Received", contentCust);
+    return await sendEmail({
+        to: email,
+        replyTo: RESTAURANT_EMAIL,
+        subject: `Catering Inquiry - ${eventType}`,
+        html: htmlCust,
+        text: `Dear ${name}, thank you for your catering inquiry for ${eventType}. We will be in touch soon.`
     });
 };
 
 export const sendOrderConfirmation = async (orderData) => {
-    const { orderId, customerName, customerEmail, totalAmount, items, status } = orderData;
+    const { orderId, customerName, customerEmail, totalAmount, items, status, orderType, tableNumber, waiterName } = orderData;
     
-    console.log(`[Diagnostic] Preparing order email for: ${customerEmail}`, { orderId, customerName, totalAmount });
-
     const itemsList = Array.isArray(items) 
         ? items.map(item => {
             const qty = item.quantity || item.qty || 1;
@@ -245,21 +291,50 @@ export const sendOrderConfirmation = async (orderData) => {
         }).join('')
         : `<p>Check order details in the admin dashboard.</p>`;
 
-    const content = `
+    const contentCust = `
         <p>Hi ${customerName},</p>
         <p>Your order has been received and is being prepared with care.</p>
         <div class="details-box">
             <div class="detail-row"><span class="detail-label">Order ID:</span> <span class="detail-value">#${orderId}</span></div>
+            <div class="detail-row"><span class="detail-label">Type:</span> <span class="detail-value">${orderType}</span></div>
+            ${tableNumber ? `<div class="detail-row"><span class="detail-label">Table:</span> <span class="detail-value">${tableNumber}</span></div>` : ''}
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;"/>
             ${itemsList}
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;"/>
             <div class="detail-row"><span class="detail-label">Total Amount:</span> <span class="detail-value" style="font-size: 20px; color: #d9774a;">£${totalAmount}</span></div>
         </div>
-        <p>Track your order status on our website!</p>
     `;
+    const htmlCust = getPremiumTemplate(`Order Confirmed #${orderId}`, contentCust);
+    await sendEmail({ 
+        to: customerEmail, 
+        replyTo: RESTAURANT_EMAIL,
+        subject: `Order Confirmed #${orderId} - Tasty Bites`, 
+        html: htmlCust,
+        text: `Hi ${customerName}, your order #${orderId} is confirmed.`
+    });
 
-    const html = getPremiumTemplate(`Order Confirmed #${orderId}`, content);
-    return await sendEmail({ to: customerEmail || RESTAURANT_EMAIL, subject: `Order Confirmed #${orderId}`, html });
+    // Internal Notification for Kitchen/Staff
+    const contentRest = `
+        <p><strong>New Order Alert!</strong></p>
+        <div class="details-box">
+            <div class="detail-row"><span class="detail-label">Order:</span> <span class="detail-value">#${orderId}</span></div>
+            <div class="detail-row"><span class="detail-label">Type:</span> <span class="detail-value">${orderType}</span></div>
+            ${tableNumber ? `<div class="detail-row"><span class="detail-label">Table:</span> <span class="detail-value">${tableNumber}</span></div>` : ''}
+            ${waiterName ? `<div class="detail-row"><span class="detail-label">Waiter:</span> <span class="detail-value">${waiterName}</span></div>` : ''}
+            <div class="detail-row"><span class="detail-label">Customer:</span> <span class="detail-value">${customerName}</span></div>
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;"/>
+            ${itemsList}
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 15px 0;"/>
+            <div class="detail-row"><span class="detail-label">Revenue:</span> <span class="detail-value">£${totalAmount}</span></div>
+        </div>
+    `;
+    const htmlRest = getPremiumTemplate(`NEW ORDER #${orderId}`, contentRest, "Immediate Action Required");
+    return await sendEmail({
+        to: RESTAURANT_EMAIL,
+        subject: `🚨 NEW ORDER #${orderId} [${orderType}]`,
+        html: htmlRest,
+        text: `Alert: New ${orderType} order #${orderId} received for £${totalAmount}`
+    });
 };
 
 export const verifyConnection = async () => {

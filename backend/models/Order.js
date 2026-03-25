@@ -14,6 +14,7 @@ const Order = sequelize.define('Order', {
     customerPhone: { type: DataTypes.STRING, defaultValue: '' },
     orderType: { type: DataTypes.ENUM('Collection', 'Dine-In', 'Delivery'), defaultValue: 'Collection' },
     tableNumber: { type: DataTypes.STRING, allowNull: true },
+    waiterName: { type: DataTypes.STRING, defaultValue: '' },
     collectionTime: { type: DataTypes.STRING, defaultValue: '' },
     instructions: { type: DataTypes.TEXT, defaultValue: '' }
 }, { 

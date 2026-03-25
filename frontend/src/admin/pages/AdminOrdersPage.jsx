@@ -22,7 +22,10 @@ import {
     Edit,
     Trash2,
     MoreHorizontal,
-    CheckCircle2
+    CheckCircle2,
+    UserCheck,
+    Hash,
+    UtensilsCrossed
 } from 'lucide-react';
 import { adminOrdersApi } from '../services/adminApi';
 import Flatpickr from 'react-flatpickr';
@@ -203,7 +206,20 @@ const DetailModal = ({ order, isOpen, onClose }) => {
                                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-8 flex items-center gap-2">
                                     <User size={12} className="text-admin-primary" /> Customer Information
                                 </h4>
-                                <div className="space-y-8">
+                                    <div className="grid grid-cols-2 gap-4 mb-
+8">
+                                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center text-center group hover:bg-white hover:shadow-lg transition-all">
+                                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-2 shadow-sm"><Hash className="text-admin-primary" size={20} /></div>
+                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Table / Room</p>
+                                            <p className="text-lg font-black text-slate-900 leading-none">{order.tableNumber || 'N/A'}</p>
+                                        </div>
+                                        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-center text-center group hover:bg-white hover:shadow-lg transition-all">
+                                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center mb-2 shadow-sm"><UserCheck className="text-admin-primary" size={20} /></div>
+                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Assigned Waiter</p>
+                                            <p className="text-lg font-black text-slate-900 leading-none truncate w-full px-2" title={order.waiterName}>{order.waiterName || 'Unassigned'}</p>
+                                        </div>
+                                    </div>
+
                                     <div className="flex items-center gap-5 group">
                                         <div className="w-14 h-14 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:shadow-xl transition-all"><User className="text-slate-400" size={24} /></div>
                                         <div>
@@ -229,7 +245,7 @@ const DetailModal = ({ order, isOpen, onClose }) => {
                                         <div className="w-14 h-14 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:shadow-xl transition-all"><MapPin className="text-slate-400" size={22} /></div>
                                         <div>
                                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Service Type</p>
-                                            <p className="text-lg font-black text-slate-900 leading-none">{order.orderType} {order.tableNumber ? `• Room ${order.tableNumber}` : ''}</p>
+                                            <p className="text-lg font-black text-slate-900 leading-none">{order.orderType}</p>
                                         </div>
                                     </div>
                                 </div>
