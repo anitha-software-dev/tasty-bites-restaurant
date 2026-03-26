@@ -275,7 +275,7 @@ const AdminChefPage = () => {
                                                         #{order.orderId || order.id}
                                                     </div>
                                                     <span className="text-[11px] font-black text-slate-700 flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 uppercase">
-                                                        {order.tableNumber ? `Table ${order.tableNumber}` : 'Takeaway / Delivery'}
+                                                        {order.tableNumber ? `Table ${order.tableNumber}` : 'Takeaway / Collection'}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center gap-2">

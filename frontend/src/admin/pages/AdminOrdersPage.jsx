@@ -85,128 +85,100 @@ const DetailModal = ({ order, isOpen, onClose }) => {
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
-                    {/* Left Side: Items List */}
-                    <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar border-r border-slate-100 bg-slate-50/50">
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Order Items</h3>
-                            <span className="px-3 py-1 bg-white border border-slate-200 shadow-sm text-slate-600 text-[10px] font-bold rounded-full">
-                                {order.items?.length || 0} {order.items?.length === 1 ? 'Item' : 'Items'}
-                            </span>
+                <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar bg-slate-50/30">
+                    {/* Summary Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+                        <div className="bg-white rounded-[1.5rem] p-5 border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-150" />
+                            <div className="relative z-10">
+                                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Customer</h3>
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center border border-slate-100"><User size={16}/></div>
+                                        <p className="text-sm font-bold text-slate-900 truncate">{order.customerName}</p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center border border-slate-100"><Phone size={16}/></div>
+                                        <p className="text-xs font-bold text-slate-600 truncate">{order.customerPhone || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div className="space-y-3">
+                        <div className="bg-white rounded-[1.5rem] p-5 border border-slate-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-150" />
+                            <div className="relative z-10">
+                                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Order Info</h3>
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-50 text-slate-500 flex items-center justify-center border border-slate-100"><ShoppingBag size={16}/></div>
+                                        <p className="text-sm font-bold text-slate-900">{order.orderType}</p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-admin-primary/5 text-admin-primary flex items-center justify-center border border-admin-primary/10">
+                                            {order.orderType === 'Dine-In' ? <Hash size={16}/> : <MapPin size={16} />}
+                                        </div>
+                                        <p className="text-xs font-bold text-slate-600 truncate">
+                                            {order.tableNumber ? `Table ${order.tableNumber}` : order.orderType}
+                                            {order.tableNumber && order.waiterName ? ' • ' : ''}
+                                            {order.waiterName ? `${order.waiterName}` : ''}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900 rounded-[1.5rem] p-6 text-white shadow-xl shadow-slate-200 relative overflow-hidden flex flex-col justify-center">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-admin-primary/20 rounded-full blur-2xl -mr-10 -mt-10" />
+                            <div className="relative z-10 text-center md:text-left">
+                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Total Paid</p>
+                                <p className="text-4xl font-black mb-3">£{Number(String(order.total || 0).replace(/[^0-9.]/g, '')).toFixed(2)}</p>
+                                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                                    <CheckCircle2 size={12} className="text-emerald-400" />
+                                    <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-400">Secured</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Order Items */}
+                    <div className="bg-white rounded-[1.5rem] border border-slate-100 shadow-sm overflow-hidden">
+                        <div className="px-6 py-5 border-b border-slate-50 bg-slate-50/50 flex items-center justify-between">
+                            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-widest">Order Items</h3>
+                            <span className="px-3 py-1 bg-white border border-slate-200 text-slate-500 rounded-full text-[10px] font-black shadow-sm">
+                                {order.items?.length || 0} ITEMS
+                            </span>
+                        </div>
+                        <div className="divide-y divide-slate-50">
                             {order.items?.map((item, idx) => {
                                 const qty = item.qty || item.quantity || 1;
                                 const price = parseFloat(String(item.price || 0).replace(/[^0-9.]/g, '')) || 0;
                                 return (
-                                    <motion.div 
-                                        key={idx} 
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: idx * 0.05 }}
-                                        className="flex gap-4 items-center bg-white p-4 rounded-2xl border border-slate-100 hover:border-admin-primary/20 hover:shadow-sm transition-all group"
-                                    >
-                                        <div className="w-16 h-16 bg-slate-50 rounded-xl overflow-hidden border border-slate-100 flex-shrink-0">
+                                    <div key={idx} className="flex items-center gap-4 p-5 hover:bg-slate-50/50 transition-colors group">
+                                        <div className="w-14 h-14 bg-slate-100 rounded-[1rem] overflow-hidden flex-shrink-0 border border-slate-100 shadow-sm">
                                             {item.image ? (
                                                 <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                                    <UtensilsCrossed size={20} />
+                                                    <UtensilsCrossed size={18} />
                                                 </div>
                                             )}
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <h5 className="font-bold text-slate-900 text-base mb-0.5 truncate">{item.name}</h5>
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-xs text-slate-500 font-medium">£{price.toFixed(2)}</span>
+                                            <p className="text-[15px] font-bold text-slate-900 truncate mb-1">{item.name}</p>
+                                            <div className="flex items-center gap-3 text-[11px] font-bold text-slate-400">
+                                                <span>£{price.toFixed(2)}</span>
                                                 <span className="w-1 h-1 bg-slate-200 rounded-full" />
-                                                <span className="text-xs text-slate-500 font-medium">Quantity: {qty}</span>
+                                                <span className="text-admin-primary">Qty: {qty}</span>
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="font-bold text-slate-900">£{(price * qty).toFixed(2)}</p>
+                                            <p className="text-[15px] font-black text-slate-900">£{(price * qty).toFixed(2)}</p>
                                         </div>
-                                    </motion.div>
+                                    </div>
                                 );
                             })}
                         </div>
-                    </div>
-
-                    {/* Right Side: Info & Summary */}
-                    <div className="w-full lg:w-[380px] bg-slate-50/50 p-8 flex flex-col gap-8 overflow-y-auto custom-scrollbar">
-                        {/* Customer Section */}
-                        <section>
-                            <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Customer Details</h3>
-                            <div className="bg-white rounded-2xl p-5 border border-slate-200/60 shadow-sm space-y-4">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 border border-slate-100"><User size={20} /></div>
-                                    <div className="min-w-0">
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Name</p>
-                                        <p className="text-sm font-bold text-slate-900 truncate">{order.customerName}</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 border border-slate-100"><Phone size={18} /></div>
-                                    <div className="min-w-0">
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Contact</p>
-                                        <p className="text-sm font-bold text-slate-900 truncate">{order.customerPhone || 'Not provided'}</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 border border-slate-100"><MapPin size={18} /></div>
-                                    <div className="min-w-0">
-                                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Order Type</p>
-                                        <p className="text-sm font-bold text-slate-900">{order.orderType}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* Service Section (Dine-In specific) */}
-                        {(order.orderType === 'Dine-In' || order.waiterName) && (
-                            <section>
-                                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Service Details</h3>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {order.orderType === 'Dine-In' && order.tableNumber && (
-                                        <div className="bg-white rounded-2xl p-4 border border-slate-200/60 shadow-sm text-center">
-                                            <div className="mx-auto w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center mb-2"><Hash className="text-admin-primary" size={16} /></div>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase">Table</p>
-                                            <p className="text-lg font-bold text-slate-900">#{order.tableNumber}</p>
-                                        </div>
-                                    )}
-                                    {order.waiterName && (
-                                        <div className="bg-white rounded-2xl p-4 border border-slate-200/60 shadow-sm text-center flex-1">
-                                            <div className="mx-auto w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center mb-2"><UserCheck className="text-admin-primary" size={16} /></div>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase">Waiter</p>
-                                            <p className="text-sm font-bold text-slate-900 truncate px-1">{order.waiterName}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            </section>
-                        )}
-
-                        {/* Payment Summary */}
-                        <section className="mt-auto">
-                            <div className="bg-slate-900 rounded-[2rem] p-6 text-white shadow-xl shadow-slate-200 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-admin-primary/20 rounded-full -mr-16 -mt-16 blur-3xl" />
-                                <div className="relative z-10 text-center">
-                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">Total Amount Paid</p>
-                                    <div className="text-4xl font-black mb-4">£{Number(String(order.total || 0).replace(/[^0-9.]/g, '')).toFixed(2)}</div>
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
-                                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
-                                        <span className="text-[9px] font-bold uppercase tracking-widest text-emerald-400">Payment Secured</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button 
-                                onClick={onClose} 
-                                className="w-full mt-6 py-4 bg-white border border-slate-200 text-slate-900 rounded-2xl text-xs font-bold uppercase tracking-widest hover:bg-slate-50 transition-colors shadow-sm active:scale-[0.98]"
-                            >
-                                Dismiss Details
-                            </button>
-                        </section>
                     </div>
                 </div>
             </motion.div>

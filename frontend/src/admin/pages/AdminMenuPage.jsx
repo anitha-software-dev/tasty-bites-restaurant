@@ -180,88 +180,60 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                             </div>
                         </div>
                     ) : isViewMode ? (
-                        <div className="flex flex-col">
-                            {/* Cinematic Image Header */}
-                            <div className="relative w-full aspect-[16/9] overflow-hidden">
+                        <div className="flex flex-col md:flex-row h-full">
+                            <div className="w-full md:w-2/5 aspect-square bg-slate-50 relative overflow-hidden flex-shrink-0">
                                 {previewImage ? (
-                                    <motion.img 
-                                        initial={{ scale: 1.1 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{ duration: 1.5 }}
-                                        src={previewImage} 
-                                        alt={formData.name} 
-                                        className="w-full h-full object-cover" 
-                                    />
+                                    <img src={previewImage} alt={formData.name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300">
+                                    <div className="w-full h-full flex items-center justify-center text-slate-300">
                                         <ImageIcon size={64} strokeWidth={1} />
                                     </div>
                                 )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
-                                
-                                <div className="absolute bottom-8 left-8 right-8">
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.2 }}
-                                        className="flex flex-wrap gap-3"
-                                    >
-                                        <span className="px-4 py-2 bg-white/90 backdrop-blur-md text-admin-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl border border-white/20">
-                                            {formData.category}
-                                        </span>
-                                        {formData.vegetarian && (
-                                            <span className="px-4 py-2 bg-emerald-500/90 backdrop-blur-md text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl flex items-center gap-2">
-                                                <Leaf size={12} /> Vegetarian
-                                            </span>
-                                        )}
-                                        {formData.popular && (
-                                            <span className="px-4 py-2 bg-amber-500/90 backdrop-blur-md text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl flex items-center gap-2">
-                                                <Flame size={12} /> Popular
-                                            </span>
-                                        )}
-                                    </motion.div>
+                                <div className="absolute top-6 left-6 flex flex-col gap-2">
+                                    <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md text-admin-primary rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
+                                        {formData.category}
+                                    </span>
                                 </div>
                             </div>
-
-                            <div className="px-8 pb-10 -mt-2 space-y-8 relative z-10">
-                                <div className="space-y-4">
-                                    <div className="flex items-start justify-between gap-6">
-                                        <h3 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">
-                                            {formData.name}
-                                        </h3>
-                                        <div className="text-right mt-1.5">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Price</p>
-                                            <p className="text-3xl font-black text-slate-900 tracking-tighter italic">£{formData.price}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-lg font-medium text-slate-500 leading-relaxed max-w-xl">
-                                        {formData.description}
-                                    </p>
+                            
+                            <div className="flex-1 p-8 md:p-10 flex flex-col">
+                                <div className="flex gap-2 mb-4">
+                                    {formData.vegetarian && (
+                                        <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 border border-emerald-100">
+                                            <Leaf size={12} /> Veg
+                                        </span>
+                                    )}
+                                    {formData.popular && (
+                                        <span className="px-3 py-1 bg-amber-50 text-amber-600 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 border border-amber-100">
+                                            <Flame size={12} /> Popular
+                                        </span>
+                                    )}
                                 </div>
+                                <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-none mb-3">
+                                    {formData.name}
+                                </h3>
+                                <p className="text-2xl font-black text-slate-900 mb-6 italic">£{formData.price}</p>
+                                <p className="text-sm font-medium text-slate-500 leading-relaxed mb-8 flex-1">
+                                    {formData.description || 'No description provided.'}
+                                </p>
 
-                                <div className="grid grid-cols-2 gap-6 pt-6 border-t border-slate-100">
-                                    <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100/50 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-default">
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Assigned Chef</p>
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-2xl bg-white shadow-lg flex items-center justify-center text-admin-primary text-sm font-black italic">
-                                                {item?.chefName ? item.chefName.split(' ').map(n => n[0]).join('').substring(0, 2) : '?'}
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-black text-slate-900">{item?.chefName || 'Not Assigned'}</p>
-                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Prepares this dish</p>
-                                            </div>
+                                <div className="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-6">
+                                    <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100/50 flex items-center gap-4 w-full">
+                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-admin-primary font-black text-sm">
+                                            {item?.chefName ? item.chefName.split(' ').map(n => n[0]).join('').substring(0, 2) : '?'}
+                                        </div>
+                                        <div>
+                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Assigned Chef</p>
+                                            <p className="text-sm font-black text-slate-900 truncate">{item?.chefName || 'Unassigned'}</p>
                                         </div>
                                     </div>
-                                    <div className="p-6 rounded-[2rem] bg-slate-50 border border-slate-100/50 hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-default">
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">How It's Made</p>
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-2xl bg-white shadow-lg flex items-center justify-center text-admin-primary">
-                                                <Utensils size={20} />
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-black text-slate-900">Freshly Prepared</p>
-                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">Made to order for best taste</p>
-                                            </div>
+                                    <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100/50 flex items-center gap-4 w-full">
+                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-admin-primary">
+                                            <Utensils size={20} />
+                                        </div>
+                                        <div>
+                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Preparation</p>
+                                            <p className="text-sm font-black text-slate-900 truncate">Made to Order</p>
                                         </div>
                                     </div>
                                 </div>

@@ -14,12 +14,11 @@ import {
     XCircle,
     MoreHorizontal,
     Phone,
-    Mail,
     AlertCircle,
     User,
     ChevronDown,
-    Check,
-    CheckCheck
+    CalendarCheck,
+    CheckCircle2
 } from 'lucide-react';
 import { adminReservationsApi } from '../services/adminApi';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
@@ -231,7 +230,7 @@ const AdminReservationsPage = () => {
                                                     disabled={['Confirmed','Completed','Cancelled'].includes(res.status)}
                                                     title="Confirm"
                                                 >
-                                                    <Check size={18} />
+                                                    <CalendarCheck size={18} />
                                                 </button>
                                                 
                                                 <button 
@@ -240,7 +239,7 @@ const AdminReservationsPage = () => {
                                                     disabled={['Completed','Cancelled'].includes(res.status)}
                                                     title="Complete"
                                                 >
-                                                    <CheckCheck size={18} />
+                                                    <CheckCircle2 size={18} />
                                                 </button>
                                                 
                                                 <button 
