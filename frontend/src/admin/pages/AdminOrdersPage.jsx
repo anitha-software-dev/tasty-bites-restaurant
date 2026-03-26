@@ -59,7 +59,7 @@ const DetailModal = ({ order, isOpen, onClose }) => {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="bg-white rounded-[2rem] w-full max-w-5xl max-h-[92vh] overflow-hidden shadow-2xl flex flex-col border border-slate-200/60"
+                className="bg-white rounded-[2rem] w-full max-w-4xl max-h-[92vh] overflow-hidden shadow-2xl flex flex-col border border-slate-200/60 mx-auto"
             >
                 {/* Header Section */}
                 <div className="px-8 py-6 border-b border-slate-100 flex items-center justify-between bg-white relative overflow-hidden">
@@ -87,15 +87,15 @@ const DetailModal = ({ order, isOpen, onClose }) => {
 
                 <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
                     {/* Left Side: Items List */}
-                    <div className="flex-1 overflow-y-auto p-8 custom-scrollbar border-r border-slate-50">
+                    <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar border-r border-slate-100 bg-slate-50/50">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Order Items</h3>
-                            <span className="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-full">
+                            <span className="px-3 py-1 bg-white border border-slate-200 shadow-sm text-slate-600 text-[10px] font-bold rounded-full">
                                 {order.items?.length || 0} {order.items?.length === 1 ? 'Item' : 'Items'}
                             </span>
                         </div>
                         
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             {order.items?.map((item, idx) => {
                                 const qty = item.qty || item.quantity || 1;
                                 const price = parseFloat(String(item.price || 0).replace(/[^0-9.]/g, '')) || 0;
@@ -701,57 +701,21 @@ const AdminOrdersPage = () => {
                                                     <Printer size={18} />
                                                 </button>
 
-                                                <div className="relative">
-                                                    <button 
-                                                        onClick={() => setActiveMenuId(activeMenuId === order.id ? null : order.id)}
-                                                        className={`p-2.5 rounded-xl transition-all border border-transparent ${activeMenuId === order.id ? 'bg-slate-900 text-white' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-200'}`}
-                                                    >
-                                                        <MoreHorizontal size={18} />
-                                                    </button>
-                                                    
-                                                    {activeMenuId === order.id && (
-                                                        <>
-                                                            <div 
-                                                                className="fixed inset-0 z-10" 
-                                                                onClick={() => setActiveMenuId(null)}
-                                                            />
-                                                            <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-100 py-3 z-20 overflow-hidden">
-                                                                <div className="px-4 py-2 mb-1">
-                                                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Order Operations</p>
-                                                                </div>
-                                                                <button 
-                                                                    onClick={() => {
-                                                                        setEditOrder(order);
-                                                                        setActiveMenuId(null);
-                                                                    }}
-                                                                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-900 flex items-center gap-3 transition-all"
-                                                                >
-                                                                    <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center">
-                                                                        <Edit size={14} />
-                                                                    </div>
-                                                                    Edit Details
-                                                                </button>
-                                                                
-
-
-                                                                <div className="h-px bg-slate-50 my-2" />
-                                                                
-                                                                <button 
-                                                                    onClick={() => {
-                                                                        confirmCancel(order);
-                                                                        setActiveMenuId(null);
-                                                                    }}
-                                                                    className="w-full text-left px-4 py-2.5 text-xs font-bold text-rose-500 hover:bg-rose-50 flex items-center gap-3 transition-all"
-                                                                >
-                                                                    <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center">
-                                                                        <Trash2 size={14} />
-                                                                    </div>
-                                                                    Cancel Order
-                                                                </button>
-                                                            </div>
-                                                        </>
-                                                    )}
-                                                </div>
+                                                <button 
+                                                    onClick={() => setEditOrder(order)}
+                                                    className="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-orange-500 hover:border-orange-200 hover:shadow-lg rounded-xl transition-all"
+                                                    title="Edit Order"
+                                                >
+                                                    <Edit size={18} />
+                                                </button>
+                                                
+                                                <button 
+                                                    onClick={() => confirmCancel(order)}
+                                                    className="p-2.5 bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-200 hover:shadow-lg rounded-xl transition-all"
+                                                    title="Cancel Order"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

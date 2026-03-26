@@ -168,6 +168,7 @@ const AdminReservationsPage = () => {
                     <table className="w-full text-left">
                         <thead className="bg-slate-50/50 border-b border-slate-100">
                             <tr>
+                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Ref</th>
                                 <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Guest</th>
                                 <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date & Time</th>
                                 <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Guests</th>
@@ -178,7 +179,7 @@ const AdminReservationsPage = () => {
                         <tbody className="divide-y divide-slate-50">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="5" className="py-32 text-center text-slate-400">
+                                    <td colSpan="6" className="py-32 text-center text-slate-400">
                                         <Loader2 className="animate-spin text-slate-300 mx-auto mb-4" size={40} />
                                         <p className="text-[10px] font-bold uppercase tracking-widest">Loading...</p>
                                     </td>
@@ -186,12 +187,14 @@ const AdminReservationsPage = () => {
                             ) : filtered.length > 0 ? (
                                 filtered.map(res => (
                                     <tr key={res.id} className={`hover:bg-slate-50/50 transition-colors group relative ${activeMenuId === res.id ? 'z-50' : 'z-0'}`}>
+                                        <td className="px-8 py-8 text-center">
+                                            <span className="text-xs font-black text-slate-900 tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                                #{res.bookingRef || 'LOCAL'}
+                                            </span>
+                                        </td>
                                         <td className="px-8 py-8">
                                             <div className="flex items-center gap-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-[10px] font-black text-admin-primary tracking-widest uppercase mb-1">
-                                                        #{res.bookingRef || 'LOCAL'}
-                                                    </span>
                                                     <p className="text-sm font-bold text-slate-900 leading-none mb-1.5">{res.fullName}</p>
                                                     <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium">
                                                         <span className="flex items-center gap-1"><Phone size={10} /> {res.phone || 'No phone'}</span>
@@ -219,39 +222,40 @@ const AdminReservationsPage = () => {
                                             </span>
                                         </td>
                                         <td className="px-8 py-8 text-right">
-                                            <div className="flex items-center justify-end gap-3">
-                                                {(res.status === 'Pending' || res.status === 'Upcoming') && (
-                                                    <button 
-                                                        onClick={() => handleUpdateStatus(res.id, 'Confirmed')}
-                                                        className="px-4 py-2 flex items-center gap-2 bg-slate-900 text-white hover:bg-admin-primary rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm"
-                                                    >
-                                                        Confirm
-                                                    </button>
-                                                )}
-                                                {res.status === 'Confirmed' && (
-                                                    <button 
-                                                        onClick={() => handleUpdateStatus(res.id, 'Completed')}
-                                                        className="px-4 py-2 flex items-center gap-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-sm"
-                                                    >
-                                                        <CheckCircle2 size={14} /> Complete
-                                                    </button>
-                                                )}
-                                                {res.status !== 'Completed' && res.status !== 'Cancelled' && (
-                                                    <button 
-                                                        onClick={() => confirmCancel(res)}
-                                                        className="p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-all"
-                                                        title="Cancel Booking"
-                                                    >
-                                                        <XCircle size={18} />
-                                                    </button>
-                                                )}
+                                            <div className="flex items-center justify-end gap-2">
+                                                <button 
+                                                    onClick={() => handleUpdateStatus(res.id, 'Confirmed')}
+                                                    className={`px-3 py-1.5 flex items-center gap-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${['Confirmed','Completed','Cancelled'].includes(res.status) ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60' : 'bg-slate-900 text-white hover:bg-admin-primary hover:text-white'}`}
+                                                    disabled={['Confirmed','Completed','Cancelled'].includes(res.status)}
+                                                    title="Confirm"
+                                                >
+                                                    Confirm
+                                                </button>
+                                                
+                                                <button 
+                                                    onClick={() => handleUpdateStatus(res.id, 'Completed')}
+                                                    className={`px-3 py-1.5 flex items-center gap-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${['Completed','Cancelled'].includes(res.status) ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'}`}
+                                                    disabled={['Completed','Cancelled'].includes(res.status)}
+                                                    title="Complete"
+                                                >
+                                                    <CheckCircle2 size={14} /> Complete
+                                                </button>
+                                                
+                                                <button 
+                                                    onClick={() => confirmCancel(res)}
+                                                    className={`p-1.5 rounded-lg transition-all ${res.status === 'Cancelled' ? 'text-slate-300 cursor-not-allowed opacity-60' : 'text-slate-400 hover:bg-rose-50 hover:text-rose-600'}`}
+                                                    disabled={res.status === 'Cancelled'}
+                                                    title="Cancel Booking"
+                                                >
+                                                    <XCircle size={18} />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5" className="py-40 text-center">
+                                    <td colSpan="6" className="py-40 text-center">
                                         <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center mx-auto mb-6 text-slate-200">
                                             <Calendar size={40} />
                                         </div>
