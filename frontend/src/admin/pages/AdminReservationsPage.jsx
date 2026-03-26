@@ -17,7 +17,9 @@ import {
     Mail,
     AlertCircle,
     User,
-    ChevronDown
+    ChevronDown,
+    Check,
+    CheckCheck
 } from 'lucide-react';
 import { adminReservationsApi } from '../services/adminApi';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
@@ -164,16 +166,16 @@ const AdminReservationsPage = () => {
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
+                <div className="w-full">
                     <table className="w-full text-left">
                         <thead className="bg-slate-50/50 border-b border-slate-100">
                             <tr>
-                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Ref</th>
-                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Guest</th>
-                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Date & Time</th>
-                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Guests</th>
-                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                                <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Ref</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Guest</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Date & Time</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Guests</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -187,14 +189,14 @@ const AdminReservationsPage = () => {
                             ) : filtered.length > 0 ? (
                                 filtered.map(res => (
                                     <tr key={res.id} className={`hover:bg-slate-50/50 transition-colors group relative ${activeMenuId === res.id ? 'z-50' : 'z-0'}`}>
-                                        <td className="px-8 py-8 text-center">
-                                            <span className="text-xs font-black text-slate-900 tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                        <td className="px-5 py-8 text-center">
+                                            <span className="text-xs font-black text-slate-900 tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 inline-block min-w-[70px]">
                                                 #{res.bookingRef || 'LOCAL'}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-8">
+                                        <td className="px-5 py-8">
                                             <div className="flex items-center gap-4">
-                                                <div className="flex flex-col">
+                                                <div className="flex flex-col min-w-[120px]">
                                                     <p className="text-sm font-bold text-slate-900 leading-none mb-1.5">{res.fullName}</p>
                                                     <div className="flex items-center gap-3 text-[10px] text-slate-400 font-medium">
                                                         <span className="flex items-center gap-1"><Phone size={10} /> {res.phone || 'No phone'}</span>
@@ -202,48 +204,48 @@ const AdminReservationsPage = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-8">
+                                        <td className="px-5 py-8">
                                             <div className="flex flex-col">
-                                                <span className="text-[15px] font-black text-slate-900">{new Date(res.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                                                <span className="text-[10px] font-black text-slate-400 uppercase flex items-center gap-1.5 mt-1 tracking-wider">
+                                                <span className="text-[14px] font-black text-slate-900 whitespace-nowrap">{new Date(res.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                                                <span className="text-[10px] font-black text-slate-400 uppercase flex items-center gap-1.5 mt-1 tracking-wider whitespace-nowrap">
                                                     <Clock size={12} className="text-admin-primary" /> {res.time}
                                                 </span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-8 text-center">
-                                            <div className="inline-flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 group-hover:bg-white transition-all shadow-sm">
+                                        <td className="px-5 py-8 text-center">
+                                            <div className="inline-flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100 group-hover:bg-white transition-all shadow-sm">
                                                 <Users size={14} className="text-admin-primary" />
-                                                <span className="text-base font-black text-slate-900">{res.guests}</span>
+                                                <span className="text-[14px] font-black text-slate-900">{res.guests}</span>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-8">
-                                            <span className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-[0.1em] border shadow-sm ${getStatusStyle(res.status)}`}>
+                                        <td className="px-5 py-8">
+                                            <span className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-[0.1em] border shadow-sm whitespace-nowrap inline-block text-center min-w-[90px] ${getStatusStyle(res.status)}`}>
                                                 {res.status}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-8 text-right">
+                                        <td className="px-5 py-8 text-right">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button 
                                                     onClick={() => handleUpdateStatus(res.id, 'Confirmed')}
-                                                    className={`px-3 py-1.5 flex items-center gap-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${['Confirmed','Completed','Cancelled'].includes(res.status) ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60' : 'bg-slate-900 text-white hover:bg-admin-primary hover:text-white'}`}
+                                                    className={`p-2.5 rounded-xl transition-all shadow-sm ${['Confirmed','Completed','Cancelled'].includes(res.status) ? 'bg-slate-50 text-slate-300 cursor-not-allowed opacity-60' : 'bg-slate-100 text-slate-600 hover:bg-slate-900 hover:text-white border border-slate-200 hover:border-slate-900'}`}
                                                     disabled={['Confirmed','Completed','Cancelled'].includes(res.status)}
                                                     title="Confirm"
                                                 >
-                                                    Confirm
+                                                    <Check size={18} />
                                                 </button>
                                                 
                                                 <button 
                                                     onClick={() => handleUpdateStatus(res.id, 'Completed')}
-                                                    className={`px-3 py-1.5 flex items-center gap-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all shadow-sm ${['Completed','Cancelled'].includes(res.status) ? 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'}`}
+                                                    className={`p-2.5 rounded-xl transition-all shadow-sm ${['Completed','Cancelled'].includes(res.status) ? 'bg-slate-50 text-slate-300 cursor-not-allowed opacity-60' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white border border-emerald-200 hover:border-emerald-500'}`}
                                                     disabled={['Completed','Cancelled'].includes(res.status)}
                                                     title="Complete"
                                                 >
-                                                    <CheckCircle2 size={14} /> Complete
+                                                    <CheckCheck size={18} />
                                                 </button>
                                                 
                                                 <button 
                                                     onClick={() => confirmCancel(res)}
-                                                    className={`p-1.5 rounded-lg transition-all ${res.status === 'Cancelled' ? 'text-slate-300 cursor-not-allowed opacity-60' : 'text-slate-400 hover:bg-rose-50 hover:text-rose-600'}`}
+                                                    className={`p-2.5 rounded-xl transition-all shadow-sm ${res.status === 'Cancelled' ? 'bg-slate-50 text-slate-300 cursor-not-allowed opacity-60' : 'bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white border border-rose-200 hover:border-rose-500'}`}
                                                     disabled={res.status === 'Cancelled'}
                                                     title="Cancel Booking"
                                                 >
