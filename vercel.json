@@ -2,13 +2,17 @@
   "version": 2,
   "buildCommand": "npm run build --workspace=frontend",
   "outputDirectory": "frontend/dist",
+  "installCommand": "npm install",
+  "framework": null,
   "rewrites": [
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ],
-  "env": {
-    "VITE_API_URL": "https://tasty-bites-restaurant.onrender.com/api"
+  "build": {
+    "env": {
+      "VITE_API_URL": "https://tasty-bites-restaurant.onrender.com/api"
+    }
   }
 }
