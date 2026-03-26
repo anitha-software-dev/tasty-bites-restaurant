@@ -17,8 +17,7 @@ import {
     AlertCircle,
     User,
     ChevronDown,
-    CalendarCheck,
-    CheckCircle2
+    CalendarCheck
 } from 'lucide-react';
 import { adminReservationsApi } from '../services/adminApi';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
