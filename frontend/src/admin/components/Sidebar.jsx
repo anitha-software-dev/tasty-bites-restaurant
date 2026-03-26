@@ -19,24 +19,20 @@ import {
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { adminOrdersApi } from '../services/adminApi';
-import api, { getImageUrl } from '../../services/api';
+import { getImageUrl } from '../../services/api';
+import { useRestaurant } from '../../context/RestaurantContext';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
     const { logout } = useAdminAuth();
     const [orderCount, setOrderCount] = useState(0);
-    const [restaurantInfo, setRestaurantInfo] = useState(null);
+    const { restaurantInfo } = useRestaurant();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [orders, info] = await Promise.all([
-                    adminOrdersApi.getAll(),
-                    api.getRestaurantInfo()
-                ]);
-
+                const orders = await adminOrdersApi.getAll();
                 const pending = orders.filter(o => !['Completed', 'Cancelled', 'Delivered'].includes(o.status)).length;
                 setOrderCount(pending);
-                setRestaurantInfo(info);
             } catch (error) {
                 console.error('Failed to fetch sidebar data:', error);
             }

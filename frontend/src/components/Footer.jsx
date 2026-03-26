@@ -2,22 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp } from 'lucide-react';
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock, ChevronRight, Heart, Loader2 } from 'lucide-react';
-import api, { getImageUrl } from '../services/api';
+import { useRestaurant } from '../context/RestaurantContext';
+import { getImageUrl } from '../services/api';
 
 const Footer = () => {
-    const [info, setInfo] = React.useState(null);
-
-    React.useEffect(() => {
-        const fetchInfo = async () => {
-            try {
-                const data = await api.getRestaurantInfo();
-                if (data) setInfo(data);
-            } catch (err) {
-                console.log('Footer info fetch error:', err);
-            }
-        };
-        fetchInfo();
-    }, []);
+    const { restaurantInfo: info } = useRestaurant();
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });

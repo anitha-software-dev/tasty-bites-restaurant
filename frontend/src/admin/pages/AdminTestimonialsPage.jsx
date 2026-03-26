@@ -103,7 +103,7 @@ const TestimonialModal = ({ isOpen, onClose, testimonial, onSave }) => {
                     onClick={() => { onSave(formData); onClose(); }}
                     className="w-full py-4 bg-slate-900 hover:bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-slate-900/10 transition-all active:scale-95"
                 >
-                    {testimonial ? 'Update Testimonial' : 'Save Testimonial'}
+                    Save
                 </button>
             </motion.div>
         </div>
@@ -254,83 +254,108 @@ const AdminTestimonialsPage = () => {
                     <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Syncing feedback data...</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                    <AnimatePresence mode="popLayout">
-                        {filtered.map(t => (
-                            <motion.div 
-                                layout
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                key={t.id}
-                                className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all group"
-                            >
-                                <div className="flex justify-between items-start mb-6">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-300 group-hover:bg-admin-primary/10 group-hover:text-admin-primary transition-colors">
-                                            <ThumbsUp size={24} />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-black text-slate-900 text-lg">{t.name}</h3>
-                                            <div className="flex items-center gap-1 mt-0.5">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <Star 
-                                                        key={i} 
-                                                        size={12} 
-                                                        fill={i < t.rating ? '#f59e0b' : 'none'} 
-                                                        className={i < t.rating ? 'text-amber-500' : 'text-slate-200'} 
-                                                    />
-                                                ))}
-                                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{t.date}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col items-end gap-2">
-                                        <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border-2 shadow-sm ${statusColors[t.status]}`}>
-                                            {t.status}
-                                        </span>
-                                        <button 
-                                            onClick={() => { setSelectedTestimonial(t); setIsModalOpen(true); }}
-                                            className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-all"
+                <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden mt-6">
+                    <div className="w-full uppercase">
+                        <table className="w-full text-left border-collapse min-w-full">
+                            <thead>
+                                <tr className="bg-slate-50/50 border-b border-slate-100">
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Customer</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Feedback Stream</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Status</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right whitespace-nowrap">Management</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                                <AnimatePresence mode="popLayout">
+                                    {filtered.map(t => (
+                                        <motion.tr 
+                                            layout
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            key={t.id}
+                                            className="group hover:bg-slate-50/30 transition-colors"
                                         >
-                                            <Edit2 size={16} />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <p className="text-slate-600 font-medium italic mb-8 leading-relaxed text-lg">
-                                    "{t.content}"
-                                </p>
-
-                                <div className="flex items-center gap-3 pt-6 border-t border-slate-50">
-                                    <button 
-                                        onClick={() => handleAction(t.id, 'Featured')}
-                                        className="flex-1 flex items-center justify-center gap-2 bg-amber-500/10 hover:bg-amber-500 text-amber-600 hover:text-white py-3.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
-                                    >
-                                        <Star size={14} /> Feature
-                                    </button>
-                                    <button 
-                                        onClick={() => handleAction(t.id, 'Approved')}
-                                        className="flex-1 flex items-center justify-center gap-2 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-600 hover:text-white py-3.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all"
-                                    >
-                                        <CheckCircle size={14} /> Approve
-                                    </button>
-                                    <button 
-                                        onClick={() => handleAction(t.id, 'Rejected')}
-                                        className="p-3.5 bg-rose-500/10 hover:bg-rose-50 text-rose-500 hover:text-white rounded-xl transition-all"
-                                    >
-                                        <XCircle size={18} />
-                                    </button>
-                                    <button 
-                                        onClick={() => confirmDelete(t)}
-                                        className="p-3.5 bg-slate-50 hover:bg-slate-900 text-slate-400 hover:text-white rounded-xl transition-all"
-                                    >
-                                        <Trash2 size={18} />
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                                            <td className="px-8 py-6">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="font-black text-slate-900 text-sm tracking-tight uppercase whitespace-nowrap">{t.name}</span>
+                                                    <div className="flex items-center gap-1">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <Star 
+                                                                key={i} 
+                                                                size={10} 
+                                                                fill={i < t.rating ? '#f59e0b' : 'none'} 
+                                                                className={i < t.rating ? 'text-amber-500' : 'text-slate-200'} 
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6 max-w-[400px]">
+                                                <div className="space-y-1">
+                                                    <p className="text-slate-600 font-medium italic text-xs line-clamp-2 leading-relaxed lowercase">
+                                                        "{t.content}"
+                                                    </p>
+                                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{t.date || 'RECENT FEEDBACK'}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <span className={`px-4 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest border shadow-sm ${statusColors[t.status]}`}>
+                                                    {t.status}
+                                                </span>
+                                            </td>
+                                            <td className="px-8 py-6 text-right">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <button 
+                                                        onClick={() => handleAction(t.id, 'Featured')}
+                                                        className="p-2.5 bg-amber-500/10 text-amber-600 hover:bg-amber-500 hover:text-white rounded-xl transition-all shadow-sm"
+                                                        title="Feature"
+                                                    >
+                                                        <Star size={16} />
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => handleAction(t.id, 'Approved')}
+                                                        className="p-2.5 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500 hover:text-white rounded-xl transition-all shadow-sm"
+                                                        title="Approve"
+                                                    >
+                                                        <CheckCircle size={16} />
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => handleAction(t.id, 'Rejected')}
+                                                        className="p-2.5 bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white rounded-xl transition-all shadow-sm"
+                                                        title="Reject"
+                                                    >
+                                                        <XCircle size={16} />
+                                                    </button>
+                                                    <div className="w-px h-6 bg-slate-100 mx-1" />
+                                                    <button 
+                                                        onClick={() => { setSelectedTestimonial(t); setIsModalOpen(true); }}
+                                                        className="p-2.5 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-all"
+                                                        title="Edit"
+                                                    >
+                                                        <Edit2 size={16} />
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => confirmDelete(t)}
+                                                        className="p-2.5 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all"
+                                                        title="Delete"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                </AnimatePresence>
+                            </tbody>
+                        </table>
+                        {filtered.length === 0 && (
+                            <div className="py-20 flex flex-col items-center justify-center text-slate-400 gap-4">
+                                <MessageSquare size={48} className="text-slate-200 mb-2" />
+                                <p className="text-xs font-bold uppercase tracking-widest text-slate-400">No testimonials found in this stream</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
 

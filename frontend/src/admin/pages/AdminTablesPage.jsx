@@ -211,8 +211,8 @@ const AdminTablesPage = () => {
 
             {/* Tables List */}
             <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
-                <div className="w-full overflow-x-auto custom-scrollbar">
-                    <table className="w-full text-left border-collapse min-w-[800px]">
+                <div className="w-full">
+                    <table className="w-full text-left border-collapse min-w-full">
                         <thead>
                             <tr className="bg-slate-50/50 border-b border-slate-100">
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Table Number</th>
@@ -374,7 +374,7 @@ const AdminTablesPage = () => {
                                         type="submit"
                                         className="w-full py-5 bg-slate-900 text-white rounded-[2rem] text-xs font-black uppercase tracking-widest hover:bg-admin-primary transition-all shadow-xl shadow-slate-200 mt-4"
                                     >
-                                        {editingTable ? 'Save' : 'Create'}
+                                        {editingTable ? 'Save' : 'Save'}
                                     </button>
                                 </form>
                             </div>

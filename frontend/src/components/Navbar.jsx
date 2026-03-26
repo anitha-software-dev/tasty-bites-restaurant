@@ -4,6 +4,8 @@ import { Search, ShoppingCart, User, Menu, X, LogOut, ChevronDown, Package, Hist
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { useRestaurant } from '../context/RestaurantContext';
+import { getImageUrl } from '../services/api';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +14,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { setIsCartOpen, cartCount, setIsOrderTypeModalOpen } = useCart();
     const { isAuthenticated, user } = useAuth();
+    const { restaurantInfo } = useRestaurant();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -48,7 +51,11 @@ const Navbar = () => {
             <div className="container mx-auto px-6 flex justify-between items-center">
                 {/* Logo */}
                 <Link to="/" className="flex items-center group shrink-0 min-w-0 pr-2">
-                    <img src="/images/logo.png" alt="Tasty Bites" className="h-8 sm:h-10 w-auto object-contain transition-all" />
+                    {restaurantInfo?.logo ? (
+                        <img src={getImageUrl(restaurantInfo.logo)} alt={restaurantInfo.name || "Tasty Bites"} className="h-8 sm:h-10 w-auto object-contain transition-all" />
+                    ) : (
+                        <img src="/images/logo.png" alt="Tasty Bites" className="h-8 sm:h-10 w-auto object-contain transition-all" />
+                    )}
                 </Link>
 
                 {/* Desktop Nav */}

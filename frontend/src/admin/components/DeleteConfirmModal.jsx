@@ -9,7 +9,7 @@ const DeleteConfirmModal = ({
     title, 
     message, 
     itemName,
-    confirmText = "Confirm Delete",
+    confirmText = "Delete",
     variant = "danger" // 'danger' | 'warning' | 'info'
 }) => {
     if (!isOpen) return null;

@@ -86,43 +86,55 @@ const DetailModal = ({ order, isOpen, onClose }) => {
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-6 md:p-8 custom-scrollbar bg-slate-50/30">
-                    {/* Admin Meta Data Table */}
-                    <div className="bg-white border border-slate-200 rounded-[1.5rem] shadow-sm overflow-hidden mb-8">
-                        <div className="px-6 py-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-                            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-widest">Order Information</h3>
-                            <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Total Paid:</span>
-                                <span className="text-xl font-black text-admin-primary">£{Number(String(order.total || 0).replace(/[^0-9.]/g, '')).toFixed(2)}</span>
+                    {/* Modern Order Information Cards */}
+                    <div className="mb-8">
+                        <div className="flex items-center justify-between mb-4 px-2">
+                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"><User size={14}/> Customer & Service Details</h3>
+                            <div className="flex items-center gap-2 bg-admin-primary/5 px-3 py-1.5 rounded-xl border border-admin-primary/10">
+                                <span className="text-[9px] font-black uppercase text-admin-primary tracking-widest">Total Paid</span>
+                                <span className="text-lg font-black text-admin-primary">£{Number(String(order.total || 0).replace(/[^0-9.]/g, '')).toFixed(2)}</span>
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2">
-                            <table className="w-full text-sm text-left border-r border-slate-100">
-                                <tbody className="divide-y divide-slate-100">
-                                    <tr className="hover:bg-slate-50 transition-colors">
-                                        <th className="py-4 px-6 font-bold text-slate-500 w-1/3 bg-slate-50/50 uppercase text-[10px] tracking-widest border-r border-slate-100">Customer Name</th>
-                                        <td className="py-4 px-6 font-bold text-slate-900">{order.customerName}</td>
-                                    </tr>
-                                    <tr className="hover:bg-slate-50 transition-colors">
-                                        <th className="py-4 px-6 font-bold text-slate-500 w-1/3 bg-slate-50/50 uppercase text-[10px] tracking-widest border-r border-slate-100">Contact Number</th>
-                                        <td className="py-4 px-6 font-medium text-slate-600">{order.customerPhone || 'N/A'}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <table className="w-full text-sm text-left">
-                                <tbody className="divide-y divide-slate-100">
-                                    <tr className="hover:bg-slate-50 transition-colors">
-                                        <th className="py-4 px-6 font-bold text-slate-500 w-1/3 bg-slate-50/50 uppercase text-[10px] tracking-widest border-r border-slate-100">Order Type</th>
-                                        <td className="py-4 px-6 font-bold text-slate-900">{order.orderType}</td>
-                                    </tr>
-                                    <tr className="hover:bg-slate-50 transition-colors">
-                                        <th className="py-4 px-6 font-bold text-slate-500 w-1/3 bg-slate-50/50 uppercase text-[10px] tracking-widest border-r border-slate-100">Service Info</th>
-                                        <td className="py-4 px-6 font-medium text-slate-600">
-                                            {order.tableNumber ? `Table ${order.tableNumber}` : 'N/A'}
-                                            {order.waiterName ? ` (Waiter: ${order.waiterName})` : ''}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {/* Customer Name */}
+                            <div className="bg-white p-5 rounded-[1.5rem] border border-slate-200/60 shadow-sm hover:shadow-md transition-all">
+                                <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 mb-3 border border-slate-100">
+                                    <User size={14} />
+                                </div>
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Customer Name</p>
+                                <p className="text-sm font-bold text-slate-900 truncate">{order.customerName}</p>
+                            </div>
+
+                            {/* Contact Number */}
+                            <div className="bg-white p-5 rounded-[1.5rem] border border-slate-200/60 shadow-sm hover:shadow-md transition-all">
+                                <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 mb-3 border border-slate-100">
+                                    <Phone size={14} />
+                                </div>
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Contact Number</p>
+                                <p className="text-sm font-bold text-slate-900 truncate">{order.customerPhone || 'N/A'}</p>
+                            </div>
+
+                            {/* Order Type */}
+                            <div className="bg-white p-5 rounded-[1.5rem] border border-slate-200/60 shadow-sm hover:shadow-md transition-all">
+                                <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 mb-3 border border-slate-100">
+                                    <ShoppingBag size={14} />
+                                </div>
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Order Type</p>
+                                <p className="text-sm font-bold text-slate-900">{order.orderType}</p>
+                            </div>
+
+                            {/* Service Info */}
+                            <div className="bg-white p-5 rounded-[1.5rem] border border-slate-200/60 shadow-sm hover:shadow-md transition-all">
+                                <div className="w-8 h-8 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 mb-3 border border-slate-100">
+                                    <UtensilsCrossed size={14} />
+                                </div>
+                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Service Info</p>
+                                <p className="text-sm font-bold text-slate-900 truncate">
+                                    {order.tableNumber ? `Table ${order.tableNumber}` : 'Standard'}
+                                    {order.waiterName ? ` • ${order.waiterName}` : ''}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
@@ -192,7 +204,7 @@ const EditModal = ({ order, isOpen, onClose, onUpdate }) => {
 
     if (!isOpen || !order) return null;
 
-    const statuses = ['Order Received', 'In Progress', 'Ready', 'Completed', 'Cancelled'];
+    const statuses = ['Order Received', 'Preparing', 'Ready', 'Completed', 'Delivered', 'Cancelled'];
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
@@ -227,10 +239,8 @@ const EditModal = ({ order, isOpen, onClose, onUpdate }) => {
                                 className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-bold text-slate-900 focus:bg-white focus:border-admin-primary/20 outline-none transition-all"
                             />
                         </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-2 text-left text-left">
+                        <div className="space-y-2 text-left">
                             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Service Type</label>
                             <div className="relative">
                                 <select 
@@ -245,6 +255,7 @@ const EditModal = ({ order, isOpen, onClose, onUpdate }) => {
                                 <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                             </div>
                         </div>
+
                         {formData.orderType === 'Dine-In' && (
                             <div className="space-y-2 text-left">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Table / Room #</label>
@@ -256,9 +267,7 @@ const EditModal = ({ order, isOpen, onClose, onUpdate }) => {
                                 />
                             </div>
                         )}
-                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="space-y-2 text-left">
                             <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Order Status</label>
                             <div className="relative">
@@ -272,16 +281,16 @@ const EditModal = ({ order, isOpen, onClose, onUpdate }) => {
                                 <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                             </div>
                         </div>
-                    </div>
 
-                    <div className="space-y-2 text-left">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Notes</label>
-                        <textarea 
-                            rows={3}
-                            value={formData.instructions}
-                            onChange={e => setFormData({...formData, instructions: e.target.value})}
-                            className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-medium text-slate-700 focus:bg-white focus:border-admin-primary/20 outline-none transition-all resize-none"
-                        />
+                        <div className="space-y-2 text-left md:col-span-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-1">Notes</label>
+                            <textarea 
+                                rows={2}
+                                value={formData.instructions}
+                                onChange={e => setFormData({...formData, instructions: e.target.value})}
+                                className="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl text-base font-medium text-slate-700 focus:bg-white focus:border-admin-primary/20 outline-none transition-all resize-none"
+                            />
+                        </div>
                     </div>
 
 

@@ -196,16 +196,18 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                                 
                                 {/* Details Content */}
                                 <div className="flex-1 w-full flex flex-col justify-center space-y-6">
-                                    <div className="space-y-3">
-                                        <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-none">{formData.name}</h3>
-                                        <div className="flex flex-wrap items-center gap-3">
-                                            <p className="text-3xl font-black text-slate-900 tracking-tighter mr-2">£{formData.price}</p>
-                                            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 bg-emerald-50 px-3 py-1 bg-opacity-50 rounded-lg border border-emerald-200/50 shadow-sm flex items-center gap-1">
-                                                <CheckSquare size={12} /> Available
-                                            </span>
-                                            {formData.popular && <span className="px-3 py-1 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-amber-200/50 shadow-sm flex items-center gap-1"><Flame size={12}/> Popular</span>}
-                                            {formData.vegetarian && <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-200/50 shadow-sm flex items-center gap-1"><Leaf size={12}/> Veg</span>}
+                                    <div className="space-y-5">
+                                        <div className="space-y-3">
+                                            <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">{formData.name}</h3>
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <span className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-200 flex items-center gap-1.5 shadow-sm">
+                                                    <CheckSquare size={12} /> Available
+                                                </span>
+                                                {formData.popular && <span className="px-3 py-1.5 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-amber-200 flex items-center gap-1.5 shadow-sm"><Flame size={12}/> Popular</span>}
+                                                {formData.vegetarian && <span className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-emerald-200 flex items-center gap-1.5 shadow-sm"><Leaf size={12}/> Veg</span>}
+                                            </div>
                                         </div>
+                                        <p className="text-4xl font-black text-slate-900 tracking-tighter">£{formData.price}</p>
                                     </div>
                                     
                                     {formData.description && (
@@ -352,7 +354,7 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                             disabled={saving}
                             className="flex-[1.5] bg-slate-900 hover:bg-slate-800 text-white px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 shadow-lg shadow-slate-900/10 transition-all disabled:opacity-50"
                         >
-                            {saving ? <Loader2 className="animate-spin" size={16} /> : <>{item ? 'Update Dish' : 'Save Dish'}</>}
+                            {saving ? <Loader2 className="animate-spin" size={16} /> : 'Save'}
                         </button>
                     )}
                 </div>

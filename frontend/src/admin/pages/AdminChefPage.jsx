@@ -255,8 +255,8 @@ const AdminChefPage = () => {
             {activeTab === 'orders' ? (
                 /* Orders Table */
                 <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden mt-6">
-                    <div className="w-full overflow-x-auto custom-scrollbar">
-                        <table className="w-full text-left border-collapse min-w-[900px]">
+                    <div className="w-full">
+                        <table className="w-full text-left border-collapse min-w-full">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
                                     <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Order Details</th>
@@ -345,8 +345,8 @@ const AdminChefPage = () => {
                     </div>
                     {/* Kitchen Team Table */}
                     <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden mt-6">
-                        <div className="w-full overflow-x-auto custom-scrollbar">
-                            <table className="w-full text-left border-collapse min-w-[800px]">
+                        <div className="w-full">
+                            <table className="w-full text-left border-collapse min-w-full">
                                 <thead>
                                     <tr className="bg-slate-50/50 border-b border-slate-100">
                                         <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Chef Name</th>
@@ -428,7 +428,7 @@ const AdminChefPage = () => {
                                     <input required type="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all" />
                                     <input type="tel" placeholder="Phone" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all" />
                                     <button type="submit" className="w-full py-5 bg-slate-900 text-white rounded-[2rem] text-xs font-black uppercase tracking-widest hover:bg-admin-primary transition-all shadow-xl shadow-slate-200">
-                                        {editingStaff ? 'Save Changes' : 'Register Chef'}
+                                        {editingStaff ? 'Save' : 'Save'}
                                     </button>
                                 </form>
                             </div>

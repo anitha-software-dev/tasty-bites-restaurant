@@ -20,7 +20,7 @@ import TermsConditions from './pages/TermsConditions';
 import ReturnCancellation from './pages/ReturnCancellation';
 import DineInMenuPage from './pages/DineInMenuPage';
 import { CartProvider, useCart } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
+import { RestaurantProvider } from './context/RestaurantContext';
 import CartPopover from './components/CartPopover';
 import OrderTypeModal from './components/OrderTypeModal';
 import { ToastContainer } from 'react-toastify';
@@ -78,24 +78,26 @@ const AppContent = () => {
 function App() {
     return (
         <AuthProvider>
-            <CartProvider>
-                <Router>
-                    <AppContent />
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={3000}
-                        hideProgressBar={false}
-                        newestOnTop
-                        closeOnClick
-                        rtl={false}
-                        pauseOnFocusLoss
-                        draggable
-                        pauseOnHover
-                        theme="colored"
-                        toastStyle={{ backgroundColor: '#C04B2A' }}
-                    />
-                </Router>
-            </CartProvider>
+            <RestaurantProvider>
+                <CartProvider>
+                    <Router>
+                        <AppContent />
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                            toastStyle={{ backgroundColor: '#C04B2A' }}
+                        />
+                    </Router>
+                </CartProvider>
+            </RestaurantProvider>
         </AuthProvider>
     );
 }

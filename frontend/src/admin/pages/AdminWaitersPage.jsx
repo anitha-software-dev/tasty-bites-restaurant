@@ -254,8 +254,8 @@ const AdminWaitersPage = () => {
 
             {/* Waiters Table */}
             <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden mt-6">
-                <div className="w-full overflow-x-auto custom-scrollbar">
-                    <table className="w-full text-left border-collapse min-w-[900px]">
+                <div className="w-full">
+                    <table className="w-full text-left border-collapse min-w-full">
                         <thead>
                             <tr className="bg-slate-50/50 border-b border-slate-100">
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Staff Member</th>
@@ -383,7 +383,7 @@ const AdminWaitersPage = () => {
                                     <span className="text-lg font-black text-amber-600">92%</span>
                                 </div>
                             </div>
-                            <button onClick={() => setIsReportModalOpen(false)} className="w-full py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-admin-primary">Close Report</button>
+                            <button onClick={() => setIsReportModalOpen(false)} className="w-full py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-admin-primary">Close</button>
                         </motion.div>
                     </div>
                 )}
@@ -429,7 +429,7 @@ const AdminWaitersPage = () => {
                                             </div>
                                         </div>
                                      </div>
-                                    <button type="submit" className="w-full py-5 bg-slate-900 text-white rounded-[2rem] text-xs font-black uppercase tracking-widest hover:bg-admin-primary transition-all shadow-xl shadow-slate-200 mt-4">{editingStaff ? 'Update Waiter' : 'Add Waiter'}</button>
+                                    <button type="submit" className="w-full py-5 bg-slate-900 text-white rounded-[2rem] text-xs font-black uppercase tracking-widest hover:bg-admin-primary transition-all shadow-xl shadow-slate-200 mt-4">Save</button>
                                 </form>
                             </div>
                         </motion.div>
@@ -489,7 +489,7 @@ const AdminWaitersPage = () => {
                                     onClick={handleAssignTables}
                                     className="flex-[2] py-4 bg-slate-900 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-admin-primary shadow-xl shadow-slate-200"
                                 >
-                                    Save Assignments
+                                    Save
                                 </button>
                             </div>
                         </motion.div>

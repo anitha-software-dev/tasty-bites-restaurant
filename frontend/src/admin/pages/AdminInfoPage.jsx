@@ -19,6 +19,7 @@ import {
 import { toast } from 'react-toastify';
 import { getImageUrl } from '../../services/api';
 import { adminInfoApi } from '../services/adminApi';
+import { useRestaurant } from '../../context/RestaurantContext';
 
 const InfoField = ({ label, icon: Icon, value, onChange, placeholder, type = "text" }) => (
     <div className="space-y-2">
@@ -39,6 +40,7 @@ const InfoField = ({ label, icon: Icon, value, onChange, placeholder, type = "te
 );
 
 const AdminInfoPage = () => {
+    const { refreshInfo } = useRestaurant();
     const [info, setInfo] = useState({
         name: '',
         address: '',
@@ -103,6 +105,7 @@ const AdminInfoPage = () => {
                 if (data.success) {
                     setInfo({ ...info, logo: data.logoUrl });
                     toast.success('Logo uploaded successfully');
+                    if (refreshInfo) refreshInfo();
                 }
             } catch (err) {
                 toast.error('Failed to upload logo');
@@ -119,6 +122,7 @@ const AdminInfoPage = () => {
                 openingHours: hours
             });
             toast.success('Restaurant profile updated successfully');
+            if (refreshInfo) refreshInfo();
         } catch (err) {
             toast.error(err.message || 'Failed to update profile');
         } finally {

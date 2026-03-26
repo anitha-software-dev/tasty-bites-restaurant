@@ -106,8 +106,8 @@ const AdminReviewsPage = () => {
             </div>
 
             <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
-                <div className="overflow-x-auto custom-scrollbar">
-                    <table className="w-full text-left min-w-[800px]">
+                <div className="w-full">
+                    <table className="w-full text-left min-w-full">
                         <thead className="bg-slate-50/50 border-b border-slate-100">
                             <tr>
                                 <th className="px-8 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Guest</th>

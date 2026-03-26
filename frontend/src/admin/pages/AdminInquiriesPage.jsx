@@ -89,8 +89,8 @@ const AdminInquiriesPage = () => {
             </div>
 
             <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-                <div className="overflow-x-auto no-scrollbar pb-4">
-                    <table className="w-full text-left min-w-[1000px]">
+                <div className="w-full pb-4">
+                    <table className="w-full text-left min-w-full">
                         <thead>
                             <tr className="bg-slate-50/50">
                                 <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-slate-400">Client</th>

@@ -168,10 +168,10 @@ const AdminReservationsPage = () => {
                     <table className="w-full text-left">
                         <thead className="bg-slate-50/50 border-b border-slate-100">
                             <tr>
-                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Ref</th>
-                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Guest</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center whitespace-nowrap">Booking ID</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Customer</th>
                                 <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Date & Time</th>
-                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Guests</th>
+                                <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center whitespace-nowrap">Guest</th>
                                 <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
                                 <th className="px-5 py-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
                             </tr>
