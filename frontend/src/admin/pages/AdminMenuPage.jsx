@@ -180,61 +180,63 @@ const MenuModal = ({ isOpen, onClose, item, onSave }) => {
                             </div>
                         </div>
                     ) : isViewMode ? (
-                        <div className="flex flex-col md:flex-row h-full">
-                            <div className="w-full md:w-2/5 aspect-square bg-slate-50 relative overflow-hidden flex-shrink-0">
-                                {previewImage ? (
-                                    <img src={previewImage} alt={formData.name} className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-slate-300">
-                                        <ImageIcon size={64} strokeWidth={1} />
-                                    </div>
-                                )}
-                                <div className="absolute top-6 left-6 flex flex-col gap-2">
-                                    <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md text-admin-primary rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
-                                        {formData.category}
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div className="flex-1 p-8 md:p-10 flex flex-col">
-                                <div className="flex gap-2 mb-4">
-                                    {formData.vegetarian && (
-                                        <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 border border-emerald-100">
-                                            <Leaf size={12} /> Veg
-                                        </span>
-                                    )}
-                                    {formData.popular && (
-                                        <span className="px-3 py-1 bg-amber-50 text-amber-600 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 border border-amber-100">
-                                            <Flame size={12} /> Popular
-                                        </span>
+                        <div className="flex-1 p-8 overflow-y-auto">
+                            <div className="flex flex-col md:flex-row items-start gap-8">
+                                {/* Thumbnail */}
+                                <div className="w-full md:w-48 aspect-square rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex-shrink-0 shadow-sm relative">
+                                    {previewImage ? (
+                                        <img src={previewImage} alt={formData.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                            <ImageIcon size={48} strokeWidth={1} />
+                                        </div>
                                     )}
                                 </div>
-                                <h3 className="text-3xl font-black text-slate-900 tracking-tight leading-none mb-3">
-                                    {formData.name}
-                                </h3>
-                                <p className="text-2xl font-black text-slate-900 mb-6 italic">£{formData.price}</p>
-                                <p className="text-sm font-medium text-slate-500 leading-relaxed mb-8 flex-1">
-                                    {formData.description || 'No description provided.'}
-                                </p>
-
-                                <div className="grid grid-cols-2 gap-4 mt-auto border-t border-slate-100 pt-6">
-                                    <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100/50 flex items-center gap-4 w-full">
-                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-admin-primary font-black text-sm">
-                                            {item?.chefName ? item.chefName.split(' ').map(n => n[0]).join('').substring(0, 2) : '?'}
-                                        </div>
-                                        <div>
-                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Assigned Chef</p>
-                                            <p className="text-sm font-black text-slate-900 truncate">{item?.chefName || 'Unassigned'}</p>
+                                
+                                {/* Details Table */}
+                                <div className="flex-1 w-full">
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <h3 className="text-xl font-black text-slate-900">{formData.name}</h3>
+                                        <div className="flex gap-1.5">
+                                            {formData.popular && <span className="px-2 py-0.5 bg-amber-50 text-amber-600 rounded text-[10px] font-bold uppercase border border-amber-200">Popular</span>}
+                                            {formData.vegetarian && <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[10px] font-bold uppercase border border-emerald-200">Veg</span>}
                                         </div>
                                     </div>
-                                    <div className="p-4 rounded-3xl bg-slate-50 border border-slate-100/50 flex items-center gap-4 w-full">
-                                        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-admin-primary">
-                                            <Utensils size={20} />
-                                        </div>
-                                        <div>
-                                            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Preparation</p>
-                                            <p className="text-sm font-black text-slate-900 truncate">Made to Order</p>
-                                        </div>
+                                    
+                                    <div className="border border-slate-200 rounded-xl overflow-hidden">
+                                        <table className="w-full text-sm text-left">
+                                            <tbody className="divide-y divide-slate-100">
+                                                <tr className="hover:bg-slate-50 transition-colors">
+                                                    <th className="py-3 px-4 font-bold text-slate-500 w-1/3 bg-slate-50 border-r border-slate-200 uppercase text-[10px] tracking-widest">Price</th>
+                                                    <td className="py-3 px-4 font-black text-slate-900">£{formData.price}</td>
+                                                </tr>
+                                                <tr className="hover:bg-slate-50 transition-colors">
+                                                    <th className="py-3 px-4 font-bold text-slate-500 w-1/3 bg-slate-50 border-r border-slate-200 uppercase text-[10px] tracking-widest">Category</th>
+                                                    <td className="py-3 px-4 font-bold text-slate-900">{formData.category}</td>
+                                                </tr>
+                                                <tr className="hover:bg-slate-50 transition-colors">
+                                                    <th className="py-3 px-4 font-bold text-slate-500 w-1/3 bg-slate-50 border-r border-slate-200 uppercase text-[10px] tracking-widest">Description</th>
+                                                    <td className="py-3 px-4 font-medium text-slate-600">{formData.description || 'N/A'}</td>
+                                                </tr>
+                                                <tr className="hover:bg-slate-50 transition-colors">
+                                                    <th className="py-3 px-4 font-bold text-slate-500 w-1/3 bg-slate-50 border-r border-slate-200 uppercase text-[10px] tracking-widest">Assigned Chef</th>
+                                                    <td className="py-3 px-4 font-bold text-slate-900">
+                                                        <div className="flex items-center gap-2">
+                                                            <ChefHat size={14} className="text-slate-400" />
+                                                            {item?.chefName || 'Not Assigned'}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr className="hover:bg-slate-50 transition-colors">
+                                                    <th className="py-3 px-4 font-bold text-slate-500 w-1/3 bg-slate-50 border-r border-slate-200 uppercase text-[10px] tracking-widest">Status</th>
+                                                    <td className="py-3 px-4 font-bold text-emerald-600">
+                                                        <div className="flex items-center gap-2">
+                                                            <CheckSquare size={14} /> Available
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
