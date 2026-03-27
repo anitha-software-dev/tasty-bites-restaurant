@@ -504,7 +504,7 @@ const AdminChefPage = () => {
                             <div className="p-8 border-b border-slate-50 flex justify-between items-start bg-slate-50/30">
                                 <div>
                                     <div className="flex items-center gap-3 mb-2">
-                                        <span className="px-3 py-1 bg-admin-primary/10 text-admin-primary rounded-full text-[10px] font-black uppercase tracking-widest">Order {String(selectedOrderForDetail.orderId || selectedOrderForDetail.id).slice(-4)}</span>
+                                        <span className="px-3 py-1 bg-admin-primary/10 text-admin-primary rounded-full text-[10px] font-black uppercase tracking-widest">Order #{String(selectedOrderForDetail.orderId || selectedOrderForDetail.id).slice(-4)}</span>
                                         <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${selectedOrderForDetail.orderType === 'Dine-In' ? 'bg-amber-100 text-amber-600' : 'bg-blue-100 text-blue-600'}`}>{selectedOrderForDetail.orderType}</span>
                                     </div>
                                     <h2 className="text-2xl font-black text-slate-900 tracking-tight">Kitchen Ticket</h2>
@@ -534,7 +534,6 @@ const AdminChefPage = () => {
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-black text-slate-900 tracking-tight">{item.name}</p>
-                                                        <p className="text-[10px] font-bold text-slate-400 uppercase">Preparation Required</p>
                                                     </div>
                                                 </div>
                                                 <span className="text-xs font-black text-admin-primary bg-admin-primary/10 px-4 py-2 rounded-xl">x{item.quantity || 1}</span>

@@ -209,14 +209,14 @@ const AdminTestimonialsPage = () => {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                 <div>
                     <h1 className="text-4xl font-playfair font-black text-slate-900 mb-3 tracking-tight">Testimonials</h1>
-                    <p className="text-slate-500 font-medium">Manage and curate customer testimonials for your digital storefront.</p>
+                    <p className="text-slate-500 font-medium text-sm">Review and manage all customer testimonials in one place.</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="relative w-full sm:w-80">
                         <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                         <input 
                             type="text" 
-                            placeholder="Search feedback stream..."
+                            placeholder="Search testimonials..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-14 pr-6 py-4 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-slate-900 outline-none focus:ring-4 focus:ring-admin-primary/10 transition-all shadow-sm"
@@ -232,20 +232,30 @@ const AdminTestimonialsPage = () => {
                 </div>
             </div>
 
-            {/* Filter Tabs */}
-            <div className="flex items-center gap-3 overflow-x-auto no-scrollbar pb-2">
-                {['All', 'Featured', 'Approved', 'Pending', 'Rejected'].map(s => (
-                    <button
-                        key={s}
-                        onClick={() => setFilter(s)}
-                        className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border-2
-                            ${filter === s 
-                                ? 'bg-slate-900 text-white border-slate-900' 
-                                : 'bg-white text-slate-500 border-slate-100 hover:border-slate-300'}`}
+            {/* Filter Dropdown */}
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+                <div className="relative w-full sm:w-48 text-left">
+                    <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                    <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="w-full pl-10 pr-10 py-3 bg-white border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-500 outline-none appearance-none cursor-pointer hover:border-slate-200 transition-all shadow-sm"
                     >
-                        {s}
+                        {['All', 'Featured', 'Approved', 'Pending', 'Rejected'].map(s => (
+                            <option key={s} value={s}>{s} Status</option>
+                        ))}
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={14} />
+                </div>
+                
+                {filter !== 'All' && (
+                    <button 
+                        onClick={() => setFilter('All')}
+                        className="text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-slate-900 transition-colors"
+                    >
+                        Clear Filter
                     </button>
-                ))}
+                )}
             </div>
 
             {loading ? (
@@ -260,7 +270,7 @@ const AdminTestimonialsPage = () => {
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-100">
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Customer</th>
-                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Feedback Stream</th>
+                                    <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Review Content</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Status</th>
                                     <th className="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right whitespace-nowrap">Management</th>
                                 </tr>
@@ -291,12 +301,12 @@ const AdminTestimonialsPage = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-6 max-w-[400px]">
-                                                <div className="space-y-1">
-                                                    <p className="text-slate-600 font-medium italic text-xs line-clamp-2 leading-relaxed lowercase">
+                                            <td className="px-8 py-6 max-w-[500px]">
+                                                <div className="flex items-center gap-3">
+                                                    <p className="text-slate-600 font-medium text-xs truncate leading-relaxed">
                                                         "{t.content}"
                                                     </p>
-                                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{t.date || 'RECENT FEEDBACK'}</span>
+                                                    <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest whitespace-nowrap shrink-0 border-l border-slate-100 pl-3">{t.date || 'RECENT'}</span>
                                                 </div>
                                             </td>
                                             <td className="px-8 py-6">
