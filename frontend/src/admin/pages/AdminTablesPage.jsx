@@ -218,7 +218,6 @@ const AdminTablesPage = () => {
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Table Number</th>
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Details</th>
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Status</th>
-                                <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap text-center">Assignee</th>
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
@@ -246,18 +245,6 @@ const AdminTablesPage = () => {
                                         <span className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-[0.1em] border shadow-sm whitespace-nowrap inline-block text-center min-w-[90px] ${getStatusColor(table.status)}`}>
                                             {table.status}
                                         </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-center">
-                                        {table.waiter ? (
-                                            <div className="flex flex-col items-center">
-                                                <span className="text-[11px] font-black text-slate-900 tracking-tight">{table.waiter.name}</span>
-                                                {table.waiter.status === 'Away' && (
-                                                    <span className="mt-1 px-2 py-0.5 bg-amber-100 text-amber-600 rounded-full text-[7px] font-black uppercase tracking-widest animate-pulse">Waiter Away</span>
-                                                )}
-                                            </div>
-                                        ) : (
-                                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Unassigned</span>
-                                        )}
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
