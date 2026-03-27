@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { db, isDbInitialized } from './config/database.js';
+import { User } from './models/index.js';
 import reservationRoutes from './routes/reservations.js';
 import contactRoutes from './routes/contact.js';
 import cateringRoutes from './routes/catering.js';
@@ -15,6 +16,7 @@ import restaurantRoutes from './routes/restaurant.js';
 import tableRoutes from './routes/tables.js';
 import staffRoutes from './routes/staff.js';
 import { verifyConnection, sendTestEmail } from './services/email.js';
+import { seed } from './seed.js';
 import dns from 'node:dns';
 
 // Force IPv4 globally for older modules (like Axios/Nodemailer if they don't honor the family opt)
@@ -292,8 +294,20 @@ app.use((err, req, res, next) => {
     });
 });
 
-db.sync({ alter: true }).then(() => {
+db.sync({ alter: true }).then(async () => {
     console.log('✅ Database synced successfully');
+    
+    // Check if we need to seed the database (only if no users exist)
+    try {
+        const userCount = await User.count();
+        if (userCount === 0) {
+            console.log('🌱 No users found. Auto-seeding initial data...');
+            await seed(false);
+        }
+    } catch (seedErr) {
+        console.error('⚠️ Auto-seed check failed:', seedErr);
+    }
+
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`🚀 Tasty Bites API running on port ${PORT}`);
     });
