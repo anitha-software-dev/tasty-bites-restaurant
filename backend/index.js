@@ -305,6 +305,21 @@ db.sync({ alter: true }).then(async () => {
             await seed(false);
         }
 
+        // Data Patch: Ensure admin@tastybites.com exists
+        const adminEmail = 'admin@tastybites.com';
+        const existingAdmin = await User.findOne({ where: { email: adminEmail } });
+        if (!existingAdmin) {
+            const bcrypt = await import('bcryptjs');
+            const hashedPassword = await bcrypt.default.hash('admin123', 10);
+            await User.create({
+                name: 'Admin',
+                email: adminEmail,
+                password: hashedPassword,
+                role: 'admin'
+            });
+            console.log('👤 Production Data Patch: Admin account created (admin@tastybites.com)');
+        }
+
         // Data Patch: Ensure Table 3 is 'Balcony'
         const { Table } = await import('./models/index.js');
         const [updatedRows] = await Table.update(

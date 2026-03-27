@@ -10,13 +10,13 @@ export const seed = async (exitOnComplete = false) => {
         // Create admin user
         const hashedPassword = await bcrypt.hash('admin123', 10);
         await User.create({
-            name: 'Tasty Bites Admin',
-            email: 'tastybitesrestaurant7@gmail.com',
+            name: 'Admin',
+            email: 'admin@tastybites.com',
             password: hashedPassword,
             phone: '+44 7384 048311',
             role: 'admin'
         });
-        console.log('✅ Admin user created (tastybitesrestaurant7@gmail.com / admin123)');
+        console.log('✅ Admin account verified: admin@tastybites.com / admin123');
 
         // Seed menu items
         const menuItems = [
