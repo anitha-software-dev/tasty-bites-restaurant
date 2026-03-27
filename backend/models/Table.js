@@ -17,7 +17,7 @@ const Table = sequelize.define('Table', {
         defaultValue: 'Available'
     },
     location: {
-        type: DataTypes.ENUM('Indoor', 'Outdoor', 'Balcony'),
+        type: DataTypes.STRING,
         defaultValue: 'Indoor'
     },
     currentOrderId: {
