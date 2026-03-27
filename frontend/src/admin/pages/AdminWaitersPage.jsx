@@ -269,16 +269,11 @@ const AdminWaitersPage = () => {
                             {filteredWaiters.map((waiter) => (
                                 <tr key={waiter.id} className="group hover:bg-slate-50/30 transition-colors">
                                     <td className="px-6 py-4">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-admin-primary/5 rounded-2xl flex items-center justify-center text-admin-primary font-black uppercase shadow-sm text-lg">
-                                                {waiter.name.split(' ').map(n => n[0]).join('').substring(0,2)}
-                                            </div>
-                                            <div>
-                                                <h3 className="text-sm font-black text-slate-900 tracking-tight leading-tight">{waiter.name}</h3>
-                                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 mt-0.5">
-                                                    <Shield size={10} className="text-admin-primary/40" /> {waiter.staffCode || `WTR-${String(waiter.id).padStart(3, '0')}`}
-                                                </span>
-                                            </div>
+                                        <div>
+                                            <h3 className="text-sm font-black text-slate-900 tracking-tight leading-tight">{waiter.name}</h3>
+                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1 mt-0.5">
+                                                <Shield size={10} className="text-admin-primary/40" /> {waiter.staffCode || `WTR-${String(waiter.id).padStart(3, '0')}`}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">

@@ -58,9 +58,9 @@ router.post('/', authenticate, isAdmin, async (req, res) => {
         const generatedPassword = password || Math.random().toString(36).slice(-10);
         const hashedPassword = await bcrypt.hash(generatedPassword, 10);
         
-        // Generate a proper WTR-XXX format staff code
-        const existingCount = await User.count({ where: { role: 'waiter' } });
-        const staffCode = `WTR-${String(existingCount + 1).padStart(3, '0')}`;
+        // Generate a unique 4-digit random staff code
+        const randomDigits = Math.floor(1000 + Math.random() * 9000);
+        const staffCode = `WTR-${randomDigits}`;
 
         const staff = await User.create({
             name,
