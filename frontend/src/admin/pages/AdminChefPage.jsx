@@ -290,16 +290,22 @@ const AdminChefPage = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 max-w-[260px]">
-                                            <div className="flex flex-col gap-1.5">
+                                        <td className="px-6 py-4 max-w-[320px]">
+                                            <div className={`grid ${order.items?.length > 4 ? 'grid-cols-2' : 'grid-cols-1'} gap-x-4 gap-y-1`}>
                                                 {order.items?.map((item, idx) => (
-                                                    <div key={idx} className="flex items-center justify-between">
-                                                        <span className="text-xs font-bold text-slate-700 truncate mr-2">{item.name || 'Item'}</span>
-                                                        <span className="text-[10px] font-black text-admin-primary px-2 py-0.5 bg-admin-primary/10 rounded-full flex-shrink-0">x{item.quantity || 1}</span>
+                                                    <div key={idx} className="flex items-center justify-between py-0.5 border-b border-slate-50 last:border-0">
+                                                        <span className="text-[11px] font-bold text-slate-700 truncate mr-1">{item.name || 'Item'}</span>
+                                                        <span className="text-[9px] font-black text-admin-primary px-1.5 py-0.5 bg-admin-primary/5 rounded-md flex-shrink-0">x{item.quantity || 1}</span>
                                                     </div>
                                                 ))}
                                                 {(!order.items || order.items.length === 0) && <span className="text-xs text-slate-400 italic">No items</span>}
                                             </div>
+                                            {order.items?.length > 10 && (
+                                                <div className="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center">
+                                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total: {order.items.length} Items</span>
+                                                    <span className="text-[9px] font-black text-rose-500 bg-rose-50 px-2 py-0.5 rounded-full uppercase">Large Order ⚡</span>
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border shadow-sm ${
