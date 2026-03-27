@@ -284,6 +284,8 @@ const AdminReservationsPage = () => {
                 onClose={() => { setIsDeleteModalOpen(false); setItemToCancel(null); }}
                 onConfirm={handleConfirmCancel}
                 title="Cancel Reservation"
+                confirmText="Cancel Reservation"
+                variant="warning"
                 message="Are you sure you want to cancel this table booking? The guest will be notified."
                 itemName={itemToCancel ? `${itemToCancel.fullName} (${itemToCancel.time})` : ''}
             />

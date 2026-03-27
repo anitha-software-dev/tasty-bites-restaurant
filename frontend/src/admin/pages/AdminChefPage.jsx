@@ -290,12 +290,12 @@ const AdminChefPage = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 max-w-[250px]">
-                                            <div className="flex flex-col gap-1 max-h-24 overflow-y-auto custom-scrollbar pr-2">
+                                        <td className="px-6 py-4 max-w-[260px]">
+                                            <div className="flex flex-col gap-1.5">
                                                 {order.items?.map((item, idx) => (
-                                                    <div key={idx} className="flex items-center justify-between py-1 border-b border-slate-50 last:border-0 group/item">
+                                                    <div key={idx} className="flex items-center justify-between">
                                                         <span className="text-xs font-bold text-slate-700 truncate mr-2">{item.name || 'Item'}</span>
-                                                        <span className="text-[10px] font-black text-admin-primary px-2 py-0.5 bg-admin-primary/10 rounded-full">x{item.quantity || 1}</span>
+                                                        <span className="text-[10px] font-black text-admin-primary px-2 py-0.5 bg-admin-primary/10 rounded-full flex-shrink-0">x{item.quantity || 1}</span>
                                                     </div>
                                                 ))}
                                                 {(!order.items || order.items.length === 0) && <span className="text-xs text-slate-400 italic">No items</span>}

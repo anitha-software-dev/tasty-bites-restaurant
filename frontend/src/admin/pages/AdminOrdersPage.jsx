@@ -44,7 +44,7 @@ const StatusBadge = ({ status }) => {
     };
 
     return (
-        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${variants[status] || 'bg-slate-50 text-slate-600 border-slate-100'}`}>
+        <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border whitespace-nowrap ${variants[status] || 'bg-slate-50 text-slate-600 border-slate-100'}`}>
             {status}
         </span>
     );
