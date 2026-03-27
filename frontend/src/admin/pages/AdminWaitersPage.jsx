@@ -445,6 +445,22 @@ const AdminWaitersPage = () => {
                                 <button onClick={() => setIsTableModalOpen(false)} className="p-3 bg-slate-50 text-slate-400 hover:text-slate-900 rounded-2xl transition-all"><X size={20} /></button>
                             </div>
 
+                            {selectedWaiterForTables?.status === 'Away' && (
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="mb-8 p-4 bg-amber-50 border border-amber-100 rounded-2xl flex items-center gap-4"
+                                >
+                                    <div className="w-10 h-10 bg-amber-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-amber-200">
+                                        <Clock size={20} />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Waiter is Away</p>
+                                        <p className="text-[11px] font-bold text-amber-500/80 leading-tight">This waiter is currently on a break. New assignments are not recommended.</p>
+                                    </div>
+                                </motion.div>
+                            )}
+
                             <div className="grid grid-cols-3 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar mb-8 p-1">
                                 {allTables.map(table => {
                                     const isSelected = assignedTableIds.includes(table.id);

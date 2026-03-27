@@ -40,7 +40,8 @@ const AdminTablesPage = () => {
         number: '',
         capacity: 2,
         location: 'Indoor',
-        status: 'Available'
+        status: 'Available',
+        waiterId: ''
     });
 
     useEffect(() => {
@@ -76,7 +77,8 @@ const AdminTablesPage = () => {
                 number: table.number,
                 capacity: table.capacity,
                 location: table.location,
-                status: table.status
+                status: table.status,
+                waiterId: table.waiterId || ''
             });
         } else {
             setEditingTable(null);
@@ -201,7 +203,7 @@ const AdminTablesPage = () => {
                     <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-admin-primary transition-colors" size={18} />
                     <input 
                         type="text"
-                        placeholder="Search number..."
+                        placeholder="Search Table #..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-14 pr-6 py-3.5 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all placeholder:text-slate-300 h-[48px]"
@@ -218,6 +220,7 @@ const AdminTablesPage = () => {
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Table Number</th>
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Details</th>
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap">Status</th>
+                                <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] whitespace-nowrap text-center">Assignee</th>
                                 <th className="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right whitespace-nowrap">Actions</th>
                             </tr>
                         </thead>
@@ -241,10 +244,17 @@ const AdminTablesPage = () => {
                                             <span className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-xl"><MapPin size={12}/> {table.location}</span>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4">
-                                        <div className={`inline-block px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border shadow-sm ${getStatusColor(table.status)}`}>
-                                            {table.status}
-                                        </div>
+                                    <td className="px-6 py-4 text-center">
+                                        {table.waiter ? (
+                                            <div className="flex flex-col items-center">
+                                                <span className="text-[11px] font-black text-slate-900 tracking-tight">{table.waiter.name}</span>
+                                                {table.waiter.status === 'Away' && (
+                                                    <span className="mt-1 px-2 py-0.5 bg-amber-100 text-amber-600 rounded-full text-[7px] font-black uppercase tracking-widest animate-pulse">Waiter Away</span>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Unassigned</span>
+                                        )}
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2 transition-opacity duration-300">
@@ -357,17 +367,33 @@ const AdminTablesPage = () => {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Status</label>
-                                        <select 
-                                            value={formData.status}
-                                            onChange={(e) => setFormData({...formData, status: e.target.value})}
-                                            className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all appearance-none cursor-pointer"
-                                        >
-                                            <option value="Available">Available</option>
-                                            <option value="Occupied">Occupied</option>
-                                            <option value="Reserved">Reserved</option>
-                                        </select>
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Status</label>
+                                            <select 
+                                                value={formData.status}
+                                                onChange={(e) => setFormData({...formData, status: e.target.value})}
+                                                className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all appearance-none cursor-pointer"
+                                            >
+                                                <option value="Available">Available</option>
+                                                <option value="Occupied">Occupied</option>
+                                                <option value="Reserved">Reserved</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Assign Waiter</label>
+                                            <select 
+                                                value={formData.waiterId}
+                                                onChange={(e) => setFormData({...formData, waiterId: e.target.value})}
+                                                className="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-admin-primary/20 outline-none transition-all appearance-none cursor-pointer"
+                                            >
+                                                <option value="">No Waiter Assigned</option>
+                                                {staff.map(s => (
+                                                    <option key={s.id} value={s.id}>{s.name} {s.status === 'Away' ? '(AWAY)' : ''}</option>
+                                                ))}
+                                            </select>
+                                        </div>
                                     </div>
 
                                     <button 

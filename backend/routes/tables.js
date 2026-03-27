@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
                 {
                     model: User,
                     as: 'waiter',
-                    attributes: ['id', 'name', 'role']
+                    attributes: ['id', 'name', 'role', 'status']
                 }
             ],
             order: [['number', 'ASC']]
