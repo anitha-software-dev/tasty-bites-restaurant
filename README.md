@@ -41,16 +41,6 @@ Tasty Bites is a sophisticated, full-stack restaurant management solution design
 
 ---
 
-## 🌟 Project Highlights (Resume Pointers)
-
-- **Full-Stack Excellence**: Developed a high-performance restaurant platform using the PERN stack (PostgreSQL, Express, React, Node.js) with a focus on seamless scalability.
-- **Admin Command Center**: Built an end-to-end administrative dashboard with role-based access to manage live orders, reservations, and customer inquiries in real-time.
-- **Automated Communication**: Engineered an automated email notifications system using SendGrid/Nodemailer to drive customer engagement and inquiry confirmations.
-- **Micro-Interaction UI**: Designed a liquid-smooth user interface with Framer Motion and Tailwind CSS, prioritizing core web vitals and mobile-first responsiveness.
-- **Industrial Security**: Implemented secure authentication protocols using JWT (JSON Web Tokens) and Bcrypt hashing to protect sensitive business data and staff portals.
-
----
-
 ## 📂 Project Architecture
 
 The project follows a modern monorepo structure for seamless coordination between services:
